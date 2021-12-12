@@ -1,37 +1,37 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Build (Debug)",
-      "type": "shell",
-      "osx": {
-        "command": "./scripts/build.sh"
-      },
-      "windows": {
-        "command": ".\\scripts\\build.bat"
-      },
-      "presentation": {
-        "reveal": "always",
-        "revealProblems": "onProblem",
-        "clear": true
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "Compile Graphics",
-      "type": "shell",
-      "windows": {
-        "command": ".\\scripts\\gfx.bat"
-      },
-      "presentation": {
-        "reveal": "always",
-        "revealProblems": "onProblem",
-        "clear": true
-      },
-      "problemMatcher": []
-    }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build (Debug)",
+            "type": "shell",
+            "osx": {
+                "command": "./scripts/build.sh"
+            },
+            "windows": {
+                "command": ".\\scripts\\build.bat"
+            },
+            "presentation": {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Compile Graphics",
+            "type": "shell",
+            "windows": {
+                "command": ".\\scripts\\gfx.bat"
+            },
+            "presentation": {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true
+            },
+            "problemMatcher": []
+        }
+    ]
 }

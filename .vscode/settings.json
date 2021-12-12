@@ -1,8 +1,8 @@
 {
-  "files.exclude": {
-    "**/*.adb": true
-  },
-  "files.associations": {
-    "stdlib.h": "c"
-  }
+    "files.exclude": {
+        "**/*.adb": true
+    },
+    "files.associations": {
+        "stdlib.h": "c"
+    }
 }

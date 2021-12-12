@@ -4,6 +4,4 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-// LIBRARIES.
-
-#endif//__MAIN__
+#endif
