@@ -1,20 +1,65 @@
+;!FILE main.asm
 XL3
-H E areas 12 global symbols
+H E areas 43 global symbols
 M main
 O -mz80
 S _test_tilemap_bin Ref000000
 S _test_palette_bin Ref000000
 S _SMS_waitForVBlank Ref000000
 S _ROM_bank_to_be_mapped_on_slot2 Def00FFFF
+S G$ROM_bank_to_be_mapped_on_slot2$0_0$0 Def00FFFF
 S _SRAM_bank_to_be_mapped_on_slot2 Def00FFFC
+S G$SRAM_bank_to_be_mapped_on_slot2$0_0$0 Def00FFFC
 S .__.ABS. Def000000
 S _SMS_SRAM Def008000
+S G$SMS_SRAM$0_0$0 Def008000
 S _SMS_loadBGPalette Ref000000
 S _SMS_VDPturnOnFeature Ref000000
 S _SMS_VRAMmemcpy Ref000000
 S _test_tiles_bin Ref000000
-A _CODE size 62 flags 0 addr 0
-S _main Def000020
+A _CODE size 66 flags 0 addr 0
+S A$main$120 Def000029
+S A$main$102 Def000021
+S A$main$130 Def000032
+S _main Def000024
+S A$main$124 Def00002C
+S A$main$115 Def000024
+S A$main$125 Def00002F
+S A$main$116 Def000027
+S XG$hello_world$0$0 Def000021
+S A$main$138 Def000035
+S XG$main$0$0 Def000035
+S C$main.c$10$1_0$65 Def00001E
+S A$main$80 Def00000C
+S C$main.c$11$1_0$65 Def000021
+S A$main$90 Def00001B
+S A$main$74 Def000000
+S A$main$84 Def00000F
+S A$main$75 Def000003
+S C$main.c$13$1_0$67 Def000024
+S A$main$94 Def00001E
+S A$main$85 Def000012
+S A$main$76 Def000004
+S C$main.c$22$2_0$67 Def000035
+S A$main$86 Def000013
+S A$main$77 Def000007
+S C$main.c$20$3_0$69 Def000032
+S C$main.c$15$1_0$67 Def000024
+S A$main$87 Def000016
+S A$main$78 Def000008
+S C$main.c$16$1_0$67 Def000029
+S A$main$88 Def000017
+S A$main$79 Def00000B
+S C$main.c$17$1_0$67 Def00002C
+S A$main$89 Def00001A
+S C$main.c$6$0_0$65 Def000000
+S Fmain$__str_0$0_0$0 Def000037
+S C$main.c$8$1_0$65 Def000000
+S Fmain$__str_1$0_0$0 Def00003C
+S C$main.c$9$1_0$65 Def00000F
+S Fmain$__str_2$0_0$0 Def000048
+S G$hello_world$0$0 Def000000
+S G$main$0$0 Def000024
 S _hello_world Def000000
 A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
@@ -26,47 +71,52 @@ A _INITIALIZER size 0 flags 0 addr 0
 A _CABS size 0 flags 8 addr 0
 A _CABS0 size 10 flags 8 addr 7FF0
 S ___SMS__SEGA_signature Def007FF0
+S G$__SMS__SEGA_signature$0_0$0 Def007FF0
 A _CABS1 size 5 flags 8 addr 7FDB
 S ___SMS__SDSC_author Def007FDB
+S G$__SMS__SDSC_author$0_0$0 Def007FDB
 A _CABS2 size C flags 8 addr 7FCF
 S ___SMS__SDSC_name Def007FCF
+S G$__SMS__SDSC_name$0_0$0 Def007FCF
 A _CABS3 size 1E flags 8 addr 7FB1
 S ___SMS__SDSC_descr Def007FB1
+S G$__SMS__SDSC_descr$0_0$0 Def007FB1
 A _CABS4 size 10 flags 8 addr 7FE0
 S ___SMS__SDSC_signature Def007FE0
+S G$__SMS__SDSC_signature$0_0$0 Def007FE0
 T 00 00 00
 R 00 00 00 00
-T 00 00 00 21 08 00 E5 11 00 00 21 00 40 CD 00 00
-R 00 00 00 00 02 08 0A 00 02 0E 09 00
-T 0D 00 00 21 08 00 E5 11 00 00 21 00 78 CD 00 00
-R 00 00 00 00 02 08 00 00 02 0E 09 00
-T 1A 00 00 21 00 00 C3 00 00
-R 00 00 00 00 02 04 01 00 02 07 07 00
-T 20 00 00
+T 00 00 00 21 08 00 E5 21 00 00 E5 21 00 40 E5 CD
+R 00 00 00 00 02 08 0D 00
+T 0D 00 00 00 00 21 08 00 E5 21 00 00 E5 21 00 78
+R 00 00 00 00 02 03 0C 00 02 0A 00 00
+T 1A 00 00 E5 CD 00 00 21 00 00 C3 00 00
+R 00 00 00 00 02 05 0C 00 02 08 01 00 02 0B 0A 00
+T 24 00 00
 R 00 00 00 00
-T 20 00 00 21 FF FF 36 02 CD 00 00 21 40 01 CD
+T 24 00 00 21 FF FF 36 02 CD 00 00 21 40 01 CD
 R 00 00 00 00 00 09 00 00
-T 2C 00 00 00 00
-R 00 00 00 00 02 03 08 00
-T 2E 00 00
+T 30 00 00 00 00
+R 00 00 00 00 02 03 0B 00
+T 32 00 00
 R 00 00 00 00
-T 2E 00 00 CD 00 00 18 FB
+T 32 00 00 CD 00 00 18 FB
 R 00 00 00 00 02 04 02 00
-T 33 00 00
+T 37 00 00
 R 00 00 00 00
-T 33 00 00 4D 69 6B 65 00
+T 37 00 00 4D 69 6B 65 00
 R 00 00 00 00
-T 38 00 00
+T 3C 00 00
 R 00 00 00 00
-T 38 00 00 48 65 6C 6C 6F 20 57 6F 72 6C 64 00
+T 3C 00 00 48 65 6C 6C 6F 20 57 6F 72 6C 64 00
 R 00 00 00 00
-T 44 00 00
+T 48 00 00
 R 00 00 00 00
-T 44 00 00 49 20 68 61 76 65 20 6E 6F 20 69 64 65
+T 48 00 00 49 20 68 61 76 65 20 6E 6F 20 69 64 65
 R 00 00 00 00
-T 51 00 00 61 20 77 68 61 74 20 49 27 6D 20 64 6F
+T 55 00 00 61 20 77 68 61 74 20 49 27 6D 20 64 6F
 R 00 00 00 00
-T 5E 00 00 69 6E 67 00
+T 62 00 00 69 6E 67 00
 R 00 00 00 00
 T F0 7F 00
 R 00 00 09 00

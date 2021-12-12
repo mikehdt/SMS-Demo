@@ -14,7 +14,7 @@ cd ..\src\banks
 
 assets2banks ..\..\assets
 
-sdcc --debug -c -mz80 --opt-code-speed --std-c99 bank2.c
+sdcc --debug -c -mz80 --opt-code-speed --std-c99 --constseg BANK2 bank2.c
 
 :: Tidy up
 del *.asm > nul
