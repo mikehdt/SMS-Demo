@@ -21,8 +21,7 @@ echo Time taken: %_sec:~-2%.%_cs:~-2% secs
 echo.
 
 :: Link
-sdcc --debug -o output.ihx -mz80 --no-std-crt0 --data-loc 0xC000 ../crt0/crt0b_sms.rel main.rel SMSlib.lib ./banks/bank2.rel
-@REM sdcc --debug -o output.ihx -mz80 --data-loc 0xC000 --no-std-crt0 ../crt0/crt0_sms.rel main.rel SMSlib.lib
+sdcc --debug -o output.ihx -mz80 --no-std-crt0 --data-loc 0xC000 ../crt0/crt0_sms.rel main.rel SMSlib.lib ./banks/bank2.rel
 
 :: Execute
 ihx2sms output.ihx output.sms
