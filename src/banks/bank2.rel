@@ -3,7 +3,7 @@ H 9 areas 7 global symbols
 M bank2
 O -mz80
 S .__.ABS. Def000000
-A _CODE size 8F0 flags 0 addr 0
+A _CODE size 8EF flags 0 addr 0
 S _test_tilemap_bin Def000660
 S G$test_tilemap_bin$0_0$0 Def000660
 S _test_palette_bin Def0008E0
@@ -378,5 +378,5 @@ T E0 08 00
 R 00 00 00 00
 T E0 08 00 00 3F 17 1B 1F 2E 2D 28 24 3A 25 10 21
 R 00 00 00 00
-T ED 08 00 3B 11 12
+T ED 08 00 3B 11
 R 00 00 00 00

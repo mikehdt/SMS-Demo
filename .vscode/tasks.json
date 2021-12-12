@@ -21,10 +21,10 @@
             }
         },
         {
-            "label": "Compile Graphics",
+            "label": "Compile Assets",
             "type": "shell",
             "windows": {
-                "command": ".\\scripts\\gfx.bat"
+                "command": ".\\scripts\\assets.bat"
             },
             "presentation": {
                 "reveal": "always",

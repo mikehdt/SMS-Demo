@@ -77,24 +77,27 @@ _hello_world::
 	ld	hl, #_test_palette_bin
 ;main.c:11: }
 	jp	_SMS_loadBGPalette
-;main.c:12: void main (void)
+;main.c:13: void main(void)
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;main.c:14: hello_world();
+;main.c:15: SMS_mapROMBank(2);
+	ld	hl, #_ROM_bank_to_be_mapped_on_slot2
+	ld	(hl), #0x02
+;main.c:16: hello_world();
 	call	_hello_world
-;main.c:15: SMS_displayOn();
+;main.c:17: SMS_displayOn();
 	ld	hl, #0x0140
 	call	_SMS_VDPturnOnFeature
 00102$:
-;main.c:18: SMS_waitForVBlank();
+;main.c:20: SMS_waitForVBlank();
 	call	_SMS_waitForVBlank
-;main.c:20: }
+;main.c:22: }
 	jr	00102$
 	.area _CODE
 __str_0:
-	.ascii "Disasterarea"
+	.ascii "Mike"
 	.db 0x00
 __str_1:
 	.ascii "Hello World"
@@ -122,15 +125,15 @@ ___SMS__SEGA_signature:
 	.db #0x99	; 153
 	.db #0x00	; 0
 	.db #0x4c	; 76	'L'
-	.org 0x7FD3
+	.org 0x7FDB
 ___SMS__SDSC_author:
-	.ascii "Disasterarea"
+	.ascii "Mike"
 	.db 0x00
-	.org 0x7FC7
+	.org 0x7FCF
 ___SMS__SDSC_name:
 	.ascii "Hello World"
 	.db 0x00
-	.org 0x7FA9
+	.org 0x7FB1
 ___SMS__SDSC_descr:
 	.ascii "I have no idea what I'm doing"
 	.db 0x00
@@ -142,13 +145,13 @@ ___SMS__SDSC_signature:
 	.db #0x43	; 67	'C'
 	.db #0x01	; 1
 	.db #0x00	; 0
-	.db #0x15	; 21
-	.db #0x09	; 9
-	.db #0x17	; 23
+	.db #0x12	; 18
+	.db #0x12	; 18
+	.db #0x21	; 33
 	.db #0x20	; 32
-	.db #0xd3	; 211
+	.db #0xdb	; 219
 	.db #0x7f	; 127
-	.db #0xc7	; 199
+	.db #0xcf	; 207
 	.db #0x7f	; 127
-	.db #0xa9	; 169
+	.db #0xb1	; 177
 	.db #0x7f	; 127
