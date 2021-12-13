@@ -1,6 +1,6 @@
 {
     "files.exclude": {
-        // "**/*.adb": true
+        "**/*.adb": true
     },
     "files.associations": {
         "*.ejs": "html",
@@ -8,6 +8,5 @@
         ".envrc": "shellscript",
         "stdlib.h": "c",
         "assets2banks.h": "c"
-    },
-    "C_Cpp.errorSquiggles": "Disabled"
+    }
 }
