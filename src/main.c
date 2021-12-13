@@ -1,25 +1,37 @@
-#include "..\lib\SMSlib.h"
-#include "banks\bank2.h"
+#include <stdbool.h>
+#include "../libs/SMSlib.h"
+#include "assets2banks.h" // Generated with the assets task
 
-#define SPLASH_TILES 0
+unsigned char current_resource_bank;
 
-void hello_world()
+void init_console(void)
 {
-    SMS_loadTiles(test_tiles_bin, SPLASH_TILES, 8);
-    SMS_loadTileMap(0, 0, test_tilemap_bin, 8);
-    SMS_loadBGPalette(test_palette_bin);
+    // SMS_init(); // Unneeded because of crt0?
+    SMS_displayOn();
+}
+
+void load_test_assets(void)
+{
+    SMS_mapROMBank(test_tiles_psgcompr_bank);
+    SMS_loadPSGaidencompressedTiles(test_tiles_psgcompr, 0);
+    SMS_loadTileMap(0, 0, test_tilemap_bin, test_tilemap_bin_size);
+}
+
+void update_state(void)
+{
+    SMS_waitForVBlank();
 }
 
 void main(void)
 {
-    SMS_mapROMBank(2);
-    hello_world();
-    SMS_displayOn();
-    for (;;)
+    init_console();
+    load_test_assets();
+
+    while (true)
     {
-        SMS_waitForVBlank();
+        update_state();
     }
 }
 
 SMS_EMBED_SEGA_ROM_HEADER(9999, 0);
-SMS_EMBED_SDSC_HEADER(1, 0, 2021, 12, 12, "Mike", "Hello World", "I have no idea what I'm doing");
+SMS_EMBED_SDSC_HEADER_AUTO_DATE(1, 0, "Mike Hopkins", "Hello World", "I have no idea what I'm doing");

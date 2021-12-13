@@ -18,8 +18,7 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "problemMatcher": []
+            }
         },
         {
             "label": "Compile Assets",
@@ -31,8 +30,19 @@
                 "reveal": "always",
                 "revealProblems": "onProblem",
                 "clear": true
+            }
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "windows": {
+                "command": ".\\scripts\\clean.bat"
             },
-            "problemMatcher": []
+            "presentation": {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true
+            }
         }
     ]
 }
