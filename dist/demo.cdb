@@ -3,6 +3,7 @@ F:G$init_console$0_0$0({2}DF,SV:S),C,0,0,0,0,0
 F:G$load_test_assets$0_0$0({2}DF,SV:S),C,0,0,0,0,0
 F:G$update_state$0_0$0({2}DF,SV:S),C,0,0,0,0,0
 F:G$main$0_0$0({2}DF,SV:S),C,0,0,0,0,0
+S:Lmain.main$testVar$1_0$72({2}SI:S),R,0,0,[]
 S:G$ROM_bank_to_be_mapped_on_slot2$0_0$0({1}SC:U),E,0,0
 S:G$SRAM_bank_to_be_mapped_on_slot2$0_0$0({1}SC:U),E,0,0
 S:G$SMS_SRAM$0_0$0({0}DA0d,SC:U),E,0,0
@@ -100,12 +101,12 @@ L:C$main.c$23$1_0$70:225
 L:G$update_state$0$0:225
 L:XG$update_state$0$0:225
 L:C$main.c$25$1_0$72:228
-L:C$main.c$27$1_0$72:228
+L:C$main.c$31$1_0$72:228
 L:G$main$0$0:228
-L:C$main.c$28$1_0$72:22B
-L:C$main.c$30$1_0$72:22E
-L:C$main.c$32$2_0$73:22E
-L:C$main.c$34$1_0$72:231
+L:C$main.c$32$1_0$72:22B
+L:C$main.c$34$1_0$72:22E
+L:C$main.c$36$2_0$73:22E
+L:C$main.c$38$1_0$72:231
 L:XG$main$0$0:231
 L:Fmain$__str_0$0_0$0:233
 L:Fmain$__str_1$0_0$0:240

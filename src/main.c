@@ -24,6 +24,10 @@ void update_state(void)
 
 void main(void)
 {
+    int testVar;
+
+    testVar = 1234;
+
     init_console();
     load_test_assets();
 
