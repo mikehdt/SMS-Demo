@@ -11,7 +11,8 @@ cd compile
 
 :: Build main
 echo SDCC building source
-sdcc --debug -c -mz80 ../src/main.c -DPAL_MACHINE
+:: `--sdcccall 0` tells SDCC 4.1.12+ not to use its new breaking fn calls yet
+sdcc --debug --sdcccall 0 -c -mz80 ../src/main.c -DPAL_MACHINE
 echo SDCC building complete
 
 :: Time build -END-
@@ -25,7 +26,7 @@ echo SDCC building complete
 
 :: Link
 echo SDCC linking source
-sdcc -o demo.ihx --debug -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x8000 ../libs/crt0/crt0_sms.rel main.rel bank2.rel ../libs/SMSlib.lib
+sdcc -o demo.ihx --debug --sdcccall 0 -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x8000 ../libs/crt0/crt0_sms.rel main.rel bank2.rel ../libs/SMSlib.lib
 echo SDCC linking complete
 
 :: Execute

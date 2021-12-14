@@ -1,9 +1,10 @@
 ;!FILE main.asm
 XL3
-H E areas 50 global symbols
+H E areas 7D global symbols
 M main
 O -mz80
 S _SMS_loadPSGaidencompressedTilesatAddr Ref000000
+S _test_palette_bin Ref000000
 S _SMS_waitForVBlank Ref000000
 S _ROM_bank_to_be_mapped_on_slot2 Def00FFFF
 S G$ROM_bank_to_be_mapped_on_slot2$0_0$0 Def00FFFF
@@ -13,68 +14,112 @@ S .__.ABS. Def000000
 S _SMS_SRAM Def008000
 S G$SMS_SRAM$0_0$0 Def008000
 S _test_tiles_psgcompr Ref000000
+S _SMS_loadBGPalette Ref000000
+S _SMS_crt0_RST08 Ref000000
+S _SMS_crt0_RST18 Ref000000
 S _SMS_VDPturnOnFeature Ref000000
+S _SMS_useFirstHalfTilesforSprites Ref000000
 S _SMS_loadSTMcompressedTileMapatAddr Ref000000
 S _test_tilemap_stmcompr Ref000000
-A _CODE size 6A flags 0 addr 0
-S A$main$110 Def000013
-S A$main$101 Def000006
-S A$main$120 Def000022
-S A$main$111 Def000016
-S A$main$102 Def000009
-S A$main$121 Def000023
-S G$load_test_assets$0$0 Def000006
-S _main Def000028
-S A$main$115 Def000017
-S A$main$106 Def00000B
-S A$main$116 Def00001A
-S A$main$107 Def00000E
-S A$main$162 Def000028
-S A$main$117 Def00001B
-S A$main$108 Def00000F
-S A$main$118 Def00001E
-S A$main$109 Def000012
-S A$main$182 Def000031
-S A$main$119 Def00001F
-S A$main$174 Def00002E
-S A$main$129 Def000024
-S A$main$166 Def00002B
-S A$main$149 Def000025
-S XG$main$0$0 Def000031
-S _load_test_assets Def000006
-S C$main.c$20$1_0$70 Def000025
-S C$main.c$22$1_0$70 Def000025
-S C$main.c$23$1_0$70 Def000025
+A _CODE size A5 flags 0 addr 0
+S A$main$110 Def00001A
+S A$main$101 Def000011
+S A$main$102 Def000012
+S A$main$103 Def000014
+S A$main$230 Def00005F
+S A$main$212 Def000052
+S A$main$131 Def00001D
+S A$main$231 Def000060
+S A$main$204 Def00004C
+S G$load_test_assets$0$0 Def000028
+S _main Def00004C
+S A$main$241 Def000067
+S A$main$232 Def000062
+S A$main$160 Def00002B
+S A$main$251 Def00006C
+S A$main$242 Def000068
+S A$main$224 Def000058
+S A$main$134 Def00001F
+S A$main$107 Def000016
+S A$main$243 Def00006B
+S A$main$225 Def000059
+S A$main$216 Def000055
+S A$main$108 Def000017
+S A$main$226 Def00005A
+S A$main$208 Def00004F
+S A$main$118 Def00001C
+S A$main$109 Def000018
+S A$main$236 Def000064
+S A$main$227 Def00005C
+S A$main$191 Def000049
+S A$main$173 Def000039
+S A$main$164 Def00002D
+S A$main$146 Def000025
+S A$main$228 Def00005D
+S A$main$183 Def000046
+S A$main$174 Def00003C
+S A$main$165 Def000030
+S A$main$138 Def000022
+S A$main$229 Def00005E
+S A$main$175 Def00003D
+S A$main$166 Def000031
+S A$main$176 Def000040
+S A$main$167 Def000034
+S A$main$177 Def000041
+S A$main$168 Def000035
+S A$main$159 Def000028
+S A$main$178 Def000044
+S A$main$169 Def000038
+S A$main$179 Def000045
+S XG$main$0$0 Def00006C
+S _load_test_assets Def000028
 S A$main$80 Def000000
-S C$main.c$31$1_0$72 Def000028
-S G$update_state$0$0 Def000025
-S C$main.c$10$1_0$66 Def000000
-S C$main.c$32$1_0$72 Def00002B
-S C$main.c$11$1_0$66 Def000003
-S C$main.c$34$1_0$72 Def00002E
-S C$main.c$25$1_0$72 Def000028
-S G$init_console$0$0 Def000000
-S C$main.c$13$1_0$68 Def000006
-S XG$load_test_assets$0$0 Def000024
-S C$main.c$38$1_0$72 Def000031
-S C$main.c$36$2_0$73 Def00002E
-S C$main.c$15$1_0$68 Def000006
-S A$main$88 Def000003
-S C$main.c$16$1_0$68 Def00000B
-S C$main.c$17$1_0$68 Def000017
-S C$main.c$18$1_0$68 Def000024
-S _update_state Def000025
-S _init_console Def000000
-S C$main.c$7$0_0$66 Def000000
-S Fmain$__str_0$0_0$0 Def000033
-S Fmain$__str_1$0_0$0 Def000040
-S Fmain$__str_2$0_0$0 Def00004C
-S XG$update_state$0$0 Def000025
-S XG$init_console$0$0 Def000003
-S G$main$0$0 Def000028
-A _DATA size 1 flags 0 addr 0
-S _current_resource_bank Def000000
-S G$current_resource_bank$0_0$0 Def000000
+S C$main.c$30$1_0$73 Def000028
+S C$main.c$22$2_0$71 Def00001D
+S A$main$90 Def000008
+S A$main$81 Def000003
+S C$main.c$20$2_0$65 Def00001C
+S C$main.c$12$1_0$65 Def000000
+S C$main.c$32$1_0$73 Def000028
+S C$main.c$33$1_0$73 Def00002D
+S C$main.c$26$1_0$71 Def00001D
+S G$init_console$0$0 Def00001D
+S C$main.c$13$2_0$65 Def000006
+S C$main.c$34$1_0$73 Def000039
+S C$main.c$27$1_0$71 Def000022
+S C$main.c$13$2_0$66 Def000016
+S A$main$85 Def000006
+S C$main.c$42$1_0$75 Def00004C
+S C$main.c$35$1_0$73 Def000046
+S C$main.c$28$1_0$71 Def000025
+S C$main.c$15$2_0$65 Def000008
+S A$main$95 Def00000A
+S C$main.c$43$1_0$75 Def00004F
+S XG$load_test_assets$0$0 Def000049
+S C$main.c$36$1_0$73 Def000049
+S A$main$96 Def00000D
+S C$main.c$51$2_0$76 Def000058
+S C$main.c$44$1_0$75 Def000052
+S C$main.c$52$2_0$76 Def000064
+S C$main.c$46$1_0$75 Def000055
+S C$main.c$56$1_0$75 Def00006C
+S C$main.c$54$2_0$76 Def000067
+S C$main.c$38$1_0$75 Def00004C
+S C$main.c$15$4_0$68 Def000010
+S C$main.c$48$1_0$75 Def000058
+S C$main.c$17$5_0$69 Def00000A
+S G$clear_tilemap$0$0 Def000000
+S _init_console Def00001D
+S Fmain$__str_0$0_0$0 Def00006E
+S C$main.c$9$0_0$65 Def000000
+S Fmain$__str_1$0_0$0 Def00007B
+S Fmain$__str_2$0_0$0 Def000087
+S XG$init_console$0$0 Def000025
+S _clear_tilemap Def000000
+S G$main$0$0 Def00004C
+S XG$clear_tilemap$0$0 Def00001C
+S A$main$100 Def000010
+A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
 A _DABS size 0 flags 8 addr 0
 A _HOME size 0 flags 0 addr 0
@@ -98,48 +143,60 @@ A _CABS4 size 10 flags 8 addr 7FE0
 S ___SMS__SDSC_signature Def007FE0
 S G$__SMS__SDSC_signature$0_0$0 Def007FE0
 T 00 00 00
-R 00 00 01 00
-T 00 00 00
-R 00 00 01 00
-T 00 00 00
 R 00 00 00 00
-T 00 00 00 21 40 01 C3 00 00
-R 00 00 00 00 02 07 0A 00
-T 06 00 00
+T 00 00 00 21 00 78 CD 00 00 0E 00
+R 00 00 00 00 02 07 0C 00
+T 08 00 00
 R 00 00 00 00
-T 06 00 00 21 FF FF 36 02 21 00 40 E5 21 00 00 E5
-R 00 00 00 00 02 0D 09 00
-T 13 00 00 CD 00 00 F1 21 00 00 E3 21 00 78 E5 CD
-R 00 00 00 00 02 04 00 00 02 08 0C 00
-T 20 00 00 00 00 F1 F1 C9
-R 00 00 00 00 02 03 0B 00
-T 25 00 00
+T 08 00 00 06 00
 R 00 00 00 00
-T 25 00 00 C3 00 00
-R 00 00 00 00 02 04 01 00
+T 0A 00 00
+R 00 00 00 00
+T 0A 00 00 21 00 00 CD 00 00 04 78 D6 20 38 F4 0C
+R 00 00 00 00 02 07 0D 00
+T 17 00 00 79 D6 18 38 EC C9
+R 00 00 00 00
+T 1D 00 00
+R 00 00 00 00
+T 1D 00 00 2E 01 CD 00 00 21 40 01 C3 00 00
+R 00 00 00 00 02 06 0F 00 02 0C 0E 00
 T 28 00 00
 R 00 00 00 00
-T 28 00 00 CD 00 00 CD 06 00
-R 00 00 00 00 00 04 00 00 00 07 00 00
-T 2E 00 00
-R 00 00 00 00
-T 2E 00 00 CD 25 00 18 FB
-R 00 00 00 00 00 04 00 00
-T 33 00 00
-R 00 00 00 00
-T 33 00 00 4D 69 6B 65 20 48 6F 70 6B 69 6E 73 00
-R 00 00 00 00
-T 40 00 00
-R 00 00 00 00
-T 40 00 00 48 65 6C 6C 6F 20 57 6F 72 6C 64 00
-R 00 00 00 00
+T 28 00 00 21 FF FF 36 02 21 00 40 E5 21 00 00 E5
+R 00 00 00 00 02 0D 0A 00
+T 35 00 00 CD 00 00 F1 21 00 00 E3 21 00 78 E5 CD
+R 00 00 00 00 02 04 00 00 02 08 11 00
+T 42 00 00 00 00 F1 F1 21 00 00 C3 00 00
+R 00 00 00 00 02 03 10 00 02 08 01 00 02 0B 0B 00
 T 4C 00 00
 R 00 00 00 00
-T 4C 00 00 49 20 68 61 76 65 20 6E 6F 20 69 64 65
+T 4C 00 00 CD 1D 00 CD 00 00 CD 28 00 01 00 00
+R 00 00 00 00 00 04 00 00 00 07 00 00 00 0A 00 00
+T 58 00 00
 R 00 00 00 00
-T 59 00 00 61 20 77 68 61 74 20 49 27 6D 20 64 6F
+T 58 00 00 03 79 D6 64 78 17 3F 1F DE 80 38 03 01
 R 00 00 00 00
-T 66 00 00 69 6E 67 00
+T 65 00 00 00 00
+R 00 00 00 00
+T 67 00 00
+R 00 00 00 00
+T 67 00 00 C5 CD 00 00 C1 18 EA
+R 00 00 00 00 02 05 02 00
+T 6E 00 00
+R 00 00 00 00
+T 6E 00 00 4D 69 6B 65 20 48 6F 70 6B 69 6E 73 00
+R 00 00 00 00
+T 7B 00 00
+R 00 00 00 00
+T 7B 00 00 48 65 6C 6C 6F 20 57 6F 72 6C 64 00
+R 00 00 00 00
+T 87 00 00
+R 00 00 00 00
+T 87 00 00 49 20 68 61 76 65 20 6E 6F 20 69 64 65
+R 00 00 00 00
+T 94 00 00 61 20 77 68 61 74 20 49 27 6D 20 64 6F
+R 00 00 00 00
+T A1 00 00 69 6E 67 00
 R 00 00 00 00
 T F0 7F 00
 R 00 00 09 00
