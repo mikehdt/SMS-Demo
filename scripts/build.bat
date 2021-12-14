@@ -1,5 +1,6 @@
 @echo off
 
+:: Compile Assets
 cd compile
 
 :: Time build START

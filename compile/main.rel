@@ -3,7 +3,6 @@ XL3
 H E areas 50 global symbols
 M main
 O -mz80
-S _test_tilemap_bin Ref000000
 S _SMS_loadPSGaidencompressedTilesatAddr Ref000000
 S _SMS_waitForVBlank Ref000000
 S _ROM_bank_to_be_mapped_on_slot2 Def00FFFF
@@ -15,8 +14,9 @@ S _SMS_SRAM Def008000
 S G$SMS_SRAM$0_0$0 Def008000
 S _test_tiles_psgcompr Ref000000
 S _SMS_VDPturnOnFeature Ref000000
-S _SMS_VRAMmemcpy Ref000000
-A _CODE size 6C flags 0 addr 0
+S _SMS_loadSTMcompressedTileMapatAddr Ref000000
+S _test_tilemap_stmcompr Ref000000
+A _CODE size 6A flags 0 addr 0
 S A$main$110 Def000013
 S A$main$101 Def000006
 S A$main$120 Def000022
@@ -24,54 +24,54 @@ S A$main$111 Def000016
 S A$main$102 Def000009
 S A$main$121 Def000023
 S G$load_test_assets$0$0 Def000006
-S _main Def00002A
+S _main Def000028
 S A$main$115 Def000017
 S A$main$106 Def00000B
 S A$main$116 Def00001A
 S A$main$107 Def00000E
-S A$main$162 Def00002A
+S A$main$162 Def000028
 S A$main$117 Def00001B
 S A$main$108 Def00000F
 S A$main$118 Def00001E
 S A$main$109 Def000012
-S A$main$182 Def000033
+S A$main$182 Def000031
 S A$main$119 Def00001F
-S A$main$174 Def000030
-S A$main$129 Def000026
-S A$main$166 Def00002D
-S A$main$149 Def000027
-S XG$main$0$0 Def000033
+S A$main$174 Def00002E
+S A$main$129 Def000024
+S A$main$166 Def00002B
+S A$main$149 Def000025
+S XG$main$0$0 Def000031
 S _load_test_assets Def000006
-S C$main.c$20$1_0$70 Def000027
-S C$main.c$22$1_0$70 Def000027
-S C$main.c$30$1_0$72 Def000030
-S C$main.c$23$1_0$70 Def000027
+S C$main.c$20$1_0$70 Def000025
+S C$main.c$22$1_0$70 Def000025
+S C$main.c$30$1_0$72 Def00002E
+S C$main.c$23$1_0$70 Def000025
 S A$main$80 Def000000
-S G$update_state$0$0 Def000027
+S G$update_state$0$0 Def000025
 S C$main.c$10$1_0$66 Def000000
 S C$main.c$11$1_0$66 Def000003
-S C$main.c$34$1_0$72 Def000033
-S C$main.c$32$2_0$73 Def000030
-S C$main.c$25$1_0$72 Def00002A
+S C$main.c$34$1_0$72 Def000031
+S C$main.c$32$2_0$73 Def00002E
+S C$main.c$25$1_0$72 Def000028
 S G$init_console$0$0 Def000000
-S C$main.c$27$1_0$72 Def00002A
+S C$main.c$27$1_0$72 Def000028
 S C$main.c$13$1_0$68 Def000006
-S C$main.c$28$1_0$72 Def00002D
-S XG$load_test_assets$0$0 Def000026
+S C$main.c$28$1_0$72 Def00002B
+S XG$load_test_assets$0$0 Def000024
 S C$main.c$15$1_0$68 Def000006
 S A$main$88 Def000003
 S C$main.c$16$1_0$68 Def00000B
 S C$main.c$17$1_0$68 Def000017
-S C$main.c$18$1_0$68 Def000026
-S _update_state Def000027
+S C$main.c$18$1_0$68 Def000024
+S _update_state Def000025
 S _init_console Def000000
 S C$main.c$7$0_0$66 Def000000
-S Fmain$__str_0$0_0$0 Def000035
-S Fmain$__str_1$0_0$0 Def000042
-S Fmain$__str_2$0_0$0 Def00004E
-S XG$update_state$0$0 Def000027
+S Fmain$__str_0$0_0$0 Def000033
+S Fmain$__str_1$0_0$0 Def000040
+S Fmain$__str_2$0_0$0 Def00004C
+S XG$update_state$0$0 Def000025
 S XG$init_console$0$0 Def000003
-S G$main$0$0 Def00002A
+S G$main$0$0 Def000028
 A _DATA size 1 flags 0 addr 0
 S _current_resource_bank Def000000
 S G$current_resource_bank$0_0$0 Def000000
@@ -104,42 +104,42 @@ R 00 00 01 00
 T 00 00 00
 R 00 00 00 00
 T 00 00 00 21 40 01 C3 00 00
-R 00 00 00 00 02 07 0B 00
+R 00 00 00 00 02 07 0A 00
 T 06 00 00
 R 00 00 00 00
 T 06 00 00 21 FF FF 36 02 21 00 40 E5 21 00 00 E5
-R 00 00 00 00 02 0D 0A 00
-T 13 00 00 CD 00 00 F1 21 80 02 E3 21 00 00 E5 21
-R 00 00 00 00 02 04 01 00 02 0C 00 00
-T 20 00 00 00 78 E5 CD 00 00 C9
-R 00 00 00 00 02 07 0C 00
-T 27 00 00
+R 00 00 00 00 02 0D 09 00
+T 13 00 00 CD 00 00 F1 21 00 00 E3 21 00 78 E5 CD
+R 00 00 00 00 02 04 00 00 02 08 0C 00
+T 20 00 00 00 00 F1 F1 C9
+R 00 00 00 00 02 03 0B 00
+T 25 00 00
 R 00 00 00 00
-T 27 00 00 C3 00 00
-R 00 00 00 00 02 04 02 00
-T 2A 00 00
+T 25 00 00 C3 00 00
+R 00 00 00 00 02 04 01 00
+T 28 00 00
 R 00 00 00 00
-T 2A 00 00 CD 00 00 CD 06 00
+T 28 00 00 CD 00 00 CD 06 00
 R 00 00 00 00 00 04 00 00 00 07 00 00
-T 30 00 00
+T 2E 00 00
 R 00 00 00 00
-T 30 00 00 CD 27 00 18 FB
+T 2E 00 00 CD 25 00 18 FB
 R 00 00 00 00 00 04 00 00
-T 35 00 00
+T 33 00 00
 R 00 00 00 00
-T 35 00 00 4D 69 6B 65 20 48 6F 70 6B 69 6E 73 00
+T 33 00 00 4D 69 6B 65 20 48 6F 70 6B 69 6E 73 00
 R 00 00 00 00
-T 42 00 00
+T 40 00 00
 R 00 00 00 00
-T 42 00 00 48 65 6C 6C 6F 20 57 6F 72 6C 64 00
+T 40 00 00 48 65 6C 6C 6F 20 57 6F 72 6C 64 00
 R 00 00 00 00
-T 4E 00 00
+T 4C 00 00
 R 00 00 00 00
-T 4E 00 00 49 20 68 61 76 65 20 6E 6F 20 69 64 65
+T 4C 00 00 49 20 68 61 76 65 20 6E 6F 20 69 64 65
 R 00 00 00 00
-T 5B 00 00 61 20 77 68 61 74 20 49 27 6D 20 64 6F
+T 59 00 00 61 20 77 68 61 74 20 49 27 6D 20 64 6F
 R 00 00 00 00
-T 68 00 00 69 6E 67 00
+T 66 00 00 69 6E 67 00
 R 00 00 00 00
 T F0 7F 00
 R 00 00 09 00

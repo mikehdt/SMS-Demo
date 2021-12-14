@@ -14,7 +14,7 @@ void load_test_assets(void)
 {
     SMS_mapROMBank(test_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(test_tiles_psgcompr, 0);
-    SMS_loadTileMap(0, 0, test_tilemap_bin, test_tilemap_bin_size);
+    SMS_loadSTMcompressedTileMap(0, 0, test_tilemap_stmcompr);
 }
 
 void update_state(void)
