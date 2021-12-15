@@ -7,6 +7,8 @@
         "*.css": "scss",
         ".envrc": "shellscript",
         "stdlib.h": "c",
-        "assets2banks.h": "c"
+        "assets2banks.h": "c",
+        "smslib.h": "c",
+        "stdbool.h": "c"
     }
 }

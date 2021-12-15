@@ -16,3 +16,4 @@ assets2banks ..\assets --singleheader --compile
 :: This header is needed for the source to build
 move assets2banks.h ..\src
 
+cd ..
