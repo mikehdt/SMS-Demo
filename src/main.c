@@ -1,6 +1,6 @@
 #include <stdbool.h>
-#include "../libs/SMSlib.h"
-#include "picture.h"
+#include "libs/SMSlib.h"
+#include "examples/picture.h"
 
 // Some code unceremoniously borrowed from the excellent Gotris project
 #define SCREEN_ROWS 24
