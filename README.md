@@ -12,8 +12,8 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 -   [x] Animate the picture with some scrolling
 -   [ ] Animate the palette in from black
 -   [ ] Make the picture a bit fancier with V interrupt individual scrolls?
--   [ ] Add some sprites
--   [ ] Animate the sprites
+-   [x] Add some sprites
+-   [x] Animate the sprites
 -   [ ] Add a second example file
 
 ## Dependencies

@@ -9,8 +9,8 @@
 void init_console(void)
 {
     // SMS_init(); // Unneeded because of crt0?
-    // SMS_setSpriteMode(SPRITEMODE_NORMAL);  // Not sure what this is for?
-    SMS_useFirstHalfTilesforSprites(true); // Seems to clear the tiles?
+    SMS_setSpriteMode(SPRITEMODE_NORMAL);  // Set this to the expected format
+    SMS_useFirstHalfTilesforSprites(true); // Are sprite tile reads limited?
     SMS_displayOn();
 }
 
@@ -22,7 +22,7 @@ void clear_tilemap(void)
 
     for (i = 0; i < SCREEN_ROWS; i++)
         for (j = 0; j < SCREEN_COLUMNS; j++)
-            SMS_setTile(0); // I'm guessing this auto-incs the pointer
+            SMS_setTile(0); // The pointer for the current tile is auto-inc
 }
 
 void main(void)
@@ -33,11 +33,14 @@ void main(void)
 
     // Silly-project specific
     init_picture();
+    init_sprites();
 
     while (true)
     {
         animate_picture();
+        animate_sprites();
         SMS_waitForVBlank();
+        SMS_copySpritestoSAT(); // Update any sprite shenanigans
     }
 }
 
