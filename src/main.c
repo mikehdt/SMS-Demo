@@ -1,6 +1,6 @@
-#include <stdbool.h>
-#include "libs/SMSlib.h"
 #include "examples/picture.h"
+#include "libs/SMSlib.h"
+#include <stdbool.h>
 
 // Some code unceremoniously borrowed from the excellent Gotris project
 #define SCREEN_ROWS 24
@@ -20,15 +20,13 @@ void clear_tilemap(void)
 
     SMS_setNextTileatXY(0, 0);
 
-    for (j = 0; j < SCREEN_ROWS; j++)
-        for (i = 0; i < SCREEN_COLUMNS; i++)
-            SMS_setTile(0);
+    for (i = 0; i < SCREEN_ROWS; i++)
+        for (j = 0; j < SCREEN_COLUMNS; j++)
+            SMS_setTile(0); // I'm guessing this auto-incs the pointer
 }
 
 void main(void)
 {
-    int testVar = 0;
-
     // Common initalisation
     init_console();
     clear_tilemap();
@@ -38,10 +36,7 @@ void main(void)
 
     while (true)
     {
-        // This is just to test local variable debugging
-        if (++testVar >= 100)
-            testVar = 0;
-
+        animate_picture();
         SMS_waitForVBlank();
     }
 }
@@ -49,5 +44,6 @@ void main(void)
 // Stop VScode from fussing about these function calls
 #ifndef __INTELLISENSE__
 SMS_EMBED_SEGA_ROM_HEADER(9999, 0);
-SMS_EMBED_SDSC_HEADER_AUTO_DATE(1, 0, "Mike Hopkins", "Hello World", "I have no idea what I'm doing");
+SMS_EMBED_SDSC_HEADER_AUTO_DATE(1, 0, "Mike Hopkins", "Hello World",
+                                "I have no idea what I'm doing");
 #endif

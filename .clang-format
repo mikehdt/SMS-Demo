@@ -1,0 +1,11 @@
+# clang-format is installed with the C/C++ Intellisense Extensions for VSCode
+# These spacing settings should mirror those in `.editorconfig`
+UseTab: false
+IndentWidth: 4
+
+# Braces on their own line
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+
+IndentCaseLabels: true
+ColumnLimit: 0
