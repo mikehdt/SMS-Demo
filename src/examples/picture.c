@@ -2,6 +2,8 @@
 #include "../assets2banks.h" // Generated with the assets task
 #include "../libs/SMSlib.h"
 
+unsigned int scroll_x;
+
 void init_picture(void)
 {
     SMS_loadPSGaidencompressedTiles(test_tiles_psgcompr, 0);
@@ -9,9 +11,9 @@ void init_picture(void)
     SMS_loadBGPalette(test_palette_bin);
 
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
-}
 
-unsigned int scroll_x;
+    scroll_x = 0;
+}
 
 void animate_picture(void)
 {
