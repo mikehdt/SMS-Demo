@@ -6,9 +6,15 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 
 ## Goals
 
--   Have a sane sort of code/asset build pipeline
--   Have C remote debugging with Emulicious
--   Draw a picture to the screen
+-   [ ] Have a sane sort of code/asset build pipeline (on-going)
+-   [x] Have C remote debugging with Emulicious
+-   [x] Draw a picture to the screen
+-   [x] Animate the picture with some scrolling
+-   [ ] Animate the palette in from black
+-   [ ] Make the picture a bit fancier with V interrupt individual scrolls?
+-   [ ] Add some sprites
+-   [ ] Animate the sprites
+-   [ ] Add a second example file
 
 ## Dependencies
 
