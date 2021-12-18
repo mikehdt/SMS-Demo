@@ -4,13 +4,14 @@
 
 #define TEST_OFFSET 57
 #define NUM_SPHERES 7
+#define SPHERE_TILES 6 // 0-offset to save a -1 later
 
 unsigned int scroll_x;
 
 struct sphere
 {
     char id;
-    int x, y;
+    int x, y, sphere_tile;
 };
 
 struct sphere spheres[NUM_SPHERES];
@@ -39,9 +40,11 @@ void init_sprites(void)
 
     for (i = 0; i < NUM_SPHERES; i++)
     {
-        spheres[i].id = SMS_addSprite(i * 10, i * 10, TEST_OFFSET + NUM_SPHERES - i - 1);
+        int sphere_tile = SPHERE_TILES - i;
+        spheres[i].id = SMS_addSprite(i * 10, i * 10, TEST_OFFSET + sphere_tile);
         spheres[i].x = i * 10;
         spheres[i].y = i * 10;
+        spheres[i].sphere_tile = sphere_tile;
         // If the return is -1, no more sprites could be allocated
         // If the return is -2, the y-coordinate is invalid
     }
@@ -59,10 +62,13 @@ void animate_sprites(void)
     for (i = 0; i < NUM_SPHERES; i++)
     {
         SMS_updateSpritePosition(spheres[i].id, spheres[i].x, spheres[i].y);
+        SMS_updateSpriteImage(spheres[i].id, TEST_OFFSET + spheres[i].sphere_tile);
 
-        if (spheres[i].x++ > 256)
+        if (++spheres[i].x > 256)
             spheres[i].x = 0;
-        if (spheres[i].y++ > 192)
+        if (++spheres[i].y > 192)
             spheres[i].y = 0;
+        if (scroll_x % 4 == 0 && --spheres[i].sphere_tile < 0)
+            spheres[i].sphere_tile = SPHERE_TILES;
     }
 }

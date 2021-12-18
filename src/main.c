@@ -25,6 +25,12 @@ void clear_tilemap(void)
             SMS_setTile(0); // The pointer for the current tile is auto-inc
 }
 
+void wait_for_frame(void)
+{
+    SMS_waitForVBlank();
+    SMS_copySpritestoSAT(); // Update any sprite shenanigans
+}
+
 void main(void)
 {
     // Common initalisation
@@ -39,8 +45,8 @@ void main(void)
     {
         animate_picture();
         animate_sprites();
-        SMS_waitForVBlank();
-        SMS_copySpritestoSAT(); // Update any sprite shenanigans
+
+        wait_for_frame();
     }
 }
 
