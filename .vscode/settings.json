@@ -9,6 +9,9 @@
         "stdlib.h": "c",
         "assets2banks.h": "c",
         "smslib.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "sphere.h": "c",
+        "picture.h": "c",
+        "scroller.h": "c"
     }
 }

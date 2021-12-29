@@ -1,5 +1,5 @@
-#ifndef PICTURE_H
-#define PICTURE_H
+#ifndef SCROLLER_H
+#define SCROLLER_H
 
 void init_background(void);
 void animate_background(void);
@@ -7,4 +7,4 @@ void animate_background(void);
 void init_sprites(void);
 void animate_sprites(void);
 
-#endif // PICTURE_H
+#endif // SCROLLER_H

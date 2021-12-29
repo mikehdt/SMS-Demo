@@ -8,7 +8,7 @@
                 "command": ".\\scripts\\build.bat"
             },
             "presentation": {
-                "reveal": "always",
+                "reveal": "never",
                 "revealProblems": "onProblem",
                 "clear": true
             },
@@ -40,7 +40,7 @@
                 "command": ".\\scripts\\assets.bat"
             },
             "presentation": {
-                "reveal": "always",
+                "reveal": "never",
                 "revealProblems": "onProblem",
                 "clear": true
             }
@@ -52,7 +52,7 @@
                 "command": ".\\scripts\\clean.bat"
             },
             "presentation": {
-                "reveal": "always",
+                "reveal": "never",
                 "revealProblems": "onProblem",
                 "clear": true
             }

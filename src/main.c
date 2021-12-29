@@ -1,20 +1,24 @@
-#include "examples/picture.h"
+#include "main.h"
+// Need to also set the correct REL linking in build.bat for now...
+// #include "examples/picture.h"
+// #include "examples/scroller.h"
+#include "examples/sphere.h"
+// #include "examples/grid.h"
 #include "libs/SMSlib.h"
 #include <stdbool.h>
 
 // Some code unceremoniously borrowed from the excellent Gotris project
-#define SCREEN_ROWS 24
-#define SCREEN_COLUMNS 32
 
 void init_console(void)
 {
-    // SMS_init(); // Unneeded because of crt0?
+    // SMS_VDPturnOnFeature(VDPFEATURE_EXTRAHEIGHT); // PAL / SMS II only
+    // SMS_VDPturnOnFeature(VDPFEATURE_240LINES);    // PAL / SMS II only
     SMS_setSpriteMode(SPRITEMODE_NORMAL);  // Set this to the expected format
-    SMS_useFirstHalfTilesforSprites(true); // Are sprite tile reads limited?
+    SMS_useFirstHalfTilesforSprites(true); // Are sprite memory reads limited?
     SMS_displayOn();
 }
 
-void clear_tilemap(void)
+void clear_tilemap(int tile)
 {
     unsigned char i, j;
 
@@ -22,7 +26,7 @@ void clear_tilemap(void)
 
     for (i = 0; i < SCREEN_ROWS; i++)
         for (j = 0; j < SCREEN_COLUMNS; j++)
-            SMS_setTile(0); // The pointer for the current tile is auto-inc
+            SMS_setTile(tile); // The pointer for the current tile is auto-inc
 }
 
 void wait_for_frame(void)
@@ -35,15 +39,15 @@ void main(void)
 {
     // Common initalisation
     init_console();
-    clear_tilemap();
+    clear_tilemap(0);
 
-    // Silly-project specific
-    init_picture();
+    // Project specific
+    init_background();
     init_sprites();
 
     while (true)
     {
-        animate_picture();
+        animate_background();
         animate_sprites();
 
         wait_for_frame();
