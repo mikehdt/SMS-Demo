@@ -12,6 +12,11 @@
         "stdbool.h": "c",
         "sphere.h": "c",
         "picture.h": "c",
-        "scroller.h": "c"
+        "scroller.h": "c",
+        "grid.h": "c",
+        "gfx.h": "c",
+        "utils.h": "c",
+        "common.h": "c",
+        "stdint.h": "c"
     }
 }

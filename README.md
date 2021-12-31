@@ -6,15 +6,17 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 
 ## Goals
 
--   [ ] Have a sane sort of code/asset build pipeline (on-going)
 -   [x] Have C remote debugging with Emulicious
 -   [x] Draw a picture to the screen
 -   [x] Animate the picture with some scrolling
--   [ ] Animate the palette in from black
--   [ ] Make the picture a bit fancier with V interrupt individual scrolls?
+-   [x] Make the picture a bit fancier with V interrupt individual scrolls
 -   [x] Add some sprites
 -   [x] Animate the sprites
--   [ ] Add a second example file
+-   [x] Add a second example file
+-   [ ] Have a code/asset as-cross-platform-as-possible build pipeline (on-going)
+-   [ ] Animate the palette in from black
+-   [ ] Have a scene manager to swap between effects
+-   [ ] Put each scene in its own bank, to learn about bank switching
 
 ## Dependencies
 

@@ -1,6 +1,7 @@
 #include "picture.h"
 #include "../assets2banks.h" // Generated with the assets task
 #include "../libs/SMSlib.h"
+#include "../utils.h"
 
 #define PALMS_OFFSET 57
 #define NUM_SPHERES 7
@@ -20,9 +21,10 @@ void init_background(void)
 {
     SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, palms_tilemap_stmcompr);
-    SMS_loadBGPalette(palms_palette_bin);
+    palette_make_fade(palms_palette_bin);
+    // SMS_loadBGPalette(palms_palette_bin);
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
-
+    palette_fadein_handler(PALETTE_BACKGROUND);
     scroll_x = 0;
 }
 

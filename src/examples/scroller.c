@@ -3,7 +3,7 @@
 #include "../libs/SMSlib.h"
 #include <stdbool.h>
 
-unsigned int scroll_x[9];
+unsigned int scroll_x[11];
 unsigned char lineCnt;
 
 void load_assets(void)
@@ -36,6 +36,8 @@ void enable_scrolling(void)
     scroll_x[6] = 0xFFFF;
     scroll_x[7] = 0xFFFF;
     scroll_x[8] = 0xFFFF;
+    scroll_x[9] = 0xFFFF;
+    scroll_x[10] = 0xFFFF;
     lineCnt = 0;
 }
 
@@ -49,14 +51,16 @@ void animate_background(void)
 {
     SMS_setBGScrollX(scroll_x[0] >> 2);
     scroll_x[0] -= 9;
-    scroll_x[1] -= 8;
-    scroll_x[2] -= 7;
-    scroll_x[3] -= 6;
-    scroll_x[4] -= 5;
-    scroll_x[5] -= 4;
-    scroll_x[6] -= 3;
-    scroll_x[7] -= 2;
-    scroll_x[8] -= 1;
+    scroll_x[1] -= 9;
+    scroll_x[2] -= 8;
+    scroll_x[3] -= 7;
+    scroll_x[4] -= 6;
+    scroll_x[5] -= 5;
+    scroll_x[6] -= 4;
+    scroll_x[7] -= 3;
+    scroll_x[8] -= 2;
+    scroll_x[9] -= 1;
+    scroll_x[10] -= 1;
 
     lineCnt = 0;
 }

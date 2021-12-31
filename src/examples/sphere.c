@@ -1,74 +1,7 @@
 #include "sphere.h"
 #include "../assets2banks.h" // Generated with the assets task
 #include "../libs/SMSlib.h"
-#include "../main.h"
-
-void init_background(void)
-{
-    SMS_setSpriteMode(SPRITEMODE_ZOOMED);
-
-    int bg_tile = 121 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
-
-    // Background
-    SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 121);
-    SMS_loadSpritePalette(palms_palette_bin);
-
-    // Clipping sprites
-    SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 122);
-
-    clear_tilemap(bg_tile);
-
-    // Sphere
-    SMS_loadBGPalette(sphere_palette_bin);
-    SMS_loadPSGaidencompressedTiles(sphere_tiles_psgcompr, 0);
-    SMS_loadSTMcompressedTileMap(10, 5, sphere_tilemap_stmcompr);
-
-    // Tidy-up
-    // TL
-    SMS_setTileatXY(10, 5, bg_tile);
-    SMS_setTileatXY(11, 5, bg_tile);
-    SMS_setTileatXY(10, 6, bg_tile);
-    SMS_setTileatXY(11, 6, bg_tile);
-    // TR
-    SMS_setTileatXY(20, 5, bg_tile);
-    SMS_setTileatXY(21, 5, bg_tile);
-    SMS_setTileatXY(20, 6, bg_tile);
-    SMS_setTileatXY(21, 6, bg_tile);
-    // BL
-    SMS_setTileatXY(10, 15, bg_tile);
-    SMS_setTileatXY(11, 15, bg_tile);
-    SMS_setTileatXY(10, 16, bg_tile);
-    SMS_setTileatXY(11, 16, bg_tile);
-    // BR
-    SMS_setTileatXY(20, 15, bg_tile);
-    SMS_setTileatXY(21, 15, bg_tile);
-    SMS_setTileatXY(20, 16, bg_tile);
-    SMS_setTileatXY(21, 16, bg_tile);
-
-    // Clipping sprites
-    // First row
-    SMS_addSprite(12 * 8, 5 * 8, 123);
-    SMS_addSprite(14 * 8, 5 * 8, 124);
-    SMS_addSprite(16 * 8, 5 * 8, 125);
-    SMS_addSprite(18 * 8, 5 * 8, 126);
-    // Second Row
-    SMS_addSprite(10 * 8, 7 * 8, 127);
-    SMS_addSprite(20 * 8, 7 * 8, 128);
-    // Third Row
-    SMS_addSprite(10 * 8, 9 * 8, 129);
-    SMS_addSprite(20 * 8, 9 * 8, 130);
-    // Fourth Row
-    SMS_addSprite(10 * 8, 11 * 8, 131);
-    SMS_addSprite(20 * 8, 11 * 8, 132);
-    // Fifth Row
-    SMS_addSprite(10 * 8, 13 * 8, 133);
-    SMS_addSprite(20 * 8, 13 * 8, 134);
-    // Sixth Row
-    SMS_addSprite(12 * 8, 15 * 8, 135);
-    SMS_addSprite(14 * 8, 15 * 8, 136);
-    SMS_addSprite(16 * 8, 15 * 8, 137);
-    SMS_addSprite(18 * 8, 15 * 8, 138);
-}
+#include "../utils.h"
 
 int cur_pal = 0;
 
@@ -156,6 +89,44 @@ const unsigned char sphere_palette[] = {
 
 int last_subset_ptr = -1;
 
+void init_background(void)
+{
+    int bg_tile = 121 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
+
+    // Background
+    SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 121);
+    SMS_loadSpritePalette(palms_palette_bin);
+
+    clear_tilemap(bg_tile);
+
+    // Sphere
+    SMS_loadBGPalette(sphere_palette_bin);
+    SMS_loadPSGaidencompressedTiles(sphere_tiles_psgcompr, 0);
+    SMS_loadSTMcompressedTileMap(10, 5, sphere_tilemap_stmcompr);
+
+    // Tidy-up
+    // TL
+    SMS_setTileatXY(10, 5, bg_tile);
+    SMS_setTileatXY(11, 5, bg_tile);
+    SMS_setTileatXY(10, 6, bg_tile);
+    SMS_setTileatXY(11, 6, bg_tile);
+    // TR
+    SMS_setTileatXY(20, 5, bg_tile);
+    SMS_setTileatXY(21, 5, bg_tile);
+    SMS_setTileatXY(20, 6, bg_tile);
+    SMS_setTileatXY(21, 6, bg_tile);
+    // BL
+    SMS_setTileatXY(10, 15, bg_tile);
+    SMS_setTileatXY(11, 15, bg_tile);
+    SMS_setTileatXY(10, 16, bg_tile);
+    SMS_setTileatXY(11, 16, bg_tile);
+    // BR
+    SMS_setTileatXY(20, 15, bg_tile);
+    SMS_setTileatXY(21, 15, bg_tile);
+    SMS_setTileatXY(20, 16, bg_tile);
+    SMS_setTileatXY(21, 16, bg_tile);
+}
+
 void animate_background(void)
 {
     unsigned char temporal_palette[16];
@@ -183,6 +154,33 @@ void animate_background(void)
 
 void init_sprites(void)
 {
+    // Clipping sprites
+    SMS_setSpriteMode(SPRITEMODE_ZOOMED);
+    SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 122);
+
+    // Clipping sprites
+    // First row
+    SMS_addSprite(12 * 8, 5 * 8, 123);
+    SMS_addSprite(14 * 8, 5 * 8, 124);
+    SMS_addSprite(16 * 8, 5 * 8, 125);
+    SMS_addSprite(18 * 8, 5 * 8, 126);
+    // Second Row
+    SMS_addSprite(10 * 8, 7 * 8, 127);
+    SMS_addSprite(20 * 8, 7 * 8, 128);
+    // Third Row
+    SMS_addSprite(10 * 8, 9 * 8, 129);
+    SMS_addSprite(20 * 8, 9 * 8, 130);
+    // Fourth Row
+    SMS_addSprite(10 * 8, 11 * 8, 131);
+    SMS_addSprite(20 * 8, 11 * 8, 132);
+    // Fifth Row
+    SMS_addSprite(10 * 8, 13 * 8, 133);
+    SMS_addSprite(20 * 8, 13 * 8, 134);
+    // Sixth Row
+    SMS_addSprite(12 * 8, 15 * 8, 135);
+    SMS_addSprite(14 * 8, 15 * 8, 136);
+    SMS_addSprite(16 * 8, 15 * 8, 137);
+    SMS_addSprite(18 * 8, 15 * 8, 138);
 }
 
 void animate_sprites(void)
