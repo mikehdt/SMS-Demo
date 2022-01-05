@@ -19,12 +19,12 @@ struct sphere spheres[NUM_SPHERES];
 
 void init_background(void)
 {
+    SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
+
     SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, palms_tilemap_stmcompr);
-    // palette_make_fade(palms_palette_bin);
     SMS_loadBGPalette(palms_palette_bin);
-    SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
-    // palette_fadein_handler(PALETTE_BACKGROUND);
+    fade_to_palette(palms_palette_bin, 16, 8);
     scroll_x = 0;
 }
 
