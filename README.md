@@ -13,7 +13,7 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 -   [x] Add some sprites
 -   [x] Animate the sprites
 -   [x] Add a second example file
--   [*] Animate the palette in from black
+-   [x] Animate the palette in from black
 -   [ ] Have a code/asset as-cross-platform-as-possible build pipeline (on-going)
 -   [ ] Animate palettes between each other (not just from black)
 -   [ ] Have a scene manager to swap between effects
@@ -23,7 +23,7 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 
 It uses [devkitSMS](https://github.com/sverx/devkitSMS) as a basis for doing all its fancy stuff.
 
-Code is compiled with [SDCC](http://sdcc.sourceforge.net/) `4.1.12` pre-release (`4.1.0` is also compatible, but may need the `--sdcccall 0` flags removed from `scripts/build.bat`)
+Code is compiled with [SDCC](http://sdcc.sourceforge.net/) `4.1.0` (`4.1.12+` nightlies are also compatible, but will need the `--sdcccall 0` flag to be added in `scripts/build.bat`. However, I found the nightlies had _massive_ problems with the Emulicious debugger bridge to VScode where variable values were completely wrong and would appear and disappear almost randomly. I've gone back to `4.1.0` stable for the time being. I really appreciate Calindro's efforts on helping investigate this issue from the Emulicious side).
 
 The [bmp2tile](https://github.com/maxim-zhao/bmp2tile) project is included here for compiling assets, but I might move it to be an external dep later. For cross-platform support later, the [png2tile](https://github.com/yuv422/png2tile) looks like a great starting point
 
