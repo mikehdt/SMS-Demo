@@ -21,10 +21,12 @@ void init_background(void)
 {
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
 
+    palette_set_black(PALETTE_BACKGROUND);
     SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, palms_tilemap_stmcompr);
-    SMS_loadBGPalette(palms_palette_bin);
-    fade_to_palette(palms_palette_bin, 16, 8);
+    // fade_to_palette(palms_palette_bin, 16, 8);
+    fade_from_black(palms_palette_bin);
+
     scroll_x = 0;
 }
 

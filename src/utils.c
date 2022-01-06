@@ -16,17 +16,11 @@ void clear_tilemap(uint8_t tile)
 
 unsigned char background_palette[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-// Note: these use a 0b binary notation bitmask, enabled by the SDCC extensions.
-// For some inane reason, this is not a standard part of C99 (although it was
-// proposed, rejected, and is finally due to be part of the spec... in 2023)
-#define getRFromRGB(color) color & 0b11
-#define getGFromRGB(color) color >> 2 & 0b11
-#define getBFromRGB(color) color >> 4 & 0b11
-
+// To consider: palette offset / total change, instead of always being 0.
 void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, unsigned char frame_delay)
 {
     uint8_t i, j;
-    unsigned char rPart, gPart, bPart, tPart;
+    unsigned char r, g, b, target;
     unsigned char temporal_palette[16];
 
     for (i = 0; i < num_colors; i++)
@@ -41,17 +35,17 @@ void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, un
     {
         for (j = 0; j < num_colors; j++)
         {
-            rPart = getRFromRGB(temporal_palette[j]);
-            gPart = getGFromRGB(temporal_palette[j]);
-            bPart = getBFromRGB(temporal_palette[j]);
-            tPart = getBFromRGB(target_palette[j]);
+            r = getRFromRGB(temporal_palette[j]);
+            g = getGFromRGB(temporal_palette[j]);
+            b = getBFromRGB(temporal_palette[j]);
+            target = getBFromRGB(target_palette[j]);
 
-            if (bPart > tPart)
-                bPart--;
-            else if (bPart < tPart)
-                bPart++;
+            if (b > target)
+                b--;
+            else if (b < target)
+                b++;
 
-            temporal_palette[j] = RGB(rPart, gPart, bPart);
+            temporal_palette[j] = RGB(r, g, b);
         }
 
         SMS_loadBGPalette(temporal_palette);
@@ -65,17 +59,17 @@ void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, un
     {
         for (j = 0; j < num_colors; j++)
         {
-            rPart = getRFromRGB(temporal_palette[j]);
-            gPart = getGFromRGB(temporal_palette[j]);
-            bPart = getBFromRGB(temporal_palette[j]);
-            tPart = getRFromRGB(target_palette[j]);
+            r = getRFromRGB(temporal_palette[j]);
+            g = getGFromRGB(temporal_palette[j]);
+            b = getBFromRGB(temporal_palette[j]);
+            target = getRFromRGB(target_palette[j]);
 
-            if (rPart > tPart)
-                rPart--;
-            else if (rPart < tPart)
-                rPart++;
+            if (r > target)
+                r--;
+            else if (r < target)
+                r++;
 
-            temporal_palette[j] = RGB(rPart, gPart, bPart);
+            temporal_palette[j] = RGB(r, g, b);
         }
 
         SMS_loadBGPalette(temporal_palette);
@@ -89,17 +83,17 @@ void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, un
     {
         for (j = 0; j < num_colors; j++)
         {
-            rPart = getRFromRGB(temporal_palette[j]);
-            gPart = getGFromRGB(temporal_palette[j]);
-            bPart = getBFromRGB(temporal_palette[j]);
-            tPart = getGFromRGB(target_palette[j]);
+            r = getRFromRGB(temporal_palette[j]);
+            g = getGFromRGB(temporal_palette[j]);
+            b = getBFromRGB(temporal_palette[j]);
+            target = getGFromRGB(target_palette[j]);
 
-            if (gPart > tPart)
-                gPart--;
-            else if (gPart < tPart)
-                gPart++;
+            if (g > target)
+                g--;
+            else if (g < target)
+                g++;
 
-            temporal_palette[j] = RGB(rPart, gPart, bPart);
+            temporal_palette[j] = RGB(r, g, b);
         }
 
         SMS_loadBGPalette(temporal_palette);
@@ -107,28 +101,33 @@ void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, un
         for (j = 0; j < frame_delay; j++)
             wait_for_frame();
     }
-
-    // setBGPalette(target_palette, num_colors);
 }
 
-// void palette_make_fade(unsigned char *new_palette)
-// {
-//     // Generate fade lookup ... not sure this is working properly yet
-//     for (uint8_t i = 0; i < FADE_STEPS; i++)
-//     {
-//         for (uint8_t j = 0; j < 16; j++)
-//         {
-//             unsigned char r, g, b;
-//             uint16_t progress_ratio = (i + 1) * 256 / FADE_STEPS;
+void fade_from_black(unsigned char *target_palette)
+{
+    uint8_t i, j, frame_delay = 4, num_steps = 16;
+    uint16_t progress_ratio, r, g, b;
+    unsigned char temporal_palette[16];
 
-//             r = setRToRGB(getRFromRGB(new_palette[j]) * progress_ratio / 256);
-//             g = setGToRGB(getGFromRGB(new_palette[j]) * progress_ratio / 256);
-//             b = setBToRGB(getBFromRGB(new_palette[j]) * progress_ratio / 256);
+    for (i = 0; i < num_steps; i++)
+    {
+        progress_ratio = (i * 256) / (num_steps - 1);
 
-//             fade_palette[i][j] = r | g | b;
-//         }
-//     }
-// }
+        for (j = 0; j < 16; j++)
+        {
+            r = (getRFromRGB(target_palette[j]) * progress_ratio + 128) / 256;
+            g = (getGFromRGB(target_palette[j]) * progress_ratio + 128) / 256;
+            b = (getBFromRGB(target_palette[j]) * progress_ratio + 128) / 256;
+
+            temporal_palette[j] = RGB(r, g, b);
+        }
+
+        SMS_loadBGPalette(temporal_palette);
+
+        for (j = 0; j < frame_delay; j++)
+            wait_for_frame();
+    }
+}
 
 void palette_set(const void *palette, uint8_t paletteType)
 {

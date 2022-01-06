@@ -23,13 +23,13 @@ void main(void)
     clear_tilemap(0);
 
     // Project specific
-    init_background();
     init_sprites();
+    init_background();
 
     while (true)
     {
-        animate_background();
         animate_sprites();
+        animate_background();
 
         wait_for_frame();
     }
