@@ -1,18 +1,8 @@
-#include "utils.h"
-#include "libs/SMSlib.h"
+#include "palettes.h"
+#include "../libs/SMSlib.h"
+#include "core.h"
 #include <stdlib.h>
-
-void wait_for_frame(void)
-{
-    SMS_waitForVBlank();
-    SMS_copySpritestoSAT(); // Update any sprite shenanigans
-}
-
-void clear_tilemap(uint8_t tile)
-{
-    // From sverx, a more efficient method
-    SMS_VRAMmemsetW(XYtoADDR(0, 0), tile, SCREEN_ROWS * SCREEN_COLUMNS * 2);
-}
+#include <string.h>
 
 unsigned char background_palette[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 

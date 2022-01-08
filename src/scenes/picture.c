@@ -1,7 +1,7 @@
 #include "picture.h"
 #include "../assets2banks.h" // Generated with the assets task
+#include "../engine/palettes.h"
 #include "../libs/SMSlib.h"
-#include "../utils.h"
 
 #define PALMS_OFFSET 57
 #define NUM_SPHERES 7

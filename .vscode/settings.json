@@ -17,6 +17,7 @@
         "gfx.h": "c",
         "utils.h": "c",
         "common.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "palettes.h": "c"
     }
 }

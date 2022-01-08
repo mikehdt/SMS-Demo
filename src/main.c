@@ -1,20 +1,11 @@
 // Need to also set the correct REL linking in build.bat for now...
-#include "examples/picture.h"
-// #include "examples/scroller.h"
-// #include "examples/sphere.h"
-// #include "examples/grid.h"
+#include "scenes/picture.h"
+// #include "scenes/scroller.h"
+// #include "scenes/sphere.h"
+// #include "scenes/grid.h"
+#include "engine/core.h"
 #include "libs/SMSlib.h"
-#include "utils.h"
 #include <stdbool.h>
-
-void init_console(void)
-{
-    // SMS_VDPturnOnFeature(VDPFEATURE_EXTRAHEIGHT); // PAL / SMS II only
-    // SMS_VDPturnOnFeature(VDPFEATURE_240LINES);    // PAL / SMS II only
-    SMS_setSpriteMode(SPRITEMODE_NORMAL);  // Set this to the expected format
-    SMS_useFirstHalfTilesforSprites(true); // Are sprite memory reads limited?
-    SMS_displayOn();
-}
 
 void main(void)
 {

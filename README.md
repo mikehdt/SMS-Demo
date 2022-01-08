@@ -14,10 +14,12 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 -   [x] Animate the sprites
 -   [x] Add a second example file
 -   [x] Animate the palette in from black
--   [ ] Have a code/asset as-cross-platform-as-possible build pipeline (on-going)
+-   [ ] Improve the build pipeline
+-   [ ] Investigate making the build pipeline cross-platform (as much as is possible)
 -   [ ] Animate palettes between each other (not just from black)
 -   [ ] Have a scene manager to swap between effects
--   [ ] Put each scene in its own bank, to learn about bank switching
+-   [ ] Have more than one bank, to learn about bank switching
+-   [ ] Add music?
 
 ## Dependencies
 
@@ -45,4 +47,5 @@ I plan to make this better at some stage. I'm just figuring things out for now, 
 -   The [Gotris](https://gitlab.com/1985Alternativo/gotris) project by kusfo has been invaluable for learning. I've shamelessly borrowed some techniques, and am indebted to the knowledge contained therein and its author
 -   The [devkitSMS](https://github.com/sverx/devkitSMS) project by sverx made setting up easy, and it makes getting started with the Sega Master System fast and fun
 -   The [bmp2tile](https://github.com/maxim-zhao/bmp2tile) project by Maxim makes getting assets into a format suitable for the SMS really easy
+-   The [Emulicious](https://emulicious.net/) emulator has fantastic support for SDCC's debug output being bridged across to VScode, making working with the SMS so much easier, and Calindro has been very helpful
 -   My friends bananaboy, sh0ck, null, and cTrix, with whom we made a little SMS demo for the [Syntax Demoparty](https://syntaxparty.org/) this year. The experience making the art for it, even though simple, inspired me to learn about coding for the SMS so we can push the art even _further_... next year?
