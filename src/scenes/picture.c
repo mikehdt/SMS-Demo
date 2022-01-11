@@ -1,5 +1,6 @@
 #include "picture.h"
 #include "../assets2banks.h" // Generated with the assets task
+#include "../engine/core.h"
 #include "../engine/palettes.h"
 #include "../libs/SMSlib.h"
 
@@ -75,4 +76,6 @@ void picture_scene_update(void)
     SMS_setBGScrollX(scroll_x++ >> 3);
 
     animate_sprites();
+
+    wait_for_frame();
 }

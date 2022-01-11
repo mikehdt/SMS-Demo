@@ -2,6 +2,10 @@
 #include "../scenes/default.h"
 #include "../scenes/picture.h"
 #include "core.h"
+#include <stdlib.h>
+
+uint16_t frame_count;
+int8_t current_scene = -1;
 
 typedef void (*ptr_func)(void);
 
@@ -14,37 +18,35 @@ typedef struct
 
 Scenes scenes[MAX_SCENES];
 
-signed char current_scene = 0;
-
-void null_func(void) {}
-
 void init_scenes(void)
 {
     // Default
-    scenes[SCENE_DEFAULT].init = null_func;
     scenes[SCENE_DEFAULT].update = default_scene_update;
-    scenes[SCENE_DEFAULT].end = null_func;
 
     scenes[SCENE_PICTURE].init = picture_scene_init;
     scenes[SCENE_PICTURE].update = picture_scene_update;
-    scenes[SCENE_PICTURE].end = null_func;
 
     // Kick things off
-    scenes[current_scene].init();
+    transition_to_scene(SCENE_DEFAULT);
 }
 
 void update_scene(void)
 {
+    frame_count++;
     scenes[current_scene].update();
-    wait_for_frame();
 }
 
 void transition_to_scene(signed char target_scene)
 {
     if (current_scene != target_scene)
     {
-        scenes[current_scene].end();
+        if (scenes[current_scene].end != NULL)
+            scenes[current_scene].end();
+
         current_scene = target_scene;
-        scenes[current_scene].init();
+        frame_count = 0;
+
+        if (scenes[current_scene].init != NULL)
+            scenes[current_scene].init();
     }
 }
