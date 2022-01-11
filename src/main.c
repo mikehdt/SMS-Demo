@@ -1,28 +1,39 @@
-// Need to also set the correct REL linking in build.bat for now...
-#include "scenes/picture.h"
-// #include "scenes/scroller.h"
-// #include "scenes/sphere.h"
-// #include "scenes/grid.h"
 #include "engine/core.h"
+#include "engine/scenes.h"
 #include "libs/SMSlib.h"
 #include <stdbool.h>
 
 void main(void)
 {
-    // Common initalisation
-    init_console();
-    clear_tilemap(0);
-
-    // Project specific
-    init_sprites();
-    init_background();
+    // The pause and reset buttons are given over to our code to handle however
+    // we see fit. From what I understand, the pause button triggers an
+    // interrupt, but reset is detected via a bitmask of keys currently pressed.
+    uint8_t keys_pressed;
+    static bool global_pause;
 
     while (true)
     {
-        animate_sprites();
-        animate_background();
+        // Common initalisation
+        init_console();
+        init_scenes();
 
-        wait_for_frame();
+        // Loop whilst the reset key is NOT pressed
+        do
+        {
+            // Could move to its own file later on
+            keys_pressed = SMS_getKeysPressed();
+
+            if (SMS_queryPauseRequested())
+            {
+                SMS_resetPauseRequest();
+                global_pause = !global_pause;
+
+                if (global_pause)
+                    continue;
+            }
+
+            update_scene();
+        } while (~(keys_pressed & RESET_KEY));
     }
 }
 

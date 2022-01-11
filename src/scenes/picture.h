@@ -1,10 +1,7 @@
-#ifndef PICTURE_H
-#define PICTURE_H
+#ifndef PICTURE_SCENE_H
+#define PICTURE_SCENE_H
 
-void init_background(void);
-void animate_background(void);
+void picture_scene_init(void);
+void picture_scene_update(void);
 
-void init_sprites(void);
-void animate_sprites(void);
-
-#endif // PICTURE_H
+#endif // PICTURE_SCENE_H

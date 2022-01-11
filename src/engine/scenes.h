@@ -2,5 +2,17 @@
 #define SCENES_H
 
 void init_scenes(void);
+void update_scene(void);
+
+void null_func(void);
+
+void transition_to_scene(signed char target_scene);
+
+enum SCENES
+{
+    SCENE_DEFAULT = 0,
+    SCENE_PICTURE,
+    MAX_SCENES // This creates a counter for us, as long as it remains last :)
+};
 
 #endif // SCENES_H

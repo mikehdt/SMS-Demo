@@ -17,24 +17,6 @@ struct sphere
 
 struct sphere spheres[NUM_SPHERES];
 
-void init_background(void)
-{
-    SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
-
-    palette_set_black(PALETTE_BACKGROUND);
-    SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
-    SMS_loadSTMcompressedTileMap(0, 0, palms_tilemap_stmcompr);
-    fade_to_palette(palms_palette_bin, 16, 8);
-    // fade_from_black(palms_palette_bin);
-
-    scroll_x = 0;
-}
-
-void animate_background(void)
-{
-    SMS_setBGScrollX(scroll_x++ >> 3);
-}
-
 void init_sprites(void)
 {
     int i = 0;
@@ -71,4 +53,26 @@ void animate_sprites(void)
         if (scroll_x % 4 == 0 && --spheres[i].sphere_tile < 0)
             spheres[i].sphere_tile = SPHERE_TILES;
     }
+}
+
+void picture_scene_init(void)
+{
+    SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
+
+    palette_set_black(PALETTE_BACKGROUND);
+    SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
+    SMS_loadSTMcompressedTileMap(0, 0, palms_tilemap_stmcompr);
+    fade_to_palette(palms_palette_bin, 16, 6);
+    // fade_from_black(palms_palette_bin);
+
+    scroll_x = 0;
+
+    init_sprites();
+}
+
+void picture_scene_update(void)
+{
+    SMS_setBGScrollX(scroll_x++ >> 3);
+
+    animate_sprites();
 }

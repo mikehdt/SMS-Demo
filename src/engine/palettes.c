@@ -39,6 +39,7 @@ unsigned char fade_to_color(unsigned char temporal_color, unsigned char target_c
 // To consider: palette offset / total change, instead of always being 0.
 void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, uint8_t frame_delay)
 {
+    // Eventually, decouple this from blocking with wait_for_frame() calls
     uint8_t i, j;
     unsigned char temporal_palette[16];
 
