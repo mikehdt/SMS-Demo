@@ -1,7 +1,6 @@
 #include "scenes.h"
 #include "../scenes/default.h"
 #include "../scenes/picture.h"
-#include "core.h"
 #include <stdlib.h>
 
 uint16_t frame_count;
@@ -36,7 +35,7 @@ void update_scene(void)
     scenes[current_scene].update();
 }
 
-void transition_to_scene(signed char target_scene)
+void transition_to_scene(int8_t target_scene)
 {
     if (current_scene != target_scene)
     {

@@ -9,7 +9,7 @@ void update_scene(void);
 
 void null_func(void);
 
-void transition_to_scene(signed char target_scene);
+void transition_to_scene(int8_t target_scene);
 
 enum SCENES
 {
