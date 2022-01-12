@@ -1,10 +1,13 @@
 #include "scenes.h"
+#include "../libs/SMSlib.h"
 #include "../scenes/default.h"
 #include "../scenes/picture.h"
+#include "../scenes/sphere.h"
 #include <stdlib.h>
 
 uint16_t frame_count;
 int8_t current_scene = -1;
+unsigned int keys_released;
 
 typedef void (*ptr_func)(void);
 
@@ -24,6 +27,11 @@ void init_scenes(void)
 
     scenes[SCENE_PICTURE].init = picture_scene_init;
     scenes[SCENE_PICTURE].update = picture_scene_update;
+    scenes[SCENE_PICTURE].end = picture_scene_end;
+
+    scenes[SCENE_SPHERE].init = sphere_scene_init;
+    scenes[SCENE_SPHERE].update = sphere_scene_update;
+    scenes[SCENE_SPHERE].end = sphere_scene_end;
 
     // Kick things off
     transition_to_scene(SCENE_DEFAULT);
@@ -31,6 +39,17 @@ void init_scenes(void)
 
 void update_scene(void)
 {
+    keys_released = SMS_getKeysReleased();
+    if (keys_released & PORT_A_KEY_1)
+    {
+        if (current_scene == SCENE_PICTURE)
+            transition_to_scene(SCENE_SPHERE);
+        else
+            transition_to_scene(SCENE_PICTURE);
+
+        return;
+    }
+
     frame_count++;
     scenes[current_scene].update();
 }

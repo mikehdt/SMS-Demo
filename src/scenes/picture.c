@@ -18,7 +18,7 @@ struct sphere
 
 struct sphere spheres[NUM_SPHERES];
 
-void init_sprites(void)
+void init_spheres(void)
 {
     int i = 0;
 
@@ -38,7 +38,7 @@ void init_sprites(void)
     }
 }
 
-void animate_sprites(void)
+void animate_spheres(void)
 {
     unsigned int i;
 
@@ -59,6 +59,7 @@ void animate_sprites(void)
 void picture_scene_init(void)
 {
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
+    SMS_setBGScrollX(0);
 
     palette_set_black(PALETTE_BACKGROUND);
     SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
@@ -68,14 +69,14 @@ void picture_scene_init(void)
 
     scroll_x = 0;
 
-    init_sprites();
+    init_spheres();
 }
 
 void picture_scene_update(void)
 {
     SMS_setBGScrollX(scroll_x++ >> 3);
 
-    animate_sprites();
+    animate_spheres();
 
     wait_for_frame();
 }
@@ -84,7 +85,9 @@ void picture_scene_end(void)
 {
     uint8_t palette_black[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
+    SMS_initSprites();
     fade_to_palette(palette_black, 16, 6);
 
+    SMS_setBGScrollX(0);
     SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
 }

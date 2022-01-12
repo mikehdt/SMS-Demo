@@ -92,7 +92,7 @@ int last_subset_ptr = -1;
 
 void init_background(void)
 {
-    int bg_tile = 121 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
+    unsigned int bg_tile = 121 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
 
     // Background
     SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 121);
@@ -101,7 +101,6 @@ void init_background(void)
     clear_tilemap(bg_tile);
 
     // Sphere
-    SMS_loadBGPalette(sphere_palette_bin);
     SMS_loadPSGaidencompressedTiles(sphere_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(10, 5, sphere_tilemap_stmcompr);
 
@@ -131,7 +130,6 @@ void init_background(void)
 void init_sprites(void)
 {
     // Clipping sprites
-    SMS_setSpriteMode(SPRITEMODE_ZOOMED);
     SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 122);
 
     // Clipping sprites
@@ -161,6 +159,9 @@ void init_sprites(void)
 
 void sphere_scene_init(void)
 {
+    SMS_initSprites();
+    SMS_setSpriteMode(SPRITEMODE_ZOOMED);
+
     init_background();
     init_sprites();
 }
@@ -177,6 +178,9 @@ void sphere_scene_update(void)
         cur_pal = 0;
     }
 
+    // Waiting first may be undesirable... to check further
+    wait_for_frame();
+
     if (last_subset_ptr == subset_ptr)
         return; // Don't update the palette, it hasn't changed
     else
@@ -188,4 +192,10 @@ void sphere_scene_update(void)
     }
 
     SMS_loadBGPalette(temporal_palette);
+}
+
+void sphere_scene_end(void)
+{
+    SMS_initSprites();
+    SMS_setSpriteMode(SPRITEMODE_NORMAL);
 }

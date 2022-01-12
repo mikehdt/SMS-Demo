@@ -21,6 +21,7 @@
         "palettes.h": "c",
         "blank.h": "c",
         "default.h": "c",
-        "scenes.h": "c"
+        "scenes.h": "c",
+        "core.h": "c"
     }
 }

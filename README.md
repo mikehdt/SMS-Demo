@@ -14,10 +14,10 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 -   [x] Animate the sprites
 -   [x] Add a second example file
 -   [x] Animate the palette in from black
+-   [x] Have a scene manager to swap between effects
 -   [ ] Improve the build pipeline
 -   [ ] Investigate making the build pipeline cross-platform (as much as is possible)
 -   [ ] Animate palettes between each other (not just from black)
--   [ ] Have a scene manager to swap between effects
 -   [ ] Have more than one bank, to learn about bank switching
 -   [ ] Add music?
 

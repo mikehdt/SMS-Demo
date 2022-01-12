@@ -82,8 +82,13 @@ void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, ui
         for (j = 0; j < frame_delay; j++)
             wait_for_frame();
     }
+
+    // Copy the palette across
+    for (i = 0; i < num_colors; i++)
+        background_palette[i] = temporal_palette[i];
 }
 
+// An alternative take... doesn't do between palettes yet
 void fade_from_black(unsigned char *target_palette)
 {
     uint8_t i, j, frame_delay = 4, num_steps = 16;
@@ -92,10 +97,12 @@ void fade_from_black(unsigned char *target_palette)
 
     for (i = 0; i < num_steps; i++)
     {
+        // There's no hardware fp on the Z80, so raise by 256 to shift decimals
         progress_ratio = (i * 256) / (num_steps - 1);
 
         for (j = 0; j < 16; j++)
         {
+            // Add 128 to make the "rounding" a little bit nicer, imho
             r = (getRFromRGB(target_palette[j]) * progress_ratio + 128) / 256;
             g = (getGFromRGB(target_palette[j]) * progress_ratio + 128) / 256;
             b = (getBFromRGB(target_palette[j]) * progress_ratio + 128) / 256;

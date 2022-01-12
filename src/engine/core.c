@@ -19,7 +19,7 @@ void wait_for_frame(void)
     SMS_copySpritestoSAT(); // Update any sprite shenanigans
 }
 
-void clear_tilemap(uint8_t tile)
+void clear_tilemap(unsigned int tile) // Must be an int, not a uint_8t or such
 {
     // From sverx, a more efficient method
     SMS_VRAMmemsetW(XYtoADDR(0, 0), tile, SCREEN_ROWS * SCREEN_COLUMNS * 2);
