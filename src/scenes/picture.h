@@ -3,5 +3,6 @@
 
 void picture_scene_init(void);
 void picture_scene_update(void);
+void picture_scene_end(void);
 
 #endif // PICTURE_SCENE_H

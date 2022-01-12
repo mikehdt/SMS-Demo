@@ -50,7 +50,7 @@ void animate_sprites(void)
         if (++spheres[i].x > 256)
             spheres[i].x = 0;
         if (++spheres[i].y > 192)
-            spheres[i].y = 0;
+            spheres[i].y = -8; // hmm...
         if (scroll_x % 4 == 0 && --spheres[i].sphere_tile < 0)
             spheres[i].sphere_tile = SPHERE_TILES;
     }
@@ -78,4 +78,13 @@ void picture_scene_update(void)
     animate_sprites();
 
     wait_for_frame();
+}
+
+void picture_scene_end(void)
+{
+    uint8_t palette_black[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+    fade_to_palette(palette_black, 16, 6);
+
+    SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
 }

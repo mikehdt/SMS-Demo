@@ -128,31 +128,6 @@ void init_background(void)
     SMS_setTileatXY(21, 16, bg_tile);
 }
 
-void animate_background(void)
-{
-    unsigned char temporal_palette[16];
-    unsigned char i;
-
-    int subset_ptr = cur_pal >> 3;
-
-    if (++cur_pal >= 16 * 8)
-    {
-        cur_pal = 0;
-    }
-
-    if (last_subset_ptr == subset_ptr)
-        return; // Don't update the palette, it hasn't changed
-    else
-        last_subset_ptr = subset_ptr;
-
-    for (i = 0; i < 16; i++)
-    {
-        temporal_palette[i] = sphere_palette[(subset_ptr * 16) + i];
-    }
-
-    SMS_loadBGPalette(temporal_palette);
-}
-
 void init_sprites(void)
 {
     // Clipping sprites
@@ -184,6 +159,33 @@ void init_sprites(void)
     SMS_addSprite(18 * 8, 15 * 8, 138);
 }
 
-void animate_sprites(void)
+void sphere_scene_init(void)
 {
+    init_background();
+    init_sprites();
+}
+
+void sphere_scene_update(void)
+{
+    unsigned char temporal_palette[16];
+    unsigned char i;
+
+    int subset_ptr = cur_pal >> 3;
+
+    if (++cur_pal >= 16 * 8)
+    {
+        cur_pal = 0;
+    }
+
+    if (last_subset_ptr == subset_ptr)
+        return; // Don't update the palette, it hasn't changed
+    else
+        last_subset_ptr = subset_ptr;
+
+    for (i = 0; i < 16; i++)
+    {
+        temporal_palette[i] = sphere_palette[(subset_ptr * 16) + i];
+    }
+
+    SMS_loadBGPalette(temporal_palette);
 }
