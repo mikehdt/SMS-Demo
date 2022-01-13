@@ -61,7 +61,7 @@ void picture_scene_init(void)
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
     SMS_setBGScrollX(0);
 
-    palette_set(PALETTE_BACKGROUND);
+    set_palette(palette_black, PALETTE_BACKGROUND);
     SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, palms_tilemap_stmcompr);
     fade_to_palette(palms_palette_bin, true);
@@ -83,8 +83,6 @@ void picture_scene_update(void)
 
 void picture_scene_end(void)
 {
-    uint8_t palette_black[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
     SMS_initSprites();
     fade_to_palette(palette_black, false);
 
