@@ -2,14 +2,39 @@
 #include "../libs/SMSlib.h"
 #include "core.h"
 
-unsigned char background_palette[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+unsigned char background_palette[16] = {
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00};
 
-#define COLOR_R 0
-#define COLOR_G 1
-#define COLOR_B 2
+const unsigned char palette_black[16] = {
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00};
 
-unsigned char fade_fragment(unsigned char current_color, unsigned char target_color)
+const unsigned char palette_white[16] = {
+    0x3f, 0x3f, 0x3f, 0x3f,
+    0x3f, 0x3f, 0x3f, 0x3f,
+    0x3f, 0x3f, 0x3f, 0x3f,
+    0x3f, 0x3f, 0x3f, 0x3f};
+
+enum COLOR_COMPONENTS
 {
+    COLOR_R,
+    COLOR_G,
+    COLOR_B
+};
+
+unsigned char
+fade_fragment(unsigned char current_color, unsigned char target_color)
+{
+    // Thought... so this flattens colours from immediate, rather than from end.
+    // I wonder if there's a way to determine if say, the colour channel is a 1,
+    // the target is 0 but it's only the first loop, don't flatten it until it
+    // hits the third time?
+    // Perhaps have a bitwise counter, which is reset on iteration 0?
     if (current_color > target_color)
         return current_color - 1;
     else if (current_color < target_color)
@@ -21,15 +46,24 @@ unsigned char fade_to_color(unsigned char temporal_color, unsigned char target_c
 {
     unsigned char r, g, b;
 
-    r = color_type == COLOR_R
-            ? fade_fragment(getRFromRGB(temporal_color), getRFromRGB(target_color))
-            : getRFromRGB(temporal_color);
-    g = color_type == COLOR_G
-            ? fade_fragment(getGFromRGB(temporal_color), getGFromRGB(target_color))
-            : getGFromRGB(temporal_color);
-    b = color_type == COLOR_B
-            ? fade_fragment(getBFromRGB(temporal_color), getBFromRGB(target_color))
-            : getBFromRGB(temporal_color);
+    r = getRFromRGB(temporal_color);
+    g = getGFromRGB(temporal_color);
+    b = getBFromRGB(temporal_color);
+
+    switch (color_type)
+    {
+        case COLOR_R:
+            r = fade_fragment(r, getRFromRGB(target_color));
+            break;
+
+        case COLOR_G:
+            g = fade_fragment(g, getGFromRGB(target_color));
+            break;
+
+        case COLOR_B:
+            b = fade_fragment(b, getBFromRGB(target_color));
+            break;
+    }
 
     return RGB(r, g, b);
 }
@@ -40,6 +74,7 @@ void fade_to_color_loop(unsigned char *temporal_palette, unsigned char *target_p
         temporal_palette[i] = fade_to_color(temporal_palette[i], target_palette[i], color_type);
 }
 
+// Temp, works for now -- make better later
 unsigned char color_array_in[9] = {
     COLOR_B, COLOR_B, COLOR_R,
     COLOR_B, COLOR_R, COLOR_G,
@@ -58,6 +93,7 @@ void fade_to_palette(unsigned char *target_palette, bool is_in)
     unsigned char temporal_palette[16];
     unsigned char *color_array;
 
+    // temp hack
     if (is_in)
         color_array = color_array_in;
     else
@@ -66,7 +102,6 @@ void fade_to_palette(unsigned char *target_palette, bool is_in)
     memcpy(temporal_palette, background_palette, sizeof(temporal_palette));
 
     for (i = 0; i < 9; i++)
-
     {
         switch (color_array[i])
         {
