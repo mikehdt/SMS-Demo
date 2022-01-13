@@ -22,6 +22,7 @@
         "blank.h": "c",
         "default.h": "c",
         "scenes.h": "c",
-        "core.h": "c"
+        "core.h": "c",
+        "string.h": "c"
     }
 }

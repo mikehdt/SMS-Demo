@@ -1,7 +1,10 @@
 #ifndef PALETTES_H
 #define PALETTES_H
 
+#include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define PALETTE_BOTH 0
 #define PALETTE_BACKGROUND 1
@@ -14,9 +17,20 @@
 #define getGFromRGB(color) ((color >> 2) & 0b11)
 #define getBFromRGB(color) ((color >> 4) & 0b11)
 
-void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, unsigned char frame_delay);
+uint8_t palette_black[16] = {
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00};
+
+uint8_t palette_white[16] = {
+    0x3f, 0x3f, 0x3f, 0x3f,
+    0x3f, 0x3f, 0x3f, 0x3f,
+    0x3f, 0x3f, 0x3f, 0x3f,
+    0x3f, 0x3f, 0x3f, 0x3f};
+
+void fade_to_palette(unsigned char *target_palette, bool is_in);
 void fade_from_black(unsigned char *target_palette);
-void palette_set_white(uint8_t paletteType);
-void palette_set_black(uint8_t paletteType);
+void set_palette(unsigned char *palette, uint8_t palette_type);
 
 #endif // PALETTES_H

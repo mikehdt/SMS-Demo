@@ -61,10 +61,10 @@ void picture_scene_init(void)
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
     SMS_setBGScrollX(0);
 
-    palette_set_black(PALETTE_BACKGROUND);
+    palette_set(PALETTE_BACKGROUND);
     SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, palms_tilemap_stmcompr);
-    fade_to_palette(palms_palette_bin, 16, 6);
+    fade_to_palette(palms_palette_bin, true);
     // fade_from_black(palms_palette_bin);
 
     scroll_x = 0;
@@ -86,7 +86,7 @@ void picture_scene_end(void)
     uint8_t palette_black[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
     SMS_initSprites();
-    fade_to_palette(palette_black, 16, 6);
+    fade_to_palette(palette_black, false);
 
     SMS_setBGScrollX(0);
     SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling

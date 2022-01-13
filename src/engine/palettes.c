@@ -1,8 +1,6 @@
 #include "palettes.h"
 #include "../libs/SMSlib.h"
 #include "core.h"
-#include <stdlib.h>
-#include <string.h>
 
 unsigned char background_palette[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
@@ -19,93 +17,101 @@ unsigned char fade_fragment(unsigned char current_color, unsigned char target_co
     return current_color;
 }
 
-unsigned char fade_to_color(unsigned char temporal_color, unsigned char target_color, int subject_color)
+unsigned char fade_to_color(unsigned char temporal_color, unsigned char target_color, int color_type)
 {
     unsigned char r, g, b;
 
-    r = subject_color == COLOR_R
+    r = color_type == COLOR_R
             ? fade_fragment(getRFromRGB(temporal_color), getRFromRGB(target_color))
             : getRFromRGB(temporal_color);
-    g = subject_color == COLOR_G
+    g = color_type == COLOR_G
             ? fade_fragment(getGFromRGB(temporal_color), getGFromRGB(target_color))
             : getGFromRGB(temporal_color);
-    b = subject_color == COLOR_B
+    b = color_type == COLOR_B
             ? fade_fragment(getBFromRGB(temporal_color), getBFromRGB(target_color))
             : getBFromRGB(temporal_color);
 
     return RGB(r, g, b);
 }
 
+void fade_to_color_loop(unsigned char *temporal_palette, unsigned char *target_palette, uint8_t color_type)
+{
+    for (uint8_t i = 0; i < 16; i++)
+        temporal_palette[i] = fade_to_color(temporal_palette[i], target_palette[i], color_type);
+}
+
+unsigned char color_array_in[9] = {
+    COLOR_B, COLOR_B, COLOR_R,
+    COLOR_B, COLOR_R, COLOR_G,
+    COLOR_R, COLOR_G, COLOR_G};
+unsigned char color_array_out[9] = {
+    COLOR_G, COLOR_G, COLOR_R,
+    COLOR_G, COLOR_R, COLOR_B,
+    COLOR_R, COLOR_B, COLOR_B};
+
 // To consider: palette offset / total change, instead of always being 0.
-void fade_to_palette(unsigned char *target_palette, unsigned char num_colors, uint8_t frame_delay)
+void fade_to_palette(unsigned char *target_palette, bool is_in)
 {
     // Eventually, decouple this from blocking with wait_for_frame() calls
     uint8_t i, j;
-    unsigned char temporal_palette[16];
 
-    // for (i = 0; i < num_colors; i++)
-    //     temporal_palette[i] = background_palette[i];
+    unsigned char temporal_palette[16];
+    unsigned char *color_array;
+
+    if (is_in)
+        color_array = color_array_in;
+    else
+        color_array = color_array_out;
+
     memcpy(temporal_palette, background_palette, sizeof(temporal_palette));
 
-    // Blue
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 9; i++)
+
     {
-        for (j = 0; j < num_colors; j++)
-            temporal_palette[j] = fade_to_color(temporal_palette[j], target_palette[j], COLOR_B);
+        switch (color_array[i])
+        {
+            case COLOR_R:
+                fade_to_color_loop(temporal_palette, target_palette, COLOR_R);
+                break;
+
+            case COLOR_G:
+                fade_to_color_loop(temporal_palette, target_palette, COLOR_G);
+                break;
+
+            case COLOR_B:
+                fade_to_color_loop(temporal_palette, target_palette, COLOR_B);
+                break;
+        }
 
         SMS_loadBGPalette(temporal_palette);
 
-        for (j = 0; j < frame_delay; j++)
+        for (j = 0; j < 6; j++)
             wait_for_frame();
     }
 
-    // Red
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < num_colors; j++)
-            temporal_palette[j] = fade_to_color(temporal_palette[j], target_palette[j], COLOR_R);
-
-        SMS_loadBGPalette(temporal_palette);
-
-        for (j = 0; j < frame_delay; j++)
-            wait_for_frame();
-    }
-
-    // Green
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < num_colors; j++)
-            temporal_palette[j] = fade_to_color(temporal_palette[j], target_palette[j], COLOR_G);
-
-        SMS_loadBGPalette(temporal_palette);
-
-        for (j = 0; j < frame_delay; j++)
-            wait_for_frame();
-    }
-
-    // Copy the palette across
-    for (i = 0; i < num_colors; i++)
-        background_palette[i] = temporal_palette[i];
+    // Copy the palette across to the background
+    memcpy(background_palette, temporal_palette, sizeof(background_palette));
 }
 
 // An alternative take... doesn't do between palettes yet
 void fade_from_black(unsigned char *target_palette)
 {
-    uint8_t i, j, frame_delay = 4, num_steps = 16;
+    uint8_t i, j, frame_delay = 4;
     uint16_t progress_ratio, r, g, b;
     unsigned char temporal_palette[16];
 
-    for (i = 0; i < num_steps; i++)
+    for (i = 0; i < 16; i++)
     {
-        // There's no hardware fp on the Z80, so raise by 256 to shift decimals
-        progress_ratio = (i * 256) / (num_steps - 1);
+        // There's no hardware fp on the Z80, so raise by 256 (left shift by
+        // eight bits) to temporarily consider "decimals"
+        progress_ratio = (i << 8) / (16 - 1);
 
         for (j = 0; j < 16; j++)
         {
             // Add 128 to make the "rounding" a little bit nicer, imho
-            r = (getRFromRGB(target_palette[j]) * progress_ratio + 128) / 256;
-            g = (getGFromRGB(target_palette[j]) * progress_ratio + 128) / 256;
-            b = (getBFromRGB(target_palette[j]) * progress_ratio + 128) / 256;
+            r = (getRFromRGB(target_palette[j]) * progress_ratio + 128) >> 8;
+            g = (getGFromRGB(target_palette[j]) * progress_ratio + 128) >> 8;
+            b = (getBFromRGB(target_palette[j]) * progress_ratio + 128) >> 8;
 
             temporal_palette[j] = RGB(r, g, b);
         }
@@ -117,25 +123,11 @@ void fade_from_black(unsigned char *target_palette)
     }
 }
 
-void palette_set(const void *palette, uint8_t paletteType)
+void set_palette(unsigned char *palette, uint8_t palette_type)
 {
-    // Background palette
-    if (paletteType == PALETTE_BOTH || paletteType == PALETTE_BACKGROUND)
+    if (palette_type == PALETTE_BACKGROUND || palette_type == PALETTE_BOTH)
         SMS_loadBGPalette(palette);
 
-    // Sprite palette
-    if (paletteType == PALETTE_BOTH || paletteType == PALETTE_SPRITE)
+    if (palette_type == PALETTE_SPRITE || palette_type == PALETTE_BOTH)
         SMS_loadSpritePalette(palette);
-}
-
-void palette_set_white(uint8_t paletteType)
-{
-    uint8_t palette_white[16] = {0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f, 0x3f};
-    palette_set(palette_white, paletteType);
-}
-
-void palette_set_black(uint8_t paletteType)
-{
-    uint8_t palette_black[16] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    palette_set(palette_black, paletteType);
 }
