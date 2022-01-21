@@ -23,6 +23,7 @@
         "default.h": "c",
         "scenes.h": "c",
         "core.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "sineline.h": "c"
     }
 }

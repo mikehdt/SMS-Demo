@@ -16,6 +16,12 @@ extern const unsigned char	sunset_tilemap_stmcompr[447];
 extern const unsigned char	sunset_palette_bin[16];
 #define				sunset_palette_bin_size 16
 #define				sunset_palette_bin_bank 2
+extern const unsigned char	small_sine_tiles_psgcompr[544];
+#define				small_sine_tiles_psgcompr_size 544
+#define				small_sine_tiles_psgcompr_bank 2
+extern const unsigned char	small_sine_palette_bin[8];
+#define				small_sine_palette_bin_size 8
+#define				small_sine_palette_bin_bank 2
 extern const unsigned char	sphere_tiles_psgcompr[1981];
 #define				sphere_tiles_psgcompr_size 1981
 #define				sphere_tiles_psgcompr_bank 2
@@ -97,6 +103,9 @@ extern const unsigned char	blank_tiles_psgcompr[3];
 extern const unsigned char	sphere_clip_tiles_psgcompr[155];
 #define				sphere_clip_tiles_psgcompr_size 155
 #define				sphere_clip_tiles_psgcompr_bank 2
+extern const unsigned char	small_sine_tilemap_stmcompr[46];
+#define				small_sine_tilemap_stmcompr_size 46
+#define				small_sine_tilemap_stmcompr_bank 2
 extern const unsigned char	sphere_palette_bin[16];
 #define				sphere_palette_bin_size 16
 #define				sphere_palette_bin_bank 2

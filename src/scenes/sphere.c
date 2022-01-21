@@ -159,11 +159,15 @@ void init_sprites(void)
 
 void sphere_scene_init(void)
 {
+    SMS_displayOff();
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_ZOOMED);
 
     init_background();
     init_sprites();
+    wait_for_frame();
+
+    SMS_displayOn();
 }
 
 void sphere_scene_update(void)
@@ -196,6 +200,10 @@ void sphere_scene_update(void)
 
 void sphere_scene_end(void)
 {
+    set_palette(palette_black, PALETTE_BOTH);
+
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_NORMAL);
+
+    clear_tilemap(0);
 }

@@ -14,6 +14,7 @@ enum SCENES
 {
     SCENE_DEFAULT = 0,
     SCENE_PICTURE,
+    SCENE_SINELINE,
     SCENE_SPHERE,
     MAX_SCENES // This creates a counter for us, as long as it remains last :)
 };

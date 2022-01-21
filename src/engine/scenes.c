@@ -1,7 +1,9 @@
 #include "scenes.h"
 #include "../libs/SMSlib.h"
 #include "../scenes/default.h"
+#include "../scenes/grid.h"
 #include "../scenes/picture.h"
+#include "../scenes/sineline.h"
 #include "../scenes/sphere.h"
 #include <stdlib.h>
 
@@ -33,6 +35,10 @@ void init_scenes(void)
     scenes[SCENE_SPHERE].update = sphere_scene_update;
     scenes[SCENE_SPHERE].end = sphere_scene_end;
 
+    scenes[SCENE_SINELINE].init = sineline_scene_init;
+    scenes[SCENE_SINELINE].update = sineline_scene_update;
+    scenes[SCENE_SINELINE].end = sineline_scene_end;
+
     // Kick things off
     transition_to_scene(SCENE_DEFAULT);
 }
@@ -44,7 +50,9 @@ void update_scene(void)
     {
         if (current_scene == SCENE_PICTURE)
             transition_to_scene(SCENE_SPHERE);
-        else
+        else if (current_scene == SCENE_SPHERE)
+            transition_to_scene(SCENE_SINELINE);
+        else if (current_scene == SCENE_SINELINE)
             transition_to_scene(SCENE_PICTURE);
 
         return;

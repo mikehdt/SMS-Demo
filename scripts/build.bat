@@ -10,12 +10,13 @@ echo *** SDCC compiling ***
 :: `--std-sdcc11` enables SDCC's extensions to C11, eg native 0b binary literals
 for %%f in (..\src\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" -DPAL_MACHINE %DEBUG%
 for %%f in (..\src\engine\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\helpers\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" -DPAL_MACHINE %DEBUG%
 for %%f in (..\src\scenes\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" -DPAL_MACHINE %DEBUG%
 echo *** SDCC compiling complete ***
 
 :: Link
 echo *** SDCC linking ***
-sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x8000 smslib/crt0_sms.rel bank2.rel main.rel   core.rel palettes.rel scenes.rel   default.rel picture.rel sphere.rel   SMSlib.lib %DEBUG%
+sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x8000 smslib/crt0_sms.rel bank2.rel main.rel   core.rel palettes.rel scenes.rel  sintab.rel   default.rel picture.rel sphere.rel sineline.rel   SMSlib.lib %DEBUG%
 echo *** SDCC linking complete ***
 
 :: Execute
