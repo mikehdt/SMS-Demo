@@ -24,6 +24,7 @@
         "scenes.h": "c",
         "core.h": "c",
         "string.h": "c",
-        "sineline.h": "c"
+        "sineline.h": "c",
+        "math.h": "c"
     }
 }
