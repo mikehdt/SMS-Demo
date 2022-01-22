@@ -28,72 +28,33 @@ extern const unsigned char	sphere_tiles_psgcompr[1981];
 extern const unsigned char	sphere_tilemap_stmcompr[34];
 #define				sphere_tilemap_stmcompr_size 34
 #define				sphere_tilemap_stmcompr_bank 2
-extern const unsigned char	grid_tiles_psgcompr[94];
-#define				grid_tiles_psgcompr_size 94
-#define				grid_tiles_psgcompr_bank 2
-extern const unsigned char	grid_tilemap_stmcompr[4];
-#define				grid_tilemap_stmcompr_size 4
-#define				grid_tilemap_stmcompr_bank 2
-extern const unsigned char	grid_palette_bin[10];
-#define				grid_palette_bin_size 10
-#define				grid_palette_bin_bank 2
-extern const unsigned char	mesh_01_tiles_psgcompr[77];
-#define				mesh_01_tiles_psgcompr_size 77
+extern const unsigned char	mesh_01_tiles_psgcompr[13];
+#define				mesh_01_tiles_psgcompr_size 13
 #define				mesh_01_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_01_tilemap_stmcompr[56];
-#define				mesh_01_tilemap_stmcompr_size 56
+extern const unsigned char	mesh_01_tilemap_stmcompr[26];
+#define				mesh_01_tilemap_stmcompr_size 26
 #define				mesh_01_tilemap_stmcompr_bank 2
 extern const unsigned char	mesh_01_palette_bin[4];
 #define				mesh_01_palette_bin_size 4
 #define				mesh_01_palette_bin_bank 2
-extern const unsigned char	mesh_02_tiles_psgcompr[637];
-#define				mesh_02_tiles_psgcompr_size 637
+extern const unsigned char	mesh_02_tiles_psgcompr[141];
+#define				mesh_02_tiles_psgcompr_size 141
 #define				mesh_02_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_02_tilemap_stmcompr[73];
-#define				mesh_02_tilemap_stmcompr_size 73
+extern const unsigned char	mesh_02_tilemap_stmcompr[758];
+#define				mesh_02_tilemap_stmcompr_size 758
 #define				mesh_02_tilemap_stmcompr_bank 2
-extern const unsigned char	mesh_03_tiles_psgcompr[360];
-#define				mesh_03_tiles_psgcompr_size 360
+extern const unsigned char	mesh_03_tiles_psgcompr[547];
+#define				mesh_03_tiles_psgcompr_size 547
 #define				mesh_03_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_03_tilemap_stmcompr[124];
-#define				mesh_03_tilemap_stmcompr_size 124
+extern const unsigned char	mesh_03_tilemap_stmcompr[507];
+#define				mesh_03_tilemap_stmcompr_size 507
 #define				mesh_03_tilemap_stmcompr_bank 2
-extern const unsigned char	mesh_04_tiles_psgcompr[761];
-#define				mesh_04_tiles_psgcompr_size 761
+extern const unsigned char	mesh_04_tiles_psgcompr[113];
+#define				mesh_04_tiles_psgcompr_size 113
 #define				mesh_04_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_04_tilemap_stmcompr[107];
-#define				mesh_04_tilemap_stmcompr_size 107
+extern const unsigned char	mesh_04_tilemap_stmcompr[1479];
+#define				mesh_04_tilemap_stmcompr_size 1479
 #define				mesh_04_tilemap_stmcompr_bank 2
-extern const unsigned char	mesh_05_tiles_psgcompr[197];
-#define				mesh_05_tiles_psgcompr_size 197
-#define				mesh_05_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_05_tilemap_stmcompr[211];
-#define				mesh_05_tilemap_stmcompr_size 211
-#define				mesh_05_tilemap_stmcompr_bank 2
-extern const unsigned char	mesh_06_tiles_psgcompr[1361];
-#define				mesh_06_tiles_psgcompr_size 1361
-#define				mesh_06_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_06_tilemap_stmcompr[62];
-#define				mesh_06_tilemap_stmcompr_size 62
-#define				mesh_06_tilemap_stmcompr_bank 2
-extern const unsigned char	mesh_07_tiles_psgcompr[433];
-#define				mesh_07_tiles_psgcompr_size 433
-#define				mesh_07_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_07_tilemap_stmcompr[183];
-#define				mesh_07_tilemap_stmcompr_size 183
-#define				mesh_07_tilemap_stmcompr_bank 2
-extern const unsigned char	mesh_08_tiles_psgcompr[1002];
-#define				mesh_08_tiles_psgcompr_size 1002
-#define				mesh_08_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_08_tilemap_stmcompr[169];
-#define				mesh_08_tilemap_stmcompr_size 169
-#define				mesh_08_tilemap_stmcompr_bank 2
-extern const unsigned char	mesh_09_tiles_psgcompr[88];
-#define				mesh_09_tiles_psgcompr_size 88
-#define				mesh_09_tiles_psgcompr_bank 2
-extern const unsigned char	mesh_09_tilemap_stmcompr[298];
-#define				mesh_09_tilemap_stmcompr_size 298
-#define				mesh_09_tilemap_stmcompr_bank 2
 extern const unsigned char	spheres_tiles_psgcompr[151];
 #define				spheres_tiles_psgcompr_size 151
 #define				spheres_tiles_psgcompr_bank 2
@@ -127,18 +88,3 @@ extern const unsigned char	mesh_03_palette_bin[4];
 extern const unsigned char	mesh_04_palette_bin[4];
 #define				mesh_04_palette_bin_size 4
 #define				mesh_04_palette_bin_bank 2
-extern const unsigned char	mesh_05_palette_bin[4];
-#define				mesh_05_palette_bin_size 4
-#define				mesh_05_palette_bin_bank 2
-extern const unsigned char	mesh_06_palette_bin[4];
-#define				mesh_06_palette_bin_size 4
-#define				mesh_06_palette_bin_bank 2
-extern const unsigned char	mesh_07_palette_bin[4];
-#define				mesh_07_palette_bin_size 4
-#define				mesh_07_palette_bin_bank 2
-extern const unsigned char	mesh_08_palette_bin[4];
-#define				mesh_08_palette_bin_size 4
-#define				mesh_08_palette_bin_bank 2
-extern const unsigned char	mesh_09_palette_bin[4];
-#define				mesh_09_palette_bin_size 4
-#define				mesh_09_palette_bin_bank 2

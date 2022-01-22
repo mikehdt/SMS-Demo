@@ -1,10 +1,7 @@
-#ifndef GRID_H
-#define GRID_H
+#ifndef GRID_SCENE_H
+#define GRID_SCENE_H
 
-void init_background(void);
-void animate_background(void);
+void grid_scene_init(void);
+void grid_scene_update(void);
 
-void init_sprites(void);
-void animate_sprites(void);
-
-#endif // GRID_H
+#endif

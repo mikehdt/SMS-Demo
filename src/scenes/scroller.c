@@ -64,11 +64,3 @@ void animate_background(void)
 
     lineCnt = 0;
 }
-
-void init_sprites(void)
-{
-}
-
-void animate_sprites(void)
-{
-}

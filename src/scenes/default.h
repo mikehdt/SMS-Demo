@@ -3,4 +3,4 @@
 
 void default_scene_update(void);
 
-#endif // DEFAULT_SCENE_H
+#endif

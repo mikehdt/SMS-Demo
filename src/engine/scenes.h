@@ -13,6 +13,7 @@ void transition_to_scene(int8_t target_scene);
 enum SCENES
 {
     SCENE_DEFAULT = 0,
+    SCENE_GRID,
     SCENE_PICTURE,
     SCENE_SINELINE,
     SCENE_SPHERE,

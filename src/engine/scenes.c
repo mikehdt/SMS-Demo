@@ -27,17 +27,20 @@ void init_scenes(void)
     // Default
     scenes[SCENE_DEFAULT].update = default_scene_update;
 
+    scenes[SCENE_GRID].init = grid_scene_init;
+    scenes[SCENE_GRID].update = grid_scene_update;
+
     scenes[SCENE_PICTURE].init = picture_scene_init;
     scenes[SCENE_PICTURE].update = picture_scene_update;
     scenes[SCENE_PICTURE].end = picture_scene_end;
 
-    scenes[SCENE_SPHERE].init = sphere_scene_init;
-    scenes[SCENE_SPHERE].update = sphere_scene_update;
-    scenes[SCENE_SPHERE].end = sphere_scene_end;
-
     scenes[SCENE_SINELINE].init = sineline_scene_init;
     scenes[SCENE_SINELINE].update = sineline_scene_update;
     scenes[SCENE_SINELINE].end = sineline_scene_end;
+
+    scenes[SCENE_SPHERE].init = sphere_scene_init;
+    scenes[SCENE_SPHERE].update = sphere_scene_update;
+    scenes[SCENE_SPHERE].end = sphere_scene_end;
 
     // Kick things off
     transition_to_scene(SCENE_DEFAULT);

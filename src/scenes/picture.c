@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 #define PALMS_OFFSET 57
-#define NUM_SPHERES 24
+#define NUM_SPHERES 12
 #define NUM_TILES 6
 #define X_OFFSET 128
 #define Y_OFFSET 64

@@ -127,7 +127,7 @@ void init_background(void)
     SMS_setTileatXY(21, 16, bg_tile);
 }
 
-void init_sprites(void)
+void init_sphere_sprites(void)
 {
     // Clipping sprites
     SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 122);
@@ -164,7 +164,7 @@ void sphere_scene_init(void)
     SMS_setSpriteMode(SPRITEMODE_ZOOMED);
 
     init_background();
-    init_sprites();
+    init_sphere_sprites();
     wait_for_frame();
 
     SMS_displayOn();
