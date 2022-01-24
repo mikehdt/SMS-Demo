@@ -108,7 +108,7 @@ void animate_spheres(void)
         ang_x++;
         ang_y++;
 
-        if (frame_count % 128 == 0)
+        if (STAGE == 2 && frame_count % 128 == 0)
         {
             STAGE = 3;
         }
