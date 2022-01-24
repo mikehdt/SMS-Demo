@@ -57,12 +57,14 @@ void update_scene(void)
             transition_to_scene(SCENE_SINELINE);
         else if (current_scene == SCENE_SINELINE)
             transition_to_scene(SCENE_PICTURE);
+        else // :)
+            transition_to_scene(SCENE_PICTURE);
 
         return;
     }
 
-    frame_count++;
     scenes[current_scene].update();
+    frame_count++;
 }
 
 void transition_to_scene(int8_t target_scene)

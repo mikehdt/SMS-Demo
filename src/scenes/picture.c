@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 #define PALMS_OFFSET 57
-#define NUM_SPHERES 12
+#define NUM_SPHERES 24
 #define NUM_TILES 6
 #define X_OFFSET 128
 #define Y_OFFSET 64
@@ -16,8 +16,8 @@
 #define Y_BITSHIFT 1
 #define Y_RANGE (256 >> Y_BITSHIFT) // sintab range 128:-128 ie. 256
 
-unsigned int scroll_x;
 unsigned int count;
+unsigned int scroll_x;
 
 struct sphere
 {

@@ -46,24 +46,15 @@ unsigned char fade_to_color(unsigned char temporal_color, unsigned char target_c
 {
     unsigned char r, g, b;
 
-    r = getRFromRGB(temporal_color);
-    g = getGFromRGB(temporal_color);
-    b = getBFromRGB(temporal_color);
-
-    switch (color_type)
-    {
-        case COLOR_R:
-            r = fade_fragment(r, getRFromRGB(target_color));
-            break;
-
-        case COLOR_G:
-            g = fade_fragment(g, getGFromRGB(target_color));
-            break;
-
-        case COLOR_B:
-            b = fade_fragment(b, getBFromRGB(target_color));
-            break;
-    }
+    r = (color_type == COLOR_R)
+            ? fade_fragment(getRFromRGB(temporal_color), getRFromRGB(target_color))
+            : getRFromRGB(temporal_color);
+    g = (color_type == COLOR_G)
+            ? fade_fragment(getGFromRGB(temporal_color), getGFromRGB(target_color))
+            : getGFromRGB(temporal_color);
+    b = (color_type == COLOR_B)
+            ? fade_fragment(getBFromRGB(temporal_color), getBFromRGB(target_color))
+            : getBFromRGB(temporal_color);
 
     return RGB(r, g, b);
 }
@@ -103,23 +94,16 @@ void fade_to_palette(unsigned char *target_palette, bool is_in)
 
     for (i = 0; i < 9; i++)
     {
-        switch (color_array[i])
-        {
-            case COLOR_R:
-                fade_to_color_loop(temporal_palette, target_palette, COLOR_R);
-                break;
-
-            case COLOR_G:
-                fade_to_color_loop(temporal_palette, target_palette, COLOR_G);
-                break;
-
-            case COLOR_B:
-                fade_to_color_loop(temporal_palette, target_palette, COLOR_B);
-                break;
-        }
+        if (color_array[i] == COLOR_R)
+            fade_to_color_loop(temporal_palette, target_palette, COLOR_R);
+        else if (color_array[i] == COLOR_G)
+            fade_to_color_loop(temporal_palette, target_palette, COLOR_G);
+        else if (color_array[i] == COLOR_B)
+            fade_to_color_loop(temporal_palette, target_palette, COLOR_B);
 
         SMS_loadBGPalette(temporal_palette);
 
+        // Need to decouple this delay somehow...
         for (j = 0; j < 6; j++)
             wait_for_frame();
     }

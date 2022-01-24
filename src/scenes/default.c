@@ -3,5 +3,5 @@
 
 void default_scene_update()
 {
-    transition_to_scene(SCENE_PICTURE);
+    transition_to_scene(SCENE_GRID);
 }

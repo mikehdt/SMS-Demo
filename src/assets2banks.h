@@ -1,3 +1,9 @@
+extern const unsigned char	font_alpha_tiles_psgcompr[796];
+#define				font_alpha_tiles_psgcompr_size 796
+#define				font_alpha_tiles_psgcompr_bank 2
+extern const unsigned char	font_alpha_palette_bin[6];
+#define				font_alpha_palette_bin_size 6
+#define				font_alpha_palette_bin_bank 2
 extern const unsigned char	palms_tiles_psgcompr[1148];
 #define				palms_tiles_psgcompr_size 1148
 #define				palms_tiles_psgcompr_bank 2
@@ -79,6 +85,9 @@ extern const unsigned char	blank_palette_bin[12];
 extern const unsigned char	sphere_clip_palette_bin[12];
 #define				sphere_clip_palette_bin_size 12
 #define				sphere_clip_palette_bin_bank 2
+extern const unsigned char	font_alpha_tilemap_stmcompr[4];
+#define				font_alpha_tilemap_stmcompr_size 4
+#define				font_alpha_tilemap_stmcompr_bank 2
 extern const unsigned char	mesh_02_palette_bin[4];
 #define				mesh_02_palette_bin_size 4
 #define				mesh_02_palette_bin_bank 2
