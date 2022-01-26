@@ -2,8 +2,9 @@
 #include "../assets2banks.h" // Generated with the assets task
 #include "../libs/SMSlib.h"
 #include <stdbool.h>
+#include <stdint.h>
 
-unsigned int scroll_x[11];
+uint16_t scroll_x[11];
 unsigned char lineCnt;
 
 void load_assets(void)

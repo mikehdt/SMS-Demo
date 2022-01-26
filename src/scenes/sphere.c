@@ -92,7 +92,7 @@ int last_subset_ptr = -1;
 
 void init_background(void)
 {
-    unsigned int bg_tile = 121 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
+    uint16_t bg_tile = 121 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
 
     // Background
     SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 121);

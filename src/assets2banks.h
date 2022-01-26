@@ -70,9 +70,15 @@ extern const unsigned char	blank_tiles_psgcompr[3];
 extern const unsigned char	sphere_clip_tiles_psgcompr[155];
 #define				sphere_clip_tiles_psgcompr_size 155
 #define				sphere_clip_tiles_psgcompr_bank 2
+extern const unsigned char	noise_grade_tiles_psgcompr[5605];
+#define				noise_grade_tiles_psgcompr_size 5605
+#define				noise_grade_tiles_psgcompr_bank 2
 extern const unsigned char	small_sine_tilemap_stmcompr[46];
 #define				small_sine_tilemap_stmcompr_size 46
 #define				small_sine_tilemap_stmcompr_bank 2
+extern const unsigned char	noise_grade_palette_bin[16];
+#define				noise_grade_palette_bin_size 16
+#define				noise_grade_palette_bin_bank 2
 extern const unsigned char	sphere_palette_bin[16];
 #define				sphere_palette_bin_size 16
 #define				sphere_palette_bin_bank 2
@@ -85,6 +91,9 @@ extern const unsigned char	blank_palette_bin[12];
 extern const unsigned char	sphere_clip_palette_bin[12];
 #define				sphere_clip_palette_bin_size 12
 #define				sphere_clip_palette_bin_bank 2
+extern const unsigned char	noise_grade_tilemap_stmcompr[10];
+#define				noise_grade_tilemap_stmcompr_size 10
+#define				noise_grade_tilemap_stmcompr_bank 2
 extern const unsigned char	font_alpha_tilemap_stmcompr[4];
 #define				font_alpha_tilemap_stmcompr_size 4
 #define				font_alpha_tilemap_stmcompr_bank 2

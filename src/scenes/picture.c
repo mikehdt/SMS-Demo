@@ -16,8 +16,8 @@
 #define Y_BITSHIFT 1
 #define Y_RANGE (256 >> Y_BITSHIFT) // sintab range 128:-128 ie. 256
 
-unsigned int count;
-unsigned int scroll_x;
+uint16_t count;
+uint16_t scroll_x;
 
 struct sphere
 {
@@ -28,10 +28,12 @@ struct sphere spheres[NUM_SPHERES];
 
 uint8_t cos_lut[256];
 uint8_t sin_lut[256];
+uint8_t sphere_offset_lut[NUM_SPHERES];
 uint16_t sphere_lut[Y_RANGE];
 
 static uint8_t ang_x = 0;
 static uint8_t ang_y = 0;
+static uint8_t y_range_half = Y_RANGE >> 1;
 
 unsigned char STAGE;
 
@@ -47,6 +49,11 @@ void calc_sphere_sin(void)
         if (i < Y_RANGE) // Assuming that Y_RANGE will always be less than 256
             sphere_lut[i] = PALMS_OFFSET + ((((abs(i - (Y_RANGE >> 1)) << 8) / (Y_RANGE >> 1)) * NUM_TILES + 128) >> 8);
     }
+
+    for (i = 0; i < NUM_SPHERES; i++)
+    {
+        sphere_offset_lut[i] = ((i * 256) / NUM_SPHERES);
+    }
 }
 
 void init_spheres(void)
@@ -60,7 +67,7 @@ void init_spheres(void)
 
 void animate_spheres(void)
 {
-    unsigned int i;
+    uint16_t i;
 
     if (STAGE == 1)
     {
@@ -80,11 +87,13 @@ void animate_spheres(void)
 
     if (STAGE == 1 || STAGE == 2)
     {
-        uint8_t sang, cang, new_tile;
+        uint8_t sang, cang;
 
+        // Thought: it may just be too slow/messy overall to have spheres
+        // always dynamically chase; maybe they just need a "move to new" mode?
         for (i = 0; i < count; i++)
         {
-            sang = ang_y + ((i * 256) / NUM_SPHERES);
+            sang = ang_y + sphere_offset_lut[i];
             cang = ang_x + sang;
 
             // Chase
@@ -96,13 +105,8 @@ void animate_spheres(void)
 
             SMS_updateSpritePosition(i, spheres[i].x, spheres[i].y);
 
-            new_tile = sphere_lut[spheres[i].y + (Y_RANGE >> 1) - Y_OFFSET];
-
-            if (spheres[i].tile != new_tile)
-            {
-                spheres[i].tile = new_tile;
-                SMS_updateSpriteImage(i, new_tile);
-            }
+            spheres[i].tile = sphere_lut[spheres[i].y + y_range_half - Y_OFFSET];
+            SMS_updateSpriteImage(i, spheres[i].tile);
         }
 
         ang_x++;
@@ -118,7 +122,7 @@ void animate_spheres(void)
 
         for (i = 0; i < count; i++)
         {
-            if ((i < (count / 2) && frame_count % 6 == 0) || i >= (count / 2) && frame_count % 6 == 3)
+            if ((i < (count >> 1) && frame_count % 6 == 0) || i >= (count >> 1) && frame_count % 6 == 3)
             {
                 // Some other effect here
                 spheres[i].tx = rand() % 192 + 32;

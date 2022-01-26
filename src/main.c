@@ -8,7 +8,7 @@ void main(void)
     // The pause and reset buttons are given over to our code to handle however
     // we see fit. From what I understand, the pause button triggers an
     // interrupt, but reset is detected via a bitmask of keys currently pressed.
-    uint8_t keys_pressed;
+    uint16_t keys_pressed;
     static bool global_pause;
 
     while (true)
@@ -41,5 +41,5 @@ void main(void)
 #ifndef __INTELLISENSE__
 SMS_EMBED_SEGA_ROM_HEADER(9999, 0);
 SMS_EMBED_SDSC_HEADER_AUTO_DATE(1, 0, "Mike Hopkins", "Hello World",
-                                "I have no idea what I'm doing");
+                                "Mucking about with the Master System");
 #endif

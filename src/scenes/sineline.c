@@ -5,7 +5,7 @@
 #include "../libs/SMSlib.h"
 #include <stdint.h>
 
-unsigned int sineline[] = {
+uint16_t sineline[] = {
     0, 15, 31, 45,
     0, 0, 32, 46,
     0, 0, 14, 47,
@@ -50,7 +50,7 @@ void sineline_scene_init(void)
         SMS_addSprite(8 + (i * 32), 72, 57);
 }
 
-void fill_line_tilemap(unsigned int row, unsigned int tile) // Must be an int, not a uint_8t or such
+void fill_line_tilemap(uint16_t row, uint16_t tile) // Must be an int, not a uint_8t or such
 {
     SMS_VRAMmemsetW(XYtoADDR(0, row + 8), tile, SCREEN_COLUMNS * 2); // 2 bytes / tile
 }
@@ -65,7 +65,7 @@ void sineline_scene_update(void)
 
     uint8_t i;
 
-    unsigned int priority = (sineline_ptr > 3 && sineline_ptr < 15) ? 0 : TILE_PRIORITY;
+    uint16_t priority = (sineline_ptr > 3 && sineline_ptr < 15) ? 0 : TILE_PRIORITY;
 
     for (i = 0; i < 4; i++)
         fill_line_tilemap(i, sineline[i + (sineline_ptr << 2)] | priority);

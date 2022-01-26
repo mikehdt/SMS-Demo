@@ -1,15 +1,16 @@
 #include "scenes.h"
 #include "../libs/SMSlib.h"
 #include "../scenes/default.h"
+#include "../scenes/fire.h"
 #include "../scenes/grid.h"
 #include "../scenes/picture.h"
 #include "../scenes/sineline.h"
 #include "../scenes/sphere.h"
+#include "../scenes/type.h"
 #include <stdlib.h>
 
-uint16_t frame_count;
+uint16_t frame_count, keys_released;
 int8_t current_scene = -1;
-unsigned int keys_released;
 
 typedef void (*ptr_func)(void);
 
@@ -27,6 +28,9 @@ void init_scenes(void)
     // Default
     scenes[SCENE_DEFAULT].update = default_scene_update;
 
+    scenes[SCENE_FIRE].init = fire_scene_init;
+    scenes[SCENE_FIRE].update = fire_scene_update;
+
     scenes[SCENE_GRID].init = grid_scene_init;
     scenes[SCENE_GRID].update = grid_scene_update;
 
@@ -41,6 +45,9 @@ void init_scenes(void)
     scenes[SCENE_SPHERE].init = sphere_scene_init;
     scenes[SCENE_SPHERE].update = sphere_scene_update;
     scenes[SCENE_SPHERE].end = sphere_scene_end;
+
+    scenes[SCENE_TYPE].init = type_scene_init;
+    scenes[SCENE_TYPE].update = type_scene_update;
 
     // Kick things off
     transition_to_scene(SCENE_DEFAULT);

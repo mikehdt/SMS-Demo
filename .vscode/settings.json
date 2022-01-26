@@ -26,6 +26,7 @@
         "string.h": "c",
         "sineline.h": "c",
         "math.h": "c",
-        "ctype.h": "c"
+        "ctype.h": "c",
+        "stdio.h": "c"
     }
 }
