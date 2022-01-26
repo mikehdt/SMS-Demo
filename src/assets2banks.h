@@ -70,8 +70,8 @@ extern const unsigned char	blank_tiles_psgcompr[3];
 extern const unsigned char	sphere_clip_tiles_psgcompr[155];
 #define				sphere_clip_tiles_psgcompr_size 155
 #define				sphere_clip_tiles_psgcompr_bank 2
-extern const unsigned char	noise_grade_tiles_psgcompr[5605];
-#define				noise_grade_tiles_psgcompr_size 5605
+extern const unsigned char	noise_grade_tiles_psgcompr[2031];
+#define				noise_grade_tiles_psgcompr_size 2031
 #define				noise_grade_tiles_psgcompr_bank 2
 extern const unsigned char	small_sine_tilemap_stmcompr[46];
 #define				small_sine_tilemap_stmcompr_size 46

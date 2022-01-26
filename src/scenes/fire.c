@@ -7,8 +7,8 @@
 
 // #define MAX(a, b) ((a) > (b)) ? (a) : (b); // Best a/b are not expressions...
 
-const uint16_t screenDims = SCREEN_COLUMNS * 14;
-const uint16_t offscreenDims = SCREEN_COLUMNS * 16;
+const uint16_t screenDims = SCREEN_COLUMNS * 24;
+const uint16_t offscreenDims = SCREEN_COLUMNS * 26;
 
 uint16_t aVal = SCREEN_COLUMNS - 1,
          bVal = SCREEN_COLUMNS,
@@ -16,7 +16,7 @@ uint16_t aVal = SCREEN_COLUMNS - 1,
          xVal = SCREEN_COLUMNS * 2;
 
 // // Y-coordinate first because we use horizontal scanlines
-int fire[SCREEN_COLUMNS * 16]; // Not sure why can't use offscreenDims
+int fire[SCREEN_COLUMNS * 26]; // Not sure why can't use offscreenDims
 
 void fire_scene_init(void)
 {
@@ -44,12 +44,12 @@ void fire_scene_update(void)
     // Generate noise across "virtual" lines
     while (i < offscreenDims)
     {
-        fire[i] = rand() > 16383 ? 255 : 0;
+        fire[i] = rand() & 255;
         i++;
     }
 
     // Dump the tilemap to the VDP
-    SMS_VRAMmemcpy(XYtoADDR(0, 10), fire, screenDims * 2); // 2 bytes per ea
+    SMS_VRAMmemcpy(XYtoADDR(0, 0), fire, screenDims * 2); // 2 bytes per ea
 
     wait_for_frame();
 }
