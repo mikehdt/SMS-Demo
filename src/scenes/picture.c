@@ -168,7 +168,7 @@ void picture_scene_update(void)
     SMS_setBGScrollX(scroll_x++ >> 3);
 
     animate_spheres();
-    wait_for_frame();
+    wait_for_vblank();
 }
 
 void picture_scene_end(void)
@@ -176,7 +176,7 @@ void picture_scene_end(void)
     for (int i = count; i >= 0; i--)
     {
         SMS_hideSprite(i);
-        wait_for_frame();
+        wait_for_vblank();
     }
 
     SMS_initSprites();

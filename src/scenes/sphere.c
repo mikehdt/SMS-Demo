@@ -165,7 +165,7 @@ void sphere_scene_init(void)
 
     init_background();
     init_sphere_sprites();
-    wait_for_frame();
+    wait_for_vblank();
 
     SMS_displayOn();
 }
@@ -183,7 +183,7 @@ void sphere_scene_update(void)
     }
 
     // Waiting first may be undesirable... to check further
-    wait_for_frame();
+    wait_for_vblank();
 
     if (last_subset_ptr == subset_ptr)
         return; // Don't update the palette, it hasn't changed

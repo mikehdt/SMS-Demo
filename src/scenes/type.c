@@ -68,7 +68,7 @@ void type_scene_update(void)
 {
     if (type_scroll_tick++ != 1)
     {
-        wait_for_frame();
+        wait_for_vblank();
         return;
     }
 
@@ -91,5 +91,5 @@ void type_scene_update(void)
 
     type_scroll_x--;
 
-    wait_for_frame();
+    wait_for_vblank();
 }

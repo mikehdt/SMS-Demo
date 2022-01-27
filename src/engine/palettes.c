@@ -78,7 +78,7 @@ unsigned char color_array_out[9] = {
 // To consider: palette offset / total change, instead of always being 0.
 void fade_to_palette(unsigned char *target_palette, bool is_in)
 {
-    // Eventually, decouple this from blocking with wait_for_frame() calls
+    // Eventually, decouple this from blocking with wait_for_vblank() calls
     uint8_t i, j;
 
     unsigned char temporal_palette[16];
@@ -105,7 +105,7 @@ void fade_to_palette(unsigned char *target_palette, bool is_in)
 
         // Need to decouple this delay somehow...
         for (j = 0; j < 6; j++)
-            wait_for_frame();
+            wait_for_vblank();
     }
 
     // Copy the palette across to the background
@@ -138,7 +138,7 @@ void fade_from_black(unsigned char *target_palette)
         SMS_loadBGPalette(temporal_palette);
 
         for (j = 0; j < frame_delay; j++)
-            wait_for_frame();
+            wait_for_vblank();
     }
 }
 

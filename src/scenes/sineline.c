@@ -59,7 +59,7 @@ void sineline_scene_update(void)
 {
     if (frame_count % 2 == 0)
     {
-        wait_for_frame();
+        wait_for_vblank();
         return;
     }
 
@@ -73,7 +73,7 @@ void sineline_scene_update(void)
     if (sineline_ptr++ > 24)
         sineline_ptr = 0;
 
-    wait_for_frame();
+    wait_for_vblank();
 }
 
 void sineline_scene_end(void)

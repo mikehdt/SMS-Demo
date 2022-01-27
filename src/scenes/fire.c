@@ -7,16 +7,15 @@
 
 // #define MAX(a, b) ((a) > (b)) ? (a) : (b); // Best a/b are not expressions...
 
-const uint16_t screenDims = SCREEN_COLUMNS * 24;
-const uint16_t offscreenDims = SCREEN_COLUMNS * 26;
+const uint16_t screen_size = SCREEN_COLUMNS * 24;
+const uint16_t offscreen_size = SCREEN_COLUMNS * 26;
 
-uint16_t aVal = SCREEN_COLUMNS - 1,
-         bVal = SCREEN_COLUMNS,
-         cVal = SCREEN_COLUMNS + 1,
-         xVal = SCREEN_COLUMNS * 2;
+uint16_t aVal = 31, bVal = 32, cVal = 33, xVal = 64;
 
-// // Y-coordinate first because we use horizontal scanlines
-int fire[SCREEN_COLUMNS * 26]; // Not sure why can't use offscreenDims
+uint16_t fire_idx = 0, fire_idx_target, test;
+
+// Y-coordinate first because we use horizontal scanlines
+int fire[SCREEN_COLUMNS * 26]; // Not sure why can't use offscreen_size
 
 void fire_scene_init(void)
 {
@@ -28,28 +27,27 @@ void fire_scene_init(void)
 
 void fire_scene_update(void)
 {
-    //   i   <- Current row item
-    // a b c <- first row below
-    //   x   <- second row below
-    uint16_t i = 0;
+    wait_for_vblank();
 
-    while (i < screenDims)
+    while (fire_idx < screen_size)
     {
-        fire[i] = ((fire[i + aVal] + fire[i + bVal] + fire[i + cVal] + fire[i + xVal]) >> 2) - 12;
-        i++;
+        //   i   <- Current row item
+        // a b c <- First row below
+        //   x   <- Second row below
+        fire[fire_idx] = ((fire[fire_idx + aVal] + fire[fire_idx + bVal] + fire[fire_idx + cVal] + fire[fire_idx + xVal]) >> 2) - 3;
+        fire_idx++;
     }
 
-    i = screenDims;
-
+    uint16_t noise_idx = screen_size;
     // Generate noise across "virtual" lines
-    while (i < offscreenDims)
+    while (noise_idx < offscreen_size)
     {
-        fire[i] = rand() & 255;
-        i++;
+        fire[noise_idx] = rand() & 256;
+        noise_idx++;
     }
 
     // Dump the tilemap to the VDP
-    SMS_VRAMmemcpy(XYtoADDR(0, 0), fire, screenDims * 2); // 2 bytes per ea
+    SMS_VRAMmemcpy(XYtoADDR(0, 0), fire, screen_size * 2); // 2 bytes per ea
 
-    wait_for_frame();
+    fire_idx = 0;
 }

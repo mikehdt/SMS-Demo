@@ -16,7 +16,7 @@ void init_console(void)
     SMS_displayOn();
 }
 
-void wait_for_frame(void)
+void wait_for_vblank(void)
 {
     SMS_waitForVBlank();
     SMS_copySpritestoSAT(); // Update any sprite shenanigans

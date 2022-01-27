@@ -65,3 +65,5 @@ void animate_background(void)
 
     lineCnt = 0;
 }
+
+// also disable int handling

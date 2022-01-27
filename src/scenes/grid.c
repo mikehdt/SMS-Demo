@@ -40,5 +40,5 @@ void grid_scene_update(void)
     if (show_mesh++ >= 4)
         show_mesh = 0;
 
-    wait_for_frame();
+    wait_for_vblank();
 }
