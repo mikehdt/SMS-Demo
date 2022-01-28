@@ -12,7 +12,7 @@ const uint16_t offscreen_size = SCREEN_COLUMNS * 26;
 
 uint16_t aVal = 31, bVal = 32, cVal = 33, xVal = 64;
 
-uint16_t fire_idx = 0, fire_idx_target, test;
+uint16_t fire_idx = 0;
 
 // Y-coordinate first because we use horizontal scanlines
 int fire[SCREEN_COLUMNS * 26]; // Not sure why can't use offscreen_size
@@ -29,25 +29,26 @@ void fire_scene_update(void)
 {
     wait_for_vblank();
 
+    //   i   <- Current row item
+    // a b c <- First row below
+    //   x   <- Second row below
     while (fire_idx < screen_size)
     {
-        //   i   <- Current row item
-        // a b c <- First row below
-        //   x   <- Second row below
         fire[fire_idx] = ((fire[fire_idx + aVal] + fire[fire_idx + bVal] + fire[fire_idx + cVal] + fire[fire_idx + xVal]) >> 2) - 3;
         fire_idx++;
     }
 
-    uint16_t noise_idx = screen_size;
+    fire_idx = screen_size;
+
     // Generate noise across "virtual" lines
-    while (noise_idx < offscreen_size)
+    while (fire_idx < offscreen_size)
     {
-        fire[noise_idx] = rand() & 256;
-        noise_idx++;
+        fire[fire_idx] = rand() & 255;
+        fire_idx++;
     }
 
-    // Dump the tilemap to the VDP
-    SMS_VRAMmemcpy(XYtoADDR(0, 0), fire, screen_size * 2); // 2 bytes per ea
-
     fire_idx = 0;
+
+    // Dump the tilemap to the VDP - use offscreen_size for debug
+    SMS_VRAMmemcpy(SMS_PNTAddress, &fire, offscreen_size * 2); // 2 bytes per ea
 }
