@@ -1,5 +1,6 @@
 #include "plasma.h"
 #include "../assets2banks.h"
+#include "../engine/core.h"
 #include "../libs/SMSlib.h"
 #include <stdlib.h>
 

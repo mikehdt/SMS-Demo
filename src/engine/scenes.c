@@ -3,7 +3,7 @@
 #include "../scenes/default.h"
 #include "../scenes/fire.h"
 #include "../scenes/grid.h"
-#include "../scenes/picture.h"
+#include "../scenes/particles.h"
 #include "../scenes/plasma.h"
 #include "../scenes/sineline.h"
 #include "../scenes/sphere.h"
@@ -35,9 +35,9 @@ void init_scenes(void)
     scenes[SCENE_GRID].init = grid_scene_init;
     scenes[SCENE_GRID].update = grid_scene_update;
 
-    scenes[SCENE_PICTURE].init = picture_scene_init;
-    scenes[SCENE_PICTURE].update = picture_scene_update;
-    scenes[SCENE_PICTURE].end = picture_scene_end;
+    scenes[SCENE_PARTICLES].init = particles_scene_init;
+    scenes[SCENE_PARTICLES].update = particles_scene_update;
+    scenes[SCENE_PARTICLES].end = particles_scene_end;
 
     scenes[SCENE_PLASMA].init = plasma_scene_init;
     scenes[SCENE_PLASMA].update = plasma_scene_update;
@@ -62,14 +62,14 @@ void update_scene(void)
     keys_released = SMS_getKeysReleased();
     if (keys_released & PORT_A_KEY_1)
     {
-        if (current_scene == SCENE_PICTURE)
+        if (current_scene == SCENE_PARTICLES)
             transition_to_scene(SCENE_SPHERE);
         else if (current_scene == SCENE_SPHERE)
             transition_to_scene(SCENE_SINELINE);
         else if (current_scene == SCENE_SINELINE)
-            transition_to_scene(SCENE_PICTURE);
+            transition_to_scene(SCENE_PARTICLES);
         else // Fallback
-            transition_to_scene(SCENE_PICTURE);
+            transition_to_scene(SCENE_PARTICLES);
 
         return;
     }

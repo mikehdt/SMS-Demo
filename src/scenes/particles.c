@@ -1,4 +1,4 @@
-#include "picture.h"
+#include "particles.h"
 #include "../assets2banks.h" // Generated with the assets task
 #include "../engine/core.h"
 #include "../engine/palettes.h"
@@ -142,7 +142,7 @@ void animate_spheres(void)
     }
 }
 
-void picture_scene_init(void)
+void particles_scene_init(void)
 {
     srand(frame_count);
 
@@ -163,7 +163,7 @@ void picture_scene_init(void)
     init_spheres();
 }
 
-void picture_scene_update(void)
+void particles_scene_update(void)
 {
     SMS_setBGScrollX(scroll_x++ >> 3);
 
@@ -171,7 +171,7 @@ void picture_scene_update(void)
     wait_for_vblank();
 }
 
-void picture_scene_end(void)
+void particles_scene_end(void)
 {
     for (int i = count; i >= 0; i--)
     {

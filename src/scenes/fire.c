@@ -20,8 +20,8 @@ int fire[192]; // Not sure why can't use offscreen_size
 
 void fire_scene_init(void)
 {
-    SMS_loadPSGaidencompressedTiles(noise_grade_tiles_psgcompr, 0);
-    SMS_loadBGPalette(noise_grade_palette_bin);
+    SMS_loadPSGaidencompressedTiles(fire_grade_tiles_psgcompr, 0);
+    SMS_loadBGPalette(fire_grade_palette_bin);
     SMS_loadSpritePalette(palette_black);
 
     clear_tilemap(0 | TILE_USE_SPRITE_PALETTE);
