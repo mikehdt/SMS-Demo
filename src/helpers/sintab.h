@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-extern int8_t sintab[];
+extern int16_t sintab[];
 
 #endif // SINTAB_H
