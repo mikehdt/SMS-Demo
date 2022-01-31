@@ -4,6 +4,7 @@
 #include "../scenes/fire.h"
 #include "../scenes/grid.h"
 #include "../scenes/picture.h"
+#include "../scenes/plasma.h"
 #include "../scenes/sineline.h"
 #include "../scenes/sphere.h"
 #include "../scenes/type.h"
@@ -38,6 +39,9 @@ void init_scenes(void)
     scenes[SCENE_PICTURE].update = picture_scene_update;
     scenes[SCENE_PICTURE].end = picture_scene_end;
 
+    scenes[SCENE_PLASMA].init = plasma_scene_init;
+    scenes[SCENE_PLASMA].update = plasma_scene_update;
+
     scenes[SCENE_SINELINE].init = sineline_scene_init;
     scenes[SCENE_SINELINE].update = sineline_scene_update;
     scenes[SCENE_SINELINE].end = sineline_scene_end;
@@ -64,7 +68,7 @@ void update_scene(void)
             transition_to_scene(SCENE_SINELINE);
         else if (current_scene == SCENE_SINELINE)
             transition_to_scene(SCENE_PICTURE);
-        else // :)
+        else // Fallback
             transition_to_scene(SCENE_PICTURE);
 
         return;
