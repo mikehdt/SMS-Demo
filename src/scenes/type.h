@@ -3,5 +3,6 @@
 
 void type_scene_init(void);
 void type_scene_update(void);
+void type_scene_end(void);
 
 #endif

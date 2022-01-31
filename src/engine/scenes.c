@@ -10,7 +10,7 @@
 #include "../scenes/type.h"
 #include <stdlib.h>
 
-uint16_t frame_count, keys_released;
+uint16_t frame_count, keys_active;
 int8_t current_scene = -1;
 
 typedef void (*ptr_func)(void);
@@ -52,6 +52,7 @@ void init_scenes(void)
 
     scenes[SCENE_TYPE].init = type_scene_init;
     scenes[SCENE_TYPE].update = type_scene_update;
+    scenes[SCENE_TYPE].end = type_scene_end;
 
     // Kick things off
     transition_to_scene(SCENE_DEFAULT);
@@ -59,17 +60,16 @@ void init_scenes(void)
 
 void update_scene(void)
 {
-    keys_released = SMS_getKeysReleased();
-    if (keys_released & PORT_A_KEY_1)
+    keys_active = SMS_getKeysHeld();
+
+    if (keys_active & PORT_A_KEY_1)
     {
-        if (current_scene == SCENE_PARTICLES)
-            transition_to_scene(SCENE_SPHERE);
-        else if (current_scene == SCENE_SPHERE)
-            transition_to_scene(SCENE_SINELINE);
-        else if (current_scene == SCENE_SINELINE)
-            transition_to_scene(SCENE_PARTICLES);
-        else // Fallback
-            transition_to_scene(SCENE_PARTICLES);
+        frame_count++;
+
+        if (current_scene + 1 >= MAX_SCENES)
+            transition_to_scene(1);
+        else
+            transition_to_scene(current_scene + 1);
 
         return;
     }

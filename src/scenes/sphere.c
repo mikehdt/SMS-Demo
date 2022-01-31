@@ -201,6 +201,7 @@ void sphere_scene_update(void)
 void sphere_scene_end(void)
 {
     set_palette(palette_black, PALETTE_BOTH);
+    wait_for_vblank();
 
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_NORMAL);

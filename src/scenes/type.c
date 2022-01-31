@@ -57,20 +57,22 @@ void print_string_char(unsigned char x, unsigned char y, unsigned char string_ch
 
 void type_scene_init(void)
 {
+    SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 0);
+    clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
+
+    SMS_setBGScrollX(0);
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK);
     SMS_loadBGPalette(font_alpha_palette_bin);
-    SMS_loadSpritePalette(font_alpha_palette_bin); // temp to see unused tiles
+    SMS_loadSpritePalette(blank_palette_bin);
     SMS_loadPSGaidencompressedTiles(font_alpha_tiles_psgcompr, 1);
-    // SMS_loadBGPalette(mesh_01_palette_bin);
 }
 
 void type_scene_update(void)
 {
+    wait_for_vblank();
+
     if (type_scroll_tick++ != 1)
-    {
-        wait_for_vblank();
         return;
-    }
 
     type_scroll_tick = 0;
 
@@ -90,6 +92,11 @@ void type_scene_update(void)
     SMS_setBGScrollX(type_scroll_x);
 
     type_scroll_x--;
+}
 
+void type_scene_end(void)
+{
     wait_for_vblank();
+    SMS_setBGScrollX(0);
+    SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK);
 }

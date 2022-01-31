@@ -41,6 +41,8 @@ void sineline_scene_init(void)
     SMS_loadBGPalette(small_sine_palette_bin);
     sineline_ptr = 0;
 
+    clear_tilemap(0);
+
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_ZOOMED);
     SMS_loadPSGaidencompressedTiles(spheres_tiles_psgcompr, 57);
@@ -67,17 +69,19 @@ void sineline_scene_update(void)
 
     uint16_t priority = (sineline_ptr > 3 && sineline_ptr < 15) ? 0 : TILE_PRIORITY;
 
+    wait_for_vblank();
+
     for (i = 0; i < 4; i++)
         fill_line_tilemap(i, sineline[i + (sineline_ptr << 2)] | priority);
 
     if (sineline_ptr++ > 24)
         sineline_ptr = 0;
-
-    wait_for_vblank();
 }
 
 void sineline_scene_end(void)
 {
+    wait_for_vblank();
+
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_NORMAL);
 }

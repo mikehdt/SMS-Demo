@@ -11,12 +11,13 @@
 // const uint16_t screen_size = SCREEN_COLUMNS * 24;
 // const uint16_t offscreen_size = SCREEN_COLUMNS * 26;
 
+#define ROW_WIDTH 12
+#define ROW_TOTAL 16
 uint16_t aVal, bVal, cVal, xVal; // Faux row value bake
-
 uint16_t fire_idx;
 
 // Y-coordinate first because we use horizontal scanlines
-int fire[192]; // Not sure why can't use offscreen_size
+int fire[(ROW_TOTAL + 2) * ROW_TOTAL]; // Not sure why can't use offscreen_size
 
 void fire_scene_init(void)
 {
@@ -35,12 +36,12 @@ void fire_scene_update(void)
     // a b c <- First row below
     //   x   <- Second row below
     fire_idx = 0;
-    aVal = 11;
-    bVal = 12;
-    cVal = 13;
-    xVal = 24;
+    aVal = ROW_WIDTH - 1;
+    bVal = ROW_WIDTH;
+    cVal = ROW_WIDTH + 1;
+    xVal = ROW_WIDTH * 2;
 
-    while (fire_idx < 168)
+    while (fire_idx < ROW_TOTAL * ROW_WIDTH)
     {
         // clang-format off
         __asm
@@ -50,17 +51,18 @@ void fire_scene_update(void)
 
         // This calculation _does_ cause int wrap-around, but would need a fast
         // way to counter this without an if condition...
-        fire[fire_idx] = ((fire[aVal++] + fire[bVal++] + fire[cVal++] + fire[xVal++]) >> 2) - 6;
+        fire[fire_idx] = ((fire[aVal++] + fire[bVal++] + fire[cVal++] + fire[xVal++]) >> 2) - 4;
 
         fire_idx++;
     }
 
-    fire_idx = 168;
+    fire_idx = ROW_TOTAL * ROW_WIDTH;
 
     // Generate noise across "virtual" lines
-    while (fire_idx < 192)
+    while (fire_idx < (ROW_TOTAL + 2) * ROW_WIDTH)
     {
-        if (fire_idx < 170 || (fire_idx >= 178 && fire_idx < 182) || fire_idx >= 190)
+        // This is messy, just ignore it for now :3
+        if (fire_idx < (ROW_TOTAL * ROW_WIDTH + 2) || (fire_idx >= ((ROW_TOTAL + 1) * ROW_WIDTH - 2) && fire_idx < ((ROW_TOTAL + 1) * ROW_WIDTH + 2)) || fire_idx >= ((ROW_TOTAL + 2) * ROW_WIDTH - 2))
             fire[fire_idx] = 0;
         else
             fire[fire_idx] = rand() & 255;
@@ -70,5 +72,5 @@ void fire_scene_update(void)
 
     // Dump the tilemap to the VDP - use offscreen_size for debug
     // SMS_VRAMmemcpy(SMS_PNTAddress, &fire, screen_size * 2); // 2 bytes per ea
-    SMS_loadTileMapArea(10, 0, &fire, 12, 14);
+    SMS_loadTileMapArea(10, 0, &fire, ROW_WIDTH, ROW_TOTAL);
 }
