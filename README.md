@@ -19,6 +19,7 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 -   [ ] Investigate making the build pipeline cross-platform (as much as is possible)
 -   [ ] Animate palettes between each other (not just from black)
 -   [ ] Have more than one bank, to learn about bank switching
+-   [ ] Figure out a nice way to integrate inline z80 assembly with VScode...
 -   [ ] Add music?
 
 ## Dependencies
@@ -27,11 +28,11 @@ It uses [devkitSMS](https://github.com/sverx/devkitSMS) as a basis for doing all
 
 Code is compiled with [SDCC](http://sdcc.sourceforge.net/) `4.1.0` (`4.1.12+` nightlies are also compatible, but will need the `--sdcccall 0` flag to be added in `scripts/build.bat`. However, I found the nightlies had _massive_ problems with the Emulicious debugger bridge to VScode where variable values were completely wrong and would appear and disappear almost randomly. I've gone back to `4.1.0` stable for the time being. I really appreciate Calindro's efforts on helping investigate this issue from the Emulicious side).
 
-The [bmp2tile](https://github.com/maxim-zhao/bmp2tile) project is included here for compiling assets, but I might move it to be an external dep later. For cross-platform support later, the [png2tile](https://github.com/yuv422/png2tile) looks like a great starting point
+The [bmp2tile](https://github.com/maxim-zhao/bmp2tile) project is included here for compiling assets, but I might move it to be an external dep later. For cross-platform support later, the [png2tile](https://github.com/yuv422/png2tile) looks like a great starting point.
 
 I've added the [STMcomp plugin](https://github.com/sverx/STMcomp) by sverx to the `bmp2tile` utility here, needed for using STM compressed tilemaps. It's nifty.
 
-Using VScode, make sure to install the [Emulicious Debugger](https://marketplace.visualstudio.com/items?itemName=emulicious.emulicious-debugger)
+Using VScode, make sure to install the [Emulicious Debugger](https://marketplace.visualstudio.com/items?itemName=emulicious.emulicious-debugger).
 
 ## Building
 
@@ -48,4 +49,4 @@ I plan to make this better at some stage. I'm just figuring things out for now, 
 -   The [devkitSMS](https://github.com/sverx/devkitSMS) project by sverx made setting up easy, and it makes getting started with the Sega Master System fast and fun
 -   The [bmp2tile](https://github.com/maxim-zhao/bmp2tile) project by Maxim makes getting assets into a format suitable for the SMS really easy
 -   The [Emulicious](https://emulicious.net/) emulator has fantastic support for SDCC's debug output being bridged across to VScode, making working with the SMS so much easier, and Calindro has been very helpful
--   My friends bananaboy, sh0ck, null, and cTrix, with whom we made a little SMS demo for the [Syntax Demoparty](https://syntaxparty.org/) in 2021. The experience making the art for it, even though simple, inspired me to learn about coding for the SMS so we can push the art even _further_... next year?
+-   My friends bananaboy, sh0ck, null, and cTrix, with whom we made a little SMS demo for the [Syntax Demoparty](https://syntaxparty.org/) in 2021. The experience making the art for it, even though simple, inspired me to learn about coding for the SMS so we can push the art even _further_... next time?
