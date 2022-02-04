@@ -6,10 +6,18 @@
                 "${workspaceFolder}/**",
                 "C:/Program Files/SDCC/include"
             ],
-            "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "__asm",
+                "__endasm",
+                "__naked"
+            ],
             "cStandard": "c11",
             "cppStandard": "c++11",
-            "intelliSenseMode": "windows-msvc-x64"
+            "intelliSenseMode": "${default}",
+            "compilerPath": ""
         }
     ],
     "version": 4

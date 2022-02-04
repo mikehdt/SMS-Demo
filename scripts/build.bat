@@ -8,10 +8,10 @@ echo *** SDCC compiling ***
 :: `--sdcccall 0` tells SDCC 4.1.12+ not to use its new breaking fn calls yet
 :: However, SDCC 4.1.12+ makes the debugger very unhappy, not using it for now
 :: `--std-sdcc11` enables SDCC's extensions to C11, eg native 0b binary literals
-for %%f in (..\src\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" -DPAL_MACHINE %DEBUG%
-for %%f in (..\src\engine\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" -DPAL_MACHINE %DEBUG%
-for %%f in (..\src\helpers\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" -DPAL_MACHINE %DEBUG%
-for %%f in (..\src\scenes\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\*.c) do sdcc --std-sdcc11 -c -mz80 --opt-code-speed "%%f" -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\engine\*.c) do sdcc --std-sdcc11 -c -mz80 --opt-code-speed "%%f" -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\helpers\*.c) do sdcc --std-sdcc11 -c -mz80 --opt-code-speed "%%f" -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\scenes\*.c) do sdcc --std-sdcc11 -c -mz80 --opt-code-speed "%%f" -DPAL_MACHINE %DEBUG%
 echo *** SDCC compiling complete ***
 
 :: Link

@@ -51,9 +51,7 @@ void calc_sphere_sin(void)
     }
 
     for (i = 0; i < NUM_SPHERES; i++)
-    {
         sphere_offset_lut[i] = ((i * 256) / NUM_SPHERES);
-    }
 }
 
 void init_spheres(void)
@@ -113,9 +111,7 @@ void animate_spheres(void)
         ang_y++;
 
         if (STAGE == 2 && frame_count % 128 == 0)
-        {
             STAGE = 3;
-        }
     }
     else if (STAGE == 3)
     {
@@ -125,8 +121,8 @@ void animate_spheres(void)
             if ((i < (count >> 1) && frame_count % 6 == 0) || i >= (count >> 1) && frame_count % 6 == 3)
             {
                 // Some other effect here
-                spheres[i].tx = rand() % 192 + 32;
-                spheres[i].ty = rand() % 128;
+                spheres[i].tx = (rand() & 192) + 32;
+                spheres[i].ty = rand() & 128;
             }
 
             spheres[i].x += (spheres[i].tx - spheres[i].x) >> 3;
@@ -136,9 +132,7 @@ void animate_spheres(void)
         }
 
         if (frame_count % 128 == 0)
-        {
             STAGE = 2;
-        }
     }
 }
 
