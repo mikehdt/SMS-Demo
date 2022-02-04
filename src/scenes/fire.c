@@ -52,7 +52,7 @@ GetRandomNumber:
     rrca
     xor     l           ; xor again
     rra                 ; rotate right by 1 through carry
-    adc     hl, hl      ; add RandomNumberGeneratorWord to itself
+    adc     hl, hl      ; add RandomSeed to itself
     jr      nz, RandContinue
     ld      hl, #0x733c ; if last xor resulted in zero then reseed rng
 RandContinue:
