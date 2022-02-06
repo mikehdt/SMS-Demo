@@ -73,16 +73,16 @@ void fire_scene_update(void)
     {
         uint8_t *fire_arr = fire + FIRE_SIZE;
         const uint8_t *fire_end = fire + SEED_SIZE,
-                      *fire_a = fire + FIRE_SIZE + EDGE_WIDTH,
-                      *fire_b = fire + FIRE_SIZE + ROW_WIDTH - EDGE_WIDTH,
-                      *fire_c = fire + FIRE_SIZE + ROW_WIDTH + EDGE_WIDTH,
-                      *fire_d = fire + SEED_SIZE - EDGE_WIDTH;
+                      *fire_edge_a = fire + FIRE_SIZE + EDGE_WIDTH,
+                      *fire_edge_b = fire + FIRE_SIZE + ROW_WIDTH - EDGE_WIDTH,
+                      *fire_edge_c = fire + FIRE_SIZE + ROW_WIDTH + EDGE_WIDTH,
+                      *fire_edge_d = fire + SEED_SIZE - EDGE_WIDTH;
 
         // Generate noise across "virtual" lines
         while (fire_arr < fire_end)
         {
             // Blank the sides across the two noise rows
-            if (fire_arr < fire_a || (fire_arr >= fire_b && fire_arr < fire_c) || fire_arr >= fire_d)
+            if (fire_arr < fire_edge_a || (fire_arr >= fire_edge_b && fire_arr < fire_edge_c) || fire_arr >= fire_edge_d)
                 *fire_arr = 0;
             else
                 *fire_arr = ps_rand();
