@@ -14,7 +14,7 @@
 #define FIRE_B ROW_WIDTH
 #define FIRE_C ROW_WIDTH + 2
 #define FIRE_X ROW_WIDTH * 2
-#define FIRE_DAMPEN 6 // lower = taller flames
+#define FIRE_DAMPEN 5 // lower = taller flames
 #define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
 #define SEED_SIZE ((ROW_TOTAL + 2) * ROW_WIDTH)
 uint16_t RandomSeed = 0;
@@ -94,7 +94,7 @@ void fire_scene_update(void)
     }
     else
     {
-        uint8_t *fire_tile = fire, fire_item;
+        uint8_t *fire_arr = fire, fire_tile;
 
         //   i   <- Current row item
         // a b c <- First row below
@@ -103,18 +103,18 @@ void fire_scene_update(void)
         {
             // This may seem unnecessary in C, but it makes the generated z80
             // assembly code muck about less
-            fire_item = fire_tile[FIRE_A] >> 2;
-            fire_item += fire_tile[FIRE_B] >> 2;
-            fire_item += fire_tile[FIRE_C] >> 2;
-            fire_item += fire_tile[FIRE_X] >> 2;
+            fire_tile = (fire_arr[FIRE_A] >> 2) +
+                        (fire_arr[FIRE_B] >> 2) +
+                        (fire_arr[FIRE_C] >> 2) +
+                        (fire_arr[FIRE_X] >> 2);
 
-            if (fire_item >= FIRE_DAMPEN)
-                fire_item -= FIRE_DAMPEN;
+            if (fire_tile >= FIRE_DAMPEN)
+                fire_tile -= FIRE_DAMPEN;
 
-            fire_tile[0] = fire_item;
+            fire_arr[0] = fire_tile;
 
             fire_idx += 2; // Skip every second byte
-            fire_tile += 2;
+            fire_arr += 2;
         }
     }
 }
