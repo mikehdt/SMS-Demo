@@ -17,8 +17,6 @@
 #define FIRE_DAMPEN 6 // lower = taller flames
 #define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
 #define SEED_SIZE ((ROW_TOTAL + 2) * ROW_WIDTH)
-uint16_t fire_idx, test;
-uint8_t SEED = 0;
 uint16_t RandomSeed = 0;
 
 // Compensate for 8-bit width by multiplying by 2
@@ -69,10 +67,12 @@ __endasm;
 
 void fire_scene_update(void)
 {
+    uint16_t fire_idx = 0;
+
+    wait_for_vblank();
+
     if (frame_count & 1 == 1)
     {
-        wait_for_vblank();
-
         fire_idx = FIRE_SIZE;
 
         // Generate noise across "virtual" lines
@@ -94,8 +94,7 @@ void fire_scene_update(void)
     }
     else
     {
-        uint8_t fire_tile;
-        fire_idx = 0;
+        uint8_t *fire_tile = fire, fire_item;
 
         //   i   <- Current row item
         // a b c <- First row below
@@ -104,17 +103,18 @@ void fire_scene_update(void)
         {
             // This may seem unnecessary in C, but it makes the generated z80
             // assembly code muck about less
-            fire_tile = *(&fire[fire_idx] + FIRE_A) >> 2;
-            fire_tile += *(&fire[fire_idx] + FIRE_B) >> 2;
-            fire_tile += *(&fire[fire_idx] + FIRE_C) >> 2;
-            fire_tile += *(&fire[fire_idx] + FIRE_X) >> 2;
+            fire_item = fire_tile[FIRE_A] >> 2;
+            fire_item += fire_tile[FIRE_B] >> 2;
+            fire_item += fire_tile[FIRE_C] >> 2;
+            fire_item += fire_tile[FIRE_X] >> 2;
 
-            if (fire_tile > FIRE_DAMPEN + 1)
-                fire_tile -= FIRE_DAMPEN;
+            if (fire_item >= FIRE_DAMPEN)
+                fire_item -= FIRE_DAMPEN;
 
-            fire[fire_idx] = fire_tile;
+            fire_tile[0] = fire_item;
 
             fire_idx += 2; // Skip every second byte
+            fire_tile += 2;
         }
     }
 }

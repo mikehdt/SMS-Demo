@@ -8,10 +8,10 @@ echo *** SDCC compiling ***
 :: `--sdcccall 0` tells SDCC 4.1.12+ not to use its new breaking fn calls yet
 :: However, SDCC 4.1.12+ makes the debugger very unhappy, not using it for now
 :: `--std-sdcc11` enables SDCC's extensions to C11, eg native 0b binary literals
-for %%f in (..\src\*.c) do sdcc --std-sdcc11 -c -mz80 --opt-code-speed "%%f" -DPAL_MACHINE %DEBUG%
-for %%f in (..\src\engine\*.c) do sdcc --std-sdcc11 -c -mz80 --opt-code-speed "%%f" -DPAL_MACHINE %DEBUG%
-for %%f in (..\src\helpers\*.c) do sdcc --std-sdcc11 -c -mz80 --opt-code-speed "%%f" -DPAL_MACHINE %DEBUG%
-for %%f in (..\src\scenes\*.c) do sdcc --std-sdcc11 -c -mz80 --opt-code-speed "%%f" -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" --opt-code-speed -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\engine\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" --opt-code-speed -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\helpers\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" --opt-code-speed -DPAL_MACHINE %DEBUG%
+for %%f in (..\src\scenes\*.c) do sdcc --std-sdcc11 -c -mz80 "%%f" --opt-code-speed -DPAL_MACHINE %DEBUG%
 echo *** SDCC compiling complete ***
 
 :: Link
@@ -28,7 +28,7 @@ echo *** Converting to SMS ROM complete ***
 :: Tidy up
 echo *** Tidying up ***
 del *.adb > nul
-del *.asm > nul
+del *.asm > nul @REM Note: If asm are present, Emulicious extension's debugger gets confused
 @REM del *.rel > nul
 del *.ihx > nul
 del *.lk > nul

@@ -39,5 +39,5 @@ void plasma_scene_update(void)
     wait_for_vblank();
 
     // This will be heinously slow
-    SMS_VRAMmemcpy(SMS_PNTAddress, &buffer, screen_size_bytes); // 2 bytes per ea
+    SMS_VRAMmemcpy(SMS_PNTAddress, &buffer, screen_size_bytes);
 }
