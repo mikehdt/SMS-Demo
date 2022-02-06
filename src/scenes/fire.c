@@ -8,7 +8,7 @@
 
 // #define MAX(a, b) ((a) > (b)) ? (a) : (b); // Best a/b are not expressions...
 #define ROW_WIDTH 32 * 2 // doubled due to 8-bit pairs, max 32
-#define ROW_TOTAL 16     // max 24
+#define ROW_TOTAL 18     // max 24
 #define EDGE_WIDTH 6
 #define FIRE_A ROW_WIDTH - 2
 #define FIRE_B ROW_WIDTH

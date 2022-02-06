@@ -27,9 +27,10 @@ echo *** Converting to SMS ROM complete ***
 
 :: Tidy up
 echo *** Tidying up ***
-del *.adb > nul
-del *.asm > nul @REM Note: If asm are present, Emulicious extension's debugger gets confused
 @REM del *.rel > nul
+@REM Note: If asm are present, Emulicious extension's debugger gets confused
+del *.asm > nul
+del *.adb > nul
 del *.ihx > nul
 del *.lk > nul
 del *.lst > nul
