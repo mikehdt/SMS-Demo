@@ -13,7 +13,7 @@ uint16_t scroll_index = 0;
 char scroll_message[] = "HELLO WORLD, HERES SOME NUMBERS: 01234567890.";
 unsigned char scroll_tile_index = 0;
 
-#define CHARS_BASE_ADDRESS 1
+#define CHARS_BASE_ADDRESS 0
 
 void print_string(unsigned char x, unsigned char y, unsigned char *string)
 {
@@ -44,7 +44,7 @@ void print_string_char(unsigned char x, unsigned char y, unsigned char string_ch
 {
     // This is pretty hacky, could be better packed?
     if (string_char == 32 || string_char == 0) // Space
-        SMS_setTileatXY(x, y, 0);
+        SMS_setTileatXY(x, y, 40);
     else if (string_char == 44) // Comma
         SMS_setTileatXY(x, y, CHARS_BASE_ADDRESS + 39);
     else if (string_char == 46) // Full stop
@@ -57,14 +57,13 @@ void print_string_char(unsigned char x, unsigned char y, unsigned char string_ch
 
 void type_scene_init(void)
 {
-    SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 0);
-    clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
-
     SMS_setBGScrollX(0);
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK);
     SMS_loadBGPalette(font_alpha_palette_bin);
-    SMS_loadSpritePalette(blank_palette_bin);
-    SMS_loadPSGaidencompressedTiles(font_alpha_tiles_psgcompr, 1);
+    SMS_loadSpritePalette(font_alpha_palette_bin);
+    SMS_loadPSGaidencompressedTiles(font_alpha_tiles_psgcompr, 0);
+
+    clear_tilemap(40);
 }
 
 void type_scene_update(void)
