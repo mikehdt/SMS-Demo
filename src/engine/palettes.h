@@ -27,4 +27,4 @@ void fade_to_palette(unsigned char *target_palette, bool is_in);
 void fade_from_black(unsigned char *target_palette);
 void set_palette(unsigned char *palette, uint8_t palette_type);
 
-#endif // PALETTES_H
+#endif

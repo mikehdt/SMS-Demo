@@ -1,5 +1,4 @@
-#include "core.h"
-#include "../assets2banks.h"
+#include "init_console.h"
 #include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdbool.h>

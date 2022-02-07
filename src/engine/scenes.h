@@ -22,4 +22,4 @@ enum SCENES
     MAX_SCENES // This creates a counter for us, as long as it remains last :)
 };
 
-#endif // SCENES_H
+#endif

@@ -1,4 +1,4 @@
-#include "engine/core.h"
+#include "engine/init_console.h"
 #include "engine/scenes.h"
 #include "libs/SMSlib.h"
 #include <stdbool.h>

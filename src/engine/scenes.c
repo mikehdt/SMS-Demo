@@ -60,12 +60,11 @@ void init_scenes(void)
 
 void update_scene(void)
 {
+    // Might need to move this out to the core loop?
     keys_active = SMS_getKeysHeld();
 
     if (keys_active & PORT_A_KEY_1)
     {
-        frame_count++;
-
         if (current_scene + 1 >= MAX_SCENES)
             transition_to_scene(1);
         else

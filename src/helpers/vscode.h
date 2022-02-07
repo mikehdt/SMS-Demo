@@ -1,6 +1,7 @@
-// https://gist.github.com/hexeguitar/1ffa147b0c358cb3455879c2baa64c63
 #ifndef _VSCODE_SDCC_H
 #define _VSCODE_SDCC_H
+// Source: https://gist.github.com/hexeguitar/1ffa147b0c358cb3455879c2baa64c63
+
 /*
     There is currently no support for sdcc syntax (Intellisense) in VScode.
     These defines will limit the number of reported errors due to undecognized
