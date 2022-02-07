@@ -1,8 +1,10 @@
 #include "fire.h"
 #include "../assets2banks.h"
-#include "../engine/core.h"
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
+#include "../engine/vblank.h"
+#include "../helpers/clear_tilemap.h"
+#include "../helpers/ps_rand.h"
 #include "../libs/SMSlib.h"
 #include <stdlib.h>
 
@@ -17,7 +19,6 @@
 #define FIRE_DAMPEN 3 // lower = taller flames
 #define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
 #define SEED_SIZE ((ROW_TOTAL + 2) * ROW_WIDTH)
-uint16_t RandomSeed = 0;
 
 // Compensate for 8-bit width by multiplying by 2
 uint8_t fire[SEED_SIZE] = {0};
@@ -29,40 +30,6 @@ void fire_scene_init(void)
     SMS_loadSpritePalette(palette_black);
 
     clear_tilemap(0 | TILE_USE_SPRITE_PALETTE);
-}
-
-// Candidate to move to its own utility file
-char ps_rand() __naked
-{
-    // Code adapted for SDCC from Phantasy Star's PRNG as documented at
-    // https://www.smspower.org/Development/RandomNumberGenerator
-    // clang-format off
-__asm
-GetRandomNumber:
-    ld      hl, (_RandomSeed)
-    ld      a, h        ; get high byte
-    rrca                ; rotate right by 2
-    rrca
-    xor     h           ; xor with original
-    rrca                ; rotate right by 1
-    xor     l           ; xor with low byte
-    rrca                ; rotate right by 4
-    rrca
-    rrca
-    rrca
-    xor     l           ; xor again
-    rra                 ; rotate right by 1 through carry
-    adc     hl, hl      ; add RandomSeed to itself
-    jr      nz, RandomContinue
-    ld      hl, #0x733c ; if last xor resulted in zero then reseed rng
-RandomContinue:
-    ld      a, r        ; r = refresh register = semi-random number
-    xor     l           ; xor with l which is fairly random
-    ld      (_RandomSeed), hl
-    ld      l, a        ; move a into l to return a char back to the caller
-    ret
-__endasm;
-    // clang-format on
 }
 
 void fire_scene_update(void)

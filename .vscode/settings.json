@@ -27,6 +27,9 @@
         "sineline.h": "c",
         "math.h": "c",
         "ctype.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "ps_rand.h": "c",
+        "globals.h": "c",
+        "sintab.h": "c"
     }
 }

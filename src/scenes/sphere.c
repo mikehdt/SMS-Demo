@@ -1,7 +1,8 @@
 #include "sphere.h"
 #include "../assets2banks.h" // Generated with the assets task
-#include "../engine/core.h"
 #include "../engine/palettes.h"
+#include "../engine/vblank.h"
+#include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
 
 int cur_pal = 0;

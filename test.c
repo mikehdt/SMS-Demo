@@ -3,9 +3,10 @@
 // $ sdcc -c test.c :: test compiler (should make an ASM file, amongst others)
 // $ sdcc test.c :: test linker (should make an IHX file, amongst others)
 
-char test;
+#include <stdio.h>
 
-void main(void)
+int main()
 {
-    test = 0;
+    printf("Hello World !\n");
+    return 0;
 }

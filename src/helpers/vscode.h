@@ -25,4 +25,4 @@
 #define __using
 #endif
 
-#endif // _VSCODE_SDCC_H
+#endif

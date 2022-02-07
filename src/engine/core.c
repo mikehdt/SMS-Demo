@@ -1,6 +1,8 @@
 #include "core.h"
 #include "../assets2banks.h"
+#include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
+#include <stdbool.h>
 
 void init_console(void)
 {
@@ -14,16 +16,4 @@ void init_console(void)
     clear_tilemap(0);
 
     SMS_displayOn();
-}
-
-void wait_for_vblank(void)
-{
-    SMS_waitForVBlank();
-    SMS_copySpritestoSAT(); // Update any sprite shenanigans
-}
-
-void clear_tilemap(uint16_t tile) // Must be 16-bit, not 8-bit, or else sad VDP
-{
-    // From sverx, a more efficient method
-    SMS_VRAMmemsetW(XYtoADDR(0, 0), tile, SCREEN_ROWS * SCREEN_COLUMNS * 2);
 }

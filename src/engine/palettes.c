@@ -1,6 +1,6 @@
 #include "palettes.h"
 #include "../libs/SMSlib.h"
-#include "core.h"
+#include "vblank.h"
 
 unsigned char background_palette[16] = {
     0x00, 0x00, 0x00, 0x00,
