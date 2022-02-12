@@ -1,5 +1,5 @@
-#ifndef DEFAULT_SCENE_H
-#define DEFAULT_SCENE_H
+#ifndef _DEFAULT_SCENE_H
+#define _DEFAULT_SCENE_H
 
 void default_scene_update(void);
 

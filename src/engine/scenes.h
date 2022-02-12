@@ -1,5 +1,5 @@
-#ifndef SCENES_H
-#define SCENES_H
+#ifndef _SCENES_H
+#define _SCENES_H
 #include <stdint.h>
 
 extern uint16_t frame_count, keys_released;
@@ -14,6 +14,7 @@ enum SCENES
     SCENE_DEFAULT = 0,
     SCENE_FIRE,
     SCENE_GRID,
+    SCENE_INTRO,
     SCENE_PARTICLES,
     SCENE_PLASMA,
     SCENE_SINELINE,

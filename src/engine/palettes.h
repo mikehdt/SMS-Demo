@@ -1,5 +1,5 @@
-#ifndef PALETTES_H
-#define PALETTES_H
+#ifndef _PALETTES_H
+#define _PALETTES_H
 
 #include <stdbool.h>
 #include <stdint.h>

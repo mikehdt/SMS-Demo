@@ -49,32 +49,29 @@ void first_plasma_scene_update(void)
 //-----
 
 uint16_t NumSinePnts = 8;
-uint16_t SineAddsX = 8;
-uint16_t SineAddsY = 8;
-uint16_t SineStartsY = 8;
-uint16_t SineSpeeds = 2;
-uint16_t PlasmaFreqs = 2;
-uint16_t CycleSpeed = 1;
-uint16_t ColorPalette = 0;
+uint16_t ColorPalette = 0; // This can be any colour palette
 uint16_t ScreenWidth = 32;
 uint16_t ScreenHeight = 24;
 
-// uint8_t RowFreq[8] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe};
-// uint8_t ColFreq[8] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02};
-// uint8_t StartAng[8] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41};
-
-uint8_t RowFreq[8] = {0x04, 0x05, 0xfc, 0x02, 0xfc, 0x03, 0x02, 0x01};
-uint8_t ColFreq[8] = {0x00, 0x01, 0x03, 0xfd, 0x02, 0xfd, 0xfe, 0x00};
-uint8_t StartAng[8] = {0x51, 0xa1, 0x55, 0xc1, 0x0d, 0x5a, 0xdd, 0x26};
+uint8_t SineAddsX[8] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe};
+uint8_t SineAddsY[8] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02};
+uint8_t SineStartsY[8] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41};
+uint8_t SineSpeeds[2] = {0xfe, 0xfc};
+uint8_t PlasmaFreqs[2] = {0x06, 0x07};
+uint8_t CycleSpeed = 0xff;
 
 uint16_t buffer[SCREEN_ROWS][SCREEN_COLUMNS]; // optimise to double 8-bit later
-int16_t PlasmaCnts, CycleCnt, DurationCnt;
+uint16_t screen[SCREEN_ROWS][SCREEN_COLUMNS]; // optimise to double 8-bit later
+uint16_t PlasmaCnts, CycleCnt, DurationCnt;
 
+// Init
+// I(x,y) = 8/Σ/n=1 sin(Sn + Xn * x + Yn + y)
+// For each Column(x) of Row(y), where S = SinStartsY, X = SinAddsX, Y = SinAddsY
 void init_buffer(void)
 {
-    uint8_t x, y, Phase;
-    uint16_t sin_val;
-    // StillFrame(x,y) = sum[n=1..8]: sin(StartAngle[n] + ColFreq[n] * x + RowFreq[n] * y)
+    uint8_t x, y, Phase, sin_val; // Are we relying on sin_val / sintab_lookup overflowing?
+    uint16_t sintab_lookup;
+
     for (y = 0; y < SCREEN_ROWS; y++)
     {
         for (x = 0; x < SCREEN_COLUMNS; x++)
@@ -82,13 +79,36 @@ void init_buffer(void)
             sin_val = 0;
 
             for (Phase = 0; Phase <= NumSinePnts; Phase++)
-                sin_val += (StartAng[Phase] + (ColFreq[Phase] * x) + (RowFreq[Phase] * y));
+            {
+                sintab_lookup = (SineStartsY[Phase] + (SineAddsX[Phase] * x) + (SineAddsY[Phase] * y)) >> 6;
+                sin_val += sintab[sintab_lookup] + 128;
+            }
 
-            buffer[y][x] = sintab[sin_val >> 8] + 128;
+            buffer[y][x] = sin_val;
         }
     }
+}
 
-    //clang-format on
+// Animate
+// D(n,y) = 1/2 * (sin(S1 * n + P1 * y) + sin(S2 * n + P2 * y)) + C * n
+// For each Row(y) of Frame(n), where S = SineSpeeds, P = PlasmaFreqs, C = CycleSpeed
+void animate_buffer(void)
+{
+    uint8_t x, y;
+    uint16_t sintab_lookup_a, sintab_lookup_b, sintab_lookup_c;
+
+    for (y = 0; y < SCREEN_ROWS; y++)
+    {
+        // This code is cursed
+        sintab_lookup_a = (SineSpeeds[0] * CycleCnt) + (PlasmaFreqs[0] * y);
+        sintab_lookup_b = (SineSpeeds[1] * CycleCnt) + (PlasmaFreqs[1] * y);
+        sintab_lookup_c = (((sintab[sintab_lookup_a] + 128) + (sintab[sintab_lookup_b] + 128)) >> 1) + (8 * CycleCnt);
+
+        for (x = 0; x < SCREEN_COLUMNS; x++)
+        {
+            screen[y][x] = (buffer[y][x] + sintab_lookup_c) & 255;
+        }
+    }
 }
 
 void plasma_scene_init(void)
@@ -103,13 +123,17 @@ void plasma_scene_init(void)
     // make_speed_code(); // future :)
     // load_pattern_table(); // this is done by the PSG tiles above :)
     init_buffer(); // init first effect
+
+    CycleCnt = 0;
 }
 
 void plasma_scene_update(void)
 {
     wait_for_vblank();
 
-    init_buffer();
+    animate_buffer();
 
-    SMS_VRAMmemcpy(SMS_PNTAddress, &buffer, SCREEN_SIZE_BYTES);
+    SMS_VRAMmemcpy(SMS_PNTAddress, &screen, SCREEN_SIZE_BYTES);
+
+    CycleCnt++;
 }

@@ -40,6 +40,6 @@ void main(void)
 // Stop VScode from fussing about these function calls
 #ifndef __INTELLISENSE__
 SMS_EMBED_SEGA_ROM_HEADER(9999, 0);
-SMS_EMBED_SDSC_HEADER_AUTO_DATE(1, 0, "Mike Hopkins", "Hello World",
+SMS_EMBED_SDSC_HEADER_AUTO_DATE(1, 0, "Mike Hopkins", "SMS Demo",
                                 "Mucking about with the Master System");
 #endif

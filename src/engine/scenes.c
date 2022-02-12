@@ -3,6 +3,7 @@
 #include "../scenes/default.h"
 #include "../scenes/fire.h"
 #include "../scenes/grid.h"
+#include "../scenes/intro.h"
 #include "../scenes/particles.h"
 #include "../scenes/plasma.h"
 #include "../scenes/sineline.h"
@@ -34,6 +35,9 @@ void init_scenes(void)
 
     scenes[SCENE_GRID].init = grid_scene_init;
     scenes[SCENE_GRID].update = grid_scene_update;
+
+    scenes[SCENE_INTRO].init = intro_scene_init;
+    scenes[SCENE_INTRO].update = intro_scene_update;
 
     scenes[SCENE_PARTICLES].init = particles_scene_init;
     scenes[SCENE_PARTICLES].update = particles_scene_update;

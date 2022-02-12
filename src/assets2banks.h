@@ -76,9 +76,18 @@ extern const unsigned char	plasma_grade_tiles_psgcompr[3527];
 extern const unsigned char	fire_grade_tiles_psgcompr[2031];
 #define				fire_grade_tiles_psgcompr_size 2031
 #define				fire_grade_tiles_psgcompr_bank 2
+extern const unsigned char	da_mini_fade_tiles_psgcompr[262];
+#define				da_mini_fade_tiles_psgcompr_size 262
+#define				da_mini_fade_tiles_psgcompr_bank 2
+extern const unsigned char	da_mini_tiles_psgcompr[88];
+#define				da_mini_tiles_psgcompr_size 88
+#define				da_mini_tiles_psgcompr_bank 2
 extern const unsigned char	small_sine_tilemap_stmcompr[46];
 #define				small_sine_tilemap_stmcompr_size 46
 #define				small_sine_tilemap_stmcompr_bank 2
+extern const unsigned char	da_mini_palette_bin[16];
+#define				da_mini_palette_bin_size 16
+#define				da_mini_palette_bin_bank 2
 extern const unsigned char	fire_grade_palette_bin[16];
 #define				fire_grade_palette_bin_size 16
 #define				fire_grade_palette_bin_bank 2
@@ -91,6 +100,9 @@ extern const unsigned char	sphere_palette_bin[16];
 extern const unsigned char	spheres_palette_bin[16];
 #define				spheres_palette_bin_size 16
 #define				spheres_palette_bin_bank 2
+extern const unsigned char	da_mini_fade_palette_bin[13];
+#define				da_mini_fade_palette_bin_size 13
+#define				da_mini_fade_palette_bin_bank 2
 extern const unsigned char	blank_palette_bin[12];
 #define				blank_palette_bin_size 12
 #define				blank_palette_bin_bank 2
@@ -103,6 +115,12 @@ extern const unsigned char	fire_grade_tilemap_stmcompr[10];
 extern const unsigned char	plasma_grade_tilemap_stmcompr[10];
 #define				plasma_grade_tilemap_stmcompr_size 10
 #define				plasma_grade_tilemap_stmcompr_bank 2
+extern const unsigned char	da_mini_tilemap_stmcompr[4];
+#define				da_mini_tilemap_stmcompr_size 4
+#define				da_mini_tilemap_stmcompr_bank 2
+extern const unsigned char	da_mini_fade_tilemap_stmcompr[4];
+#define				da_mini_fade_tilemap_stmcompr_size 4
+#define				da_mini_fade_tilemap_stmcompr_bank 2
 extern const unsigned char	font_alpha_tilemap_stmcompr[4];
 #define				font_alpha_tilemap_stmcompr_size 4
 #define				font_alpha_tilemap_stmcompr_bank 2
