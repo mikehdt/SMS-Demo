@@ -98,6 +98,7 @@ void init_background(void)
     // Background
     SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 121);
     SMS_loadSpritePalette(palms_palette_bin);
+    SMS_setSpritePaletteColor(0, 0x10);
 
     clear_tilemap(bg_tile);
 

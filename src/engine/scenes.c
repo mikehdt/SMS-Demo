@@ -11,7 +11,7 @@
 #include "../scenes/type.h"
 #include <stdlib.h>
 
-uint16_t frame_count, keys_active;
+uint16_t frame_count;
 int8_t current_scene = -1;
 
 typedef void (*ptr_func)(void);
@@ -64,17 +64,17 @@ void init_scenes(void)
 
 void update_scene(void)
 {
-    // Might need to move this out to the core loop?
-    keys_active = SMS_getKeysHeld();
-
-    if (keys_active & PORT_A_KEY_1)
+    // Need to handle this better
+    if (SMS_getKeysHeld() & PORT_A_KEY_1)
     {
+        // "Debounce" the button press as it were... this is a bit hacky
+        while (SMS_getKeysHeld() != 0x0000)
+            SMS_waitForVBlank();
+
         if (current_scene + 1 >= MAX_SCENES)
             transition_to_scene(1);
         else
             transition_to_scene(current_scene + 1);
-
-        return;
     }
 
     scenes[current_scene].update();

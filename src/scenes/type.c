@@ -64,6 +64,7 @@ void type_scene_init(void)
     SMS_loadBGPalette(font_alpha_palette_bin);
     SMS_loadSpritePalette(font_alpha_palette_bin);
     SMS_loadPSGaidencompressedTiles(font_alpha_tiles_psgcompr, 0);
+    SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 40);
 
     clear_tilemap(40);
 }

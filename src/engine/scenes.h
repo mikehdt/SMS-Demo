@@ -2,7 +2,8 @@
 #define _SCENES_H
 #include <stdint.h>
 
-extern uint16_t frame_count, keys_released;
+extern uint16_t frame_count;
+extern int8_t current_scene;
 
 void init_scenes(void);
 void update_scene(void);

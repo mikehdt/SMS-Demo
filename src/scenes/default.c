@@ -3,5 +3,5 @@
 
 void default_scene_update(void)
 {
-    transition_to_scene(SCENE_INTRO);
+    transition_to_scene(SCENE_FIRE);
 }

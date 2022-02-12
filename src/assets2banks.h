@@ -73,8 +73,8 @@ extern const unsigned char	sphere_clip_tiles_psgcompr[155];
 extern const unsigned char	plasma_grade_tiles_psgcompr[3527];
 #define				plasma_grade_tiles_psgcompr_size 3527
 #define				plasma_grade_tiles_psgcompr_bank 2
-extern const unsigned char	fire_grade_tiles_psgcompr[2031];
-#define				fire_grade_tiles_psgcompr_size 2031
+extern const unsigned char	fire_grade_tiles_psgcompr[2098];
+#define				fire_grade_tiles_psgcompr_size 2098
 #define				fire_grade_tiles_psgcompr_bank 2
 extern const unsigned char	da_mini_fade_tiles_psgcompr[262];
 #define				da_mini_fade_tiles_psgcompr_size 262
@@ -103,9 +103,6 @@ extern const unsigned char	spheres_palette_bin[16];
 extern const unsigned char	da_mini_fade_palette_bin[13];
 #define				da_mini_fade_palette_bin_size 13
 #define				da_mini_fade_palette_bin_bank 2
-extern const unsigned char	blank_palette_bin[12];
-#define				blank_palette_bin_size 12
-#define				blank_palette_bin_bank 2
 extern const unsigned char	sphere_clip_palette_bin[12];
 #define				sphere_clip_palette_bin_size 12
 #define				sphere_clip_palette_bin_bank 2
@@ -133,3 +130,6 @@ extern const unsigned char	mesh_03_palette_bin[4];
 extern const unsigned char	mesh_04_palette_bin[4];
 #define				mesh_04_palette_bin_size 4
 #define				mesh_04_palette_bin_bank 2
+extern const unsigned char	blank_palette_bin[1];
+#define				blank_palette_bin_size 1
+#define				blank_palette_bin_bank 2
