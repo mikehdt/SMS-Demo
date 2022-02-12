@@ -26,7 +26,7 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 
 ## Controls
 
-Press the `1` key to cycle through the various scenes (some more computationally-heavy scenes might need a bit of an extra kick to move on...)
+Press the `1` button to cycle through the various scenes (some more computationally-heavy scenes might need a bit of an extra kick to move on...)
 
 ## Dependencies
 
