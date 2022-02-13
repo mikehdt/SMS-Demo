@@ -2,6 +2,10 @@
 #include "../libs/SMSlib.h"
 #include "vblank.h"
 
+// Palette reference: https://www.smspower.org/maxim/HowToProgram/Palette
+
+// Eventually, decouple these fns from blocking with wait_for_vblank() calls
+
 unsigned char background_palette[16] = {
     0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
@@ -27,13 +31,14 @@ enum COLOR_COMPONENTS
     COLOR_B
 };
 
-unsigned char
-fade_fragment(unsigned char current_color, unsigned char target_color)
+unsigned char fade_fragment(unsigned char current_color, unsigned char target_color)
 {
-    // Thought... so this flattens colours from immediate, rather than from end.
+    // So this routine flattens colours from immediate, rather than from end.
+    //
     // I wonder if there's a way to determine if say, the colour channel is a 1,
     // the target is 0 but it's only the first loop, don't flatten it until it
     // hits the third time?
+    //
     // Perhaps have a bitwise counter, which is reset on iteration 0?
     if (current_color > target_color)
         return current_color - 1;
@@ -78,7 +83,6 @@ unsigned char color_array_out[9] = {
 // To consider: palette offset / total change, instead of always being 0.
 void fade_to_palette(unsigned char *target_palette, bool is_in)
 {
-    // Eventually, decouple this from blocking with wait_for_vblank() calls
     uint8_t i, j;
 
     unsigned char temporal_palette[16];
@@ -137,6 +141,7 @@ void fade_from_black(unsigned char *target_palette)
 
         SMS_loadBGPalette(temporal_palette);
 
+        // Need to decouple this delay somehow...
         for (j = 0; j < frame_delay; j++)
             wait_for_vblank();
     }

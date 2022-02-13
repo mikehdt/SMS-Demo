@@ -32,30 +32,60 @@ void fire_scene_init(void)
     clear_tilemap(0 | TILE_USE_SPRITE_PALETTE);
 }
 
+void seed_fire_tiles(void)
+{
+    uint8_t *fire_arr = fire + FIRE_SIZE;
+    const uint8_t *fire_end = fire + SEED_SIZE,
+                  *fire_edge_a = fire + FIRE_SIZE + EDGE_WIDTH,
+                  *fire_edge_b = fire + FIRE_SIZE + ROW_WIDTH - EDGE_WIDTH,
+                  *fire_edge_c = fire + FIRE_SIZE + ROW_WIDTH + EDGE_WIDTH,
+                  *fire_edge_d = fire + SEED_SIZE - EDGE_WIDTH;
+
+    // Generate noise across "virtual" lines
+    while (fire_arr < fire_end)
+    {
+        // Blank the sides across the two noise rows
+        if (fire_arr < fire_edge_a || (fire_arr >= fire_edge_b && fire_arr < fire_edge_c) || fire_arr >= fire_edge_d)
+            *fire_arr = 0;
+        else
+            *fire_arr = ps_rand();
+
+        fire_arr += 2; // Skip every second byte
+    }
+}
+
+void calc_fire_tiles(void)
+{
+    uint8_t *fire_arr = fire, fire_tile;
+    const uint8_t *fire_end = fire + FIRE_SIZE;
+
+    //   i   <- Current row item
+    // a b c <- First row below
+    //   x   <- Second row below
+    while (fire_arr < fire_end)
+    {
+        // This may seem unnecessary in C, but it makes the generated z80
+        // assembly code muck about less. fire_arr[VAL] == *(fire_arr + VAL)
+        fire_tile = fire_arr[FIRE_A] >> 2;
+        fire_tile += fire_arr[FIRE_B] >> 2;
+        fire_tile += fire_arr[FIRE_C] >> 2;
+        fire_tile += fire_arr[FIRE_X] >> 2;
+
+        if (fire_tile >= FIRE_DAMPEN)
+            fire_tile -= FIRE_DAMPEN;
+
+        *fire_arr = fire_tile;
+
+        fire_arr += 2; // Skip every second byte
+    }
+}
+
 void fire_scene_update(void)
 {
-    wait_for_vblank();
-
     if (frame_count & 1 == 1)
     {
-        uint8_t *fire_arr = fire + FIRE_SIZE;
-        const uint8_t *fire_end = fire + SEED_SIZE,
-                      *fire_edge_a = fire + FIRE_SIZE + EDGE_WIDTH,
-                      *fire_edge_b = fire + FIRE_SIZE + ROW_WIDTH - EDGE_WIDTH,
-                      *fire_edge_c = fire + FIRE_SIZE + ROW_WIDTH + EDGE_WIDTH,
-                      *fire_edge_d = fire + SEED_SIZE - EDGE_WIDTH;
-
-        // Generate noise across "virtual" lines
-        while (fire_arr < fire_end)
-        {
-            // Blank the sides across the two noise rows
-            if (fire_arr < fire_edge_a || (fire_arr >= fire_edge_b && fire_arr < fire_edge_c) || fire_arr >= fire_edge_d)
-                *fire_arr = 0;
-            else
-                *fire_arr = ps_rand();
-
-            fire_arr += 2; // Skip every second byte
-        }
+        wait_for_vblank();
+        seed_fire_tiles();
 
         // Splat the tilemap to the VDP
         SMS_VRAMmemcpy(SMS_PNTAddress, &fire, FIRE_SIZE);
@@ -64,27 +94,6 @@ void fire_scene_update(void)
     }
     else
     {
-        uint8_t *fire_arr = fire, fire_tile;
-        const uint8_t *fire_end = fire + FIRE_SIZE;
-
-        //   i   <- Current row item
-        // a b c <- First row below
-        //   x   <- Second row below
-        while (fire_arr < fire_end)
-        {
-            // This may seem unnecessary in C, but it makes the generated z80
-            // assembly code muck about less. fire_arr[VAL] == *(fire_arr + VAL)
-            fire_tile = (fire_arr[FIRE_A] >> 2) +
-                        (fire_arr[FIRE_B] >> 2) +
-                        (fire_arr[FIRE_C] >> 2) +
-                        (fire_arr[FIRE_X] >> 2);
-
-            if (fire_tile >= FIRE_DAMPEN)
-                fire_tile -= FIRE_DAMPEN;
-
-            *fire_arr = fire_tile;
-
-            fire_arr += 2; // Skip every second byte
-        }
+        calc_fire_tiles();
     }
 }
