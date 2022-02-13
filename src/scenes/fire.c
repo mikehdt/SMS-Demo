@@ -67,56 +67,56 @@ void calc_fire_tiles_asm(void) __naked
 
     // clang-format off
 __asm
-    ld	bc, #_fire
+    ld  bc, #_fire
 ; // while (fire_arr < fire_end)
 MainFireLoop:
     ; // 0x0600 (1536) is the size of the fire array not including seed rows
-    ld	a, c
-    sub	a, #<(_fire + 0x0600)
-    ld	a, b
-    sbc	a, #>(_fire + 0x0600)
-    ret	NC
+    ld  a, c
+    sub a, #<(_fire + 0x0600)
+    ld  a, b
+    sbc a, #>(_fire + 0x0600)
+    ret NC
 ; // fire_tile = fire_arr[32 * 2 - 2] >> 2;
-    ld	hl, #62
-    add	hl, bc
-    ld	a, (hl)
+    ld  hl, #62
+    add hl, bc
+    ld  a, (hl)
     rra
     rra
-    and	a, #0x3f ; // ??? What is this doing? Bit-masking to 63?
+    and a, #0x3f ; // ??? What is this doing? Bit-masking to 63?
 ; // fire_tile += fire_arr[32 * 2] >> 2;
     inc hl
     inc hl
-    ld	e, (hl)
-    srl	e
-    srl	e
-    add	a, e
+    ld  e, (hl)
+    srl e
+    srl e
+    add a, e
 ; // fire_tile += fire_arr[32 * 2 + 2] >> 2;
     inc hl
     inc hl
-    ld	e, (hl)
-    srl	e
-    srl	e
-    add	a, e
+    ld  e, (hl)
+    srl e
+    srl e
+    add a, e
 ; // fire_tile += fire_arr[32 * 2 * 2] >> 2;
-    ld	hl, #128
-    add	hl, bc
-    ld	e, (hl)
-    srl	e
-    srl	e
-    add	a, e
+    ld  hl, #128
+    add hl, bc
+    ld  e, (hl)
+    srl e
+    srl e
+    add a, e
 ; // if (fire_tile >= 3)
-    cp	a, #0x03
-    jr	C, SetFireTile
+    cp  a, #0x03
+    jr  C, SetFireTile
 ; // fire_tile -= 3;
-    add	a, #0xfd
+    add a, #0xfd
 SetFireTile:
 ; // *fire_arr = fire_tile;
-    ld	(bc), a
+    ld  (bc), a
 ; // fire_arr += 2;
-    inc	bc
-    inc	bc
+    inc bc
+    inc bc
 ; // }
-    jr	MainFireLoop
+    jr  MainFireLoop
 __endasm;
     // clang-format on
 }
