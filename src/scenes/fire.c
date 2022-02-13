@@ -45,46 +45,119 @@ void seed_fire_tiles(void)
     while (fire_arr < fire_end)
     {
         // Blank the sides across the two noise rows
-        if (fire_arr < fire_edge_a || (fire_arr >= fire_edge_b && fire_arr < fire_edge_c) || fire_arr >= fire_edge_d)
+        if ((fire_arr < fire_edge_a) ||
+            (fire_arr >= fire_edge_b && fire_arr < fire_edge_c) ||
+            (fire_arr >= fire_edge_d))
+        {
             *fire_arr = 0;
+        }
         else
+        {
             *fire_arr = ps_rand();
+
+            if (*fire_arr < 32)
+                *fire_arr = 32;
+            else if (*fire_arr > 192)
+                *fire_arr = 255;
+        }
 
         fire_arr += 2; // Skip every second byte
     }
 }
 
-void calc_fire_tiles(void)
+// Transpiled to z80 assembly below
+// void calc_fire_tiles(void)
+// {
+//     uint8_t *fire_arr = fire, fire_tile;
+//     const uint8_t *fire_end = fire + FIRE_SIZE;
+
+//     //   i   <- Current row item
+//     // a b c <- First row below
+//     //   x   <- Second row below
+//     while (fire_arr < fire_end)
+//     {
+//         // This may seem unnecessary in C, but it makes the generated z80
+//         // assembly code muck about less. fire_arr[VAL] == *(fire_arr + VAL)
+//         fire_tile = fire_arr[FIRE_A] >> 2;
+//         fire_tile += fire_arr[FIRE_B] >> 2;
+//         fire_tile += fire_arr[FIRE_C] >> 2;
+//         fire_tile += fire_arr[FIRE_X] >> 2;
+
+//         if (fire_tile >= FIRE_DAMPEN)
+//             fire_tile -= FIRE_DAMPEN;
+
+//         *fire_arr = fire_tile;
+
+//         fire_arr += 2; // Skip every second byte
+//     }
+// }
+
+void calc_fire_tiles_asm(void) __naked
 {
-    uint8_t *fire_arr = fire, fire_tile;
-    const uint8_t *fire_end = fire + FIRE_SIZE;
+    // I haven't gotten the inline assembly to work nicely in VScode yet, so the
+    // extra double-slashes in the asm comments are just to fake readability
 
-    //   i   <- Current row item
-    // a b c <- First row below
-    //   x   <- Second row below
-    while (fire_arr < fire_end)
-    {
-        // This may seem unnecessary in C, but it makes the generated z80
-        // assembly code muck about less. fire_arr[VAL] == *(fire_arr + VAL)
-        fire_tile = fire_arr[FIRE_A] >> 2;
-        fire_tile += fire_arr[FIRE_B] >> 2;
-        fire_tile += fire_arr[FIRE_C] >> 2;
-        fire_tile += fire_arr[FIRE_X] >> 2;
-
-        if (fire_tile >= FIRE_DAMPEN)
-            fire_tile -= FIRE_DAMPEN;
-
-        *fire_arr = fire_tile;
-
-        fire_arr += 2; // Skip every second byte
-    }
+    // clang-format off
+__asm
+    ld	bc, #_fire
+; // while (fire_arr < fire_end)
+MainFireLoop:
+    ld	a, c
+    sub	a, #<(_fire + 0x0500)
+    ld	a, b
+    sbc	a, #>(_fire + 0x0500)
+    ret	NC
+; // fire_tile = fire_arr[32 * 2 - 2] >> 2;
+    ld	hl, #62
+    add	hl, bc
+    ld	a, (hl)
+    rra
+    rra
+    and	a, #0x3f ; // ??? What is this doing? Bit-masking to 64?
+; // fire_tile += fire_arr[32 * 2] >> 2;
+    inc hl
+    inc hl
+    ld	e, (hl)
+    srl	e
+    srl	e
+    add	a, e
+; // fire_tile += fire_arr[32 * 2 + 2] >> 2;
+    inc hl
+    inc hl
+    ld	e, (hl)
+    srl	e
+    srl	e
+    add	a, e
+; // fire_tile += fire_arr[32 * 2 * 2] >> 2;
+    ld	hl, #128
+    add	hl, bc
+    ld	e, (hl)
+    srl	e
+    srl	e
+    add	a, e
+; // if (fire_tile >= 3)
+    cp	a, #0x03
+    jr	C, SetFireTile
+; // fire_tile -= 3;
+    add	a, #0xfd
+SetFireTile:
+; // *fire_arr = fire_tile;
+    ld	(bc), a
+; // fire_arr += 2;
+    inc	bc
+    inc	bc
+; // }
+    jr	MainFireLoop
+__endasm;
+    // clang-format on
 }
 
 void fire_scene_update(void)
 {
+    wait_for_vblank();
+
     if (frame_count & 1 == 1)
     {
-        wait_for_vblank();
         seed_fire_tiles();
 
         // Splat the tilemap to the VDP
@@ -94,6 +167,6 @@ void fire_scene_update(void)
     }
     else
     {
-        calc_fire_tiles();
+        calc_fire_tiles_asm();
     }
 }
