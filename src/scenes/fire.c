@@ -10,13 +10,8 @@
 
 // #define MAX(a, b) ((a) > (b)) ? (a) : (b); // Best a/b are not expressions...
 #define ROW_WIDTH 32 * 2 // doubled due to 8-bit pairs, max 32
-#define ROW_TOTAL 20     // max 24
-#define EDGE_WIDTH 6
-#define FIRE_A ROW_WIDTH - 2
-#define FIRE_B ROW_WIDTH
-#define FIRE_C ROW_WIDTH + 2
-#define FIRE_X ROW_WIDTH * 2
-#define FIRE_DAMPEN 3 // lower = taller flames
+#define ROW_TOTAL 24     // max 24
+#define EDGE_WIDTH 3 * 2 // doubled due to 8-bit pairs
 #define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
 #define SEED_SIZE ((ROW_TOTAL + 2) * ROW_WIDTH)
 
@@ -65,33 +60,6 @@ void seed_fire_tiles(void)
     }
 }
 
-// Transpiled to z80 assembly below
-// void calc_fire_tiles(void)
-// {
-//     uint8_t *fire_arr = fire, fire_tile;
-//     const uint8_t *fire_end = fire + FIRE_SIZE;
-
-//     //   i   <- Current row item
-//     // a b c <- First row below
-//     //   x   <- Second row below
-//     while (fire_arr < fire_end)
-//     {
-//         // This may seem unnecessary in C, but it makes the generated z80
-//         // assembly code muck about less. fire_arr[VAL] == *(fire_arr + VAL)
-//         fire_tile = fire_arr[FIRE_A] >> 2;
-//         fire_tile += fire_arr[FIRE_B] >> 2;
-//         fire_tile += fire_arr[FIRE_C] >> 2;
-//         fire_tile += fire_arr[FIRE_X] >> 2;
-
-//         if (fire_tile >= FIRE_DAMPEN)
-//             fire_tile -= FIRE_DAMPEN;
-
-//         *fire_arr = fire_tile;
-
-//         fire_arr += 2; // Skip every second byte
-//     }
-// }
-
 void calc_fire_tiles_asm(void) __naked
 {
     // I haven't gotten the inline assembly to work nicely in VScode yet, so the
@@ -102,10 +70,11 @@ __asm
     ld	bc, #_fire
 ; // while (fire_arr < fire_end)
 MainFireLoop:
+    ; // 0x0600 (1536) is the size of the fire array not including seed rows
     ld	a, c
-    sub	a, #<(_fire + 0x0500)
+    sub	a, #<(_fire + 0x0600)
     ld	a, b
-    sbc	a, #>(_fire + 0x0500)
+    sbc	a, #>(_fire + 0x0600)
     ret	NC
 ; // fire_tile = fire_arr[32 * 2 - 2] >> 2;
     ld	hl, #62
@@ -113,7 +82,7 @@ MainFireLoop:
     ld	a, (hl)
     rra
     rra
-    and	a, #0x3f ; // ??? What is this doing? Bit-masking to 64?
+    and	a, #0x3f ; // ??? What is this doing? Bit-masking to 63?
 ; // fire_tile += fire_arr[32 * 2] >> 2;
     inc hl
     inc hl
@@ -170,3 +139,35 @@ void fire_scene_update(void)
         calc_fire_tiles_asm();
     }
 }
+
+// Transpiled to z80 assembly above
+// #define FIRE_A ROW_WIDTH - 2
+// #define FIRE_B ROW_WIDTH
+// #define FIRE_C ROW_WIDTH + 2
+// #define FIRE_X ROW_WIDTH * 2
+// #define FIRE_DAMPEN 3 // lower = taller flames
+// void calc_fire_tiles(void)
+// {
+//     uint8_t *fire_arr = fire, fire_tile;
+//     const uint8_t *fire_end = fire + FIRE_SIZE;
+
+//     //   i   <- Current row item
+//     // a b c <- First row below
+//     //   x   <- Second row below
+//     while (fire_arr < fire_end)
+//     {
+//         // This may seem unnecessary in C, but it makes the generated z80
+//         // assembly code muck about less. fire_arr[VAL] == *(fire_arr + VAL)
+//         fire_tile = fire_arr[FIRE_A] >> 2;
+//         fire_tile += fire_arr[FIRE_B] >> 2;
+//         fire_tile += fire_arr[FIRE_C] >> 2;
+//         fire_tile += fire_arr[FIRE_X] >> 2;
+
+//         if (fire_tile >= FIRE_DAMPEN)
+//             fire_tile -= FIRE_DAMPEN;
+
+//         *fire_arr = fire_tile;
+
+//         fire_arr += 2; // Skip every second byte
+//     }
+// }
