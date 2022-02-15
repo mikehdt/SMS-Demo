@@ -20,7 +20,6 @@ void main(void)
         // Loop whilst the reset key is NOT pressed
         do
         {
-            // Could move to its own file later on
             keys_pressed = SMS_getKeysPressed();
 
             if (SMS_queryPauseRequested())

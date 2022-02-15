@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-uint16_t scroll_x[11];
+uint16_t pic_scroll_x[11];
 unsigned char lineCnt;
 
 void load_assets(void)
@@ -17,7 +17,7 @@ void load_assets(void)
 
 void scrollInterruptHandler(void)
 {
-    SMS_setBGScrollX(scroll_x[++lineCnt] >> 2);
+    SMS_setBGScrollX(pic_scroll_x[++lineCnt] >> 2);
 }
 
 void enable_scrolling(void)
@@ -28,42 +28,51 @@ void enable_scrolling(void)
     SMS_enableLineInterrupt();
     SMS_setBGScrollX(0);
 
-    scroll_x[0] = 0xFFFF;
-    scroll_x[1] = 0xFFFF;
-    scroll_x[2] = 0xFFFF;
-    scroll_x[3] = 0xFFFF;
-    scroll_x[4] = 0xFFFF;
-    scroll_x[5] = 0xFFFF;
-    scroll_x[6] = 0xFFFF;
-    scroll_x[7] = 0xFFFF;
-    scroll_x[8] = 0xFFFF;
-    scroll_x[9] = 0xFFFF;
-    scroll_x[10] = 0xFFFF;
+    pic_scroll_x[0] = 0xFFFF;
+    pic_scroll_x[1] = 0xFFFF;
+    pic_scroll_x[2] = 0xFFFF;
+    pic_scroll_x[3] = 0xFFFF;
+    pic_scroll_x[4] = 0xFFFF;
+    pic_scroll_x[5] = 0xFFFF;
+    pic_scroll_x[6] = 0xFFFF;
+    pic_scroll_x[7] = 0xFFFF;
+    pic_scroll_x[8] = 0xFFFF;
+    pic_scroll_x[9] = 0xFFFF;
+    pic_scroll_x[10] = 0xFFFF;
     lineCnt = 0;
 }
 
-void init_background(void)
+void scroller_scene_init(void)
 {
     load_assets();
     enable_scrolling();
 }
 
-void animate_background(void)
+void scroller_scene_update(void)
 {
-    SMS_setBGScrollX(scroll_x[0] >> 2);
-    scroll_x[0] -= 9;
-    scroll_x[1] -= 9;
-    scroll_x[2] -= 8;
-    scroll_x[3] -= 7;
-    scroll_x[4] -= 6;
-    scroll_x[5] -= 5;
-    scroll_x[6] -= 4;
-    scroll_x[7] -= 3;
-    scroll_x[8] -= 2;
-    scroll_x[9] -= 1;
-    scroll_x[10] -= 1;
+    SMS_waitForVBlank();
+
+    SMS_setBGScrollX(pic_scroll_x[0] >> 2);
+
+    pic_scroll_x[0] -= 9;
+    pic_scroll_x[1] -= 9;
+    pic_scroll_x[2] -= 8;
+    pic_scroll_x[3] -= 7;
+    pic_scroll_x[4] -= 6;
+    pic_scroll_x[5] -= 5;
+    pic_scroll_x[6] -= 4;
+    pic_scroll_x[7] -= 3;
+    pic_scroll_x[8] -= 2;
+    pic_scroll_x[9] -= 1;
+    pic_scroll_x[10] -= 1;
 
     lineCnt = 0;
 }
 
 // also disable int handling
+void scroller_scene_end(void)
+{
+    SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK);
+    SMS_disableLineInterrupt();
+    SMS_setBGScrollX(0);
+}

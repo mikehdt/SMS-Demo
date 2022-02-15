@@ -6,6 +6,7 @@
 #include "../scenes/intro.h"
 #include "../scenes/particles.h"
 #include "../scenes/plasma.h"
+#include "../scenes/scroller.h"
 #include "../scenes/sineline.h"
 #include "../scenes/sphere.h"
 #include "../scenes/type.h"
@@ -45,6 +46,10 @@ void init_scenes(void)
 
     scenes[SCENE_PLASMA].init = plasma_scene_init;
     scenes[SCENE_PLASMA].update = plasma_scene_update;
+
+    scenes[SCENE_SCROLLER].init = scroller_scene_init;
+    scenes[SCENE_SCROLLER].update = scroller_scene_update;
+    scenes[SCENE_SCROLLER].end = scroller_scene_end;
 
     scenes[SCENE_SINELINE].init = sineline_scene_init;
     scenes[SCENE_SINELINE].update = sineline_scene_update;

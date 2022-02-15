@@ -17,7 +17,7 @@
 #define Y_RANGE (256 >> Y_BITSHIFT) // sintab range 128:-128 ie. 256
 
 uint16_t count;
-uint16_t scroll_x;
+uint16_t particle_scroll_x;
 
 struct sphere
 {
@@ -142,7 +142,7 @@ void particles_scene_init(void)
 
     STAGE = 1;
     count = 0;
-    scroll_x = 0;
+    particle_scroll_x = 0;
     ang_x = 0;
     ang_y = 0;
 
@@ -159,7 +159,7 @@ void particles_scene_init(void)
 
 void particles_scene_update(void)
 {
-    SMS_setBGScrollX(scroll_x++ >> 3);
+    SMS_setBGScrollX(particle_scroll_x++ >> 3);
 
     animate_spheres();
     wait_for_vblank();

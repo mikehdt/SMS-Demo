@@ -1,9 +1,3 @@
-extern const unsigned char	font_alpha_tiles_psgcompr[796];
-#define				font_alpha_tiles_psgcompr_size 796
-#define				font_alpha_tiles_psgcompr_bank 2
-extern const unsigned char	font_alpha_palette_bin[6];
-#define				font_alpha_palette_bin_size 6
-#define				font_alpha_palette_bin_bank 2
 extern const unsigned char	palms_tiles_psgcompr[1148];
 #define				palms_tiles_psgcompr_size 1148
 #define				palms_tiles_psgcompr_bank 2
@@ -34,6 +28,15 @@ extern const unsigned char	sphere_tiles_psgcompr[1981];
 extern const unsigned char	sphere_tilemap_stmcompr[34];
 #define				sphere_tilemap_stmcompr_size 34
 #define				sphere_tilemap_stmcompr_bank 2
+extern const unsigned char	spheres_tiles_psgcompr[151];
+#define				spheres_tiles_psgcompr_size 151
+#define				spheres_tiles_psgcompr_bank 2
+extern const unsigned char	blank_tiles_psgcompr[3];
+#define				blank_tiles_psgcompr_size 3
+#define				blank_tiles_psgcompr_bank 2
+extern const unsigned char	sphere_clip_tiles_psgcompr[155];
+#define				sphere_clip_tiles_psgcompr_size 155
+#define				sphere_clip_tiles_psgcompr_bank 2
 extern const unsigned char	mesh_01_tiles_psgcompr[13];
 #define				mesh_01_tiles_psgcompr_size 13
 #define				mesh_01_tiles_psgcompr_bank 2
@@ -61,27 +64,30 @@ extern const unsigned char	mesh_04_tiles_psgcompr[113];
 extern const unsigned char	mesh_04_tilemap_stmcompr[1479];
 #define				mesh_04_tilemap_stmcompr_size 1479
 #define				mesh_04_tilemap_stmcompr_bank 2
-extern const unsigned char	spheres_tiles_psgcompr[151];
-#define				spheres_tiles_psgcompr_size 151
-#define				spheres_tiles_psgcompr_bank 2
-extern const unsigned char	blank_tiles_psgcompr[3];
-#define				blank_tiles_psgcompr_size 3
-#define				blank_tiles_psgcompr_bank 2
-extern const unsigned char	sphere_clip_tiles_psgcompr[155];
-#define				sphere_clip_tiles_psgcompr_size 155
-#define				sphere_clip_tiles_psgcompr_bank 2
 extern const unsigned char	plasma_grade_tiles_psgcompr[3527];
 #define				plasma_grade_tiles_psgcompr_size 3527
 #define				plasma_grade_tiles_psgcompr_bank 2
 extern const unsigned char	fire_grade_tiles_psgcompr[2098];
 #define				fire_grade_tiles_psgcompr_size 2098
 #define				fire_grade_tiles_psgcompr_bank 2
+extern const unsigned char	font_alpha_tiles_psgcompr[796];
+#define				font_alpha_tiles_psgcompr_size 796
+#define				font_alpha_tiles_psgcompr_bank 2
+extern const unsigned char	font_alpha_palette_bin[6];
+#define				font_alpha_palette_bin_size 6
+#define				font_alpha_palette_bin_bank 2
 extern const unsigned char	da_mini_fade_tiles_psgcompr[262];
 #define				da_mini_fade_tiles_psgcompr_size 262
 #define				da_mini_fade_tiles_psgcompr_bank 2
+extern const unsigned char	da_mini_fade_tilemap_stmcompr[4];
+#define				da_mini_fade_tilemap_stmcompr_size 4
+#define				da_mini_fade_tilemap_stmcompr_bank 2
 extern const unsigned char	da_mini_tiles_psgcompr[88];
 #define				da_mini_tiles_psgcompr_size 88
 #define				da_mini_tiles_psgcompr_bank 2
+extern const unsigned char	da_mini_tilemap_stmcompr[4];
+#define				da_mini_tilemap_stmcompr_size 4
+#define				da_mini_tilemap_stmcompr_bank 2
 extern const unsigned char	small_sine_tilemap_stmcompr[46];
 #define				small_sine_tilemap_stmcompr_size 46
 #define				small_sine_tilemap_stmcompr_bank 2
@@ -112,12 +118,6 @@ extern const unsigned char	fire_grade_tilemap_stmcompr[10];
 extern const unsigned char	plasma_grade_tilemap_stmcompr[10];
 #define				plasma_grade_tilemap_stmcompr_size 10
 #define				plasma_grade_tilemap_stmcompr_bank 2
-extern const unsigned char	da_mini_tilemap_stmcompr[4];
-#define				da_mini_tilemap_stmcompr_size 4
-#define				da_mini_tilemap_stmcompr_bank 2
-extern const unsigned char	da_mini_fade_tilemap_stmcompr[4];
-#define				da_mini_fade_tilemap_stmcompr_size 4
-#define				da_mini_fade_tilemap_stmcompr_bank 2
 extern const unsigned char	font_alpha_tilemap_stmcompr[4];
 #define				font_alpha_tilemap_stmcompr_size 4
 #define				font_alpha_tilemap_stmcompr_bank 2

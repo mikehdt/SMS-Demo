@@ -1,7 +1,8 @@
 #ifndef _SCROLLER_SCENE_H
 #define _SCROLLER_SCENE_H
 
-void init_background(void);
-void animate_background(void);
+void scroller_scene_init(void);
+void scroller_scene_update(void);
+void scroller_scene_end(void);
 
 #endif
