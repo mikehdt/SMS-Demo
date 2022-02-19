@@ -71,12 +71,6 @@ __asm
     ld  d, #0
 ; // while (fire_arr < fire_end)
 MainFireLoop:
-    ; // 0x0600 (1536) is the size of the fire array not including seed rows
-    ld  a, c
-    sub a, #<(_fire + 0x0600) ; // This seems to be an SDCC feature for lower byte?
-    ld  a, b
-    sbc a, #>(_fire + 0x0600) ; // This seems to be an SDCC feature for upper byte?
-    ret NC
 ; // fire_tile = fire_arr[32 * 2 - 2] >> 2;
     ld  hl, #62
     add hl, bc
@@ -117,7 +111,14 @@ SetFireTile:
     inc bc
     inc bc
 ; // }
-    jr  MainFireLoop
+    ; // 0x0600 (1536) is the size of the fire array not including seed rows
+    ld  a, c
+    sub a, #<(_fire + 0x0600) ; // This seems to be an SDCC feature for lower byte?
+    ld  a, b
+    sbc a, #>(_fire + 0x0600) ; // This seems to be an SDCC feature for upper byte?
+    jr  C, MainFireLoop
+; // Fallthrough
+    ret
 __endasm;
     // clang-format on
 }
