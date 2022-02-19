@@ -116,7 +116,7 @@ SetFireTile:
     sub a, #<(_fire + 0x0600) ; // This seems to be an SDCC feature for lower byte?
     ld  a, b
     sbc a, #>(_fire + 0x0600) ; // This seems to be an SDCC feature for upper byte?
-    jr  C, MainFireLoop
+    jp  C, MainFireLoop
 ; // Fallthrough
     ret
 __endasm;
