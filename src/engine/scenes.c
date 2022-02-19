@@ -26,6 +26,7 @@ typedef struct
 
 Scenes scenes[MAX_SCENES];
 
+// Idea: can I use a struct that's defined by the effects themselves to simplify this?
 void init_scenes(void)
 {
     // Default

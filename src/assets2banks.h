@@ -28,8 +28,8 @@ extern const unsigned char	sphere_tiles_psgcompr[1981];
 extern const unsigned char	sphere_tilemap_stmcompr[34];
 #define				sphere_tilemap_stmcompr_size 34
 #define				sphere_tilemap_stmcompr_bank 2
-extern const unsigned char	spheres_tiles_psgcompr[151];
-#define				spheres_tiles_psgcompr_size 151
+extern const unsigned char	spheres_tiles_psgcompr[141];
+#define				spheres_tiles_psgcompr_size 141
 #define				spheres_tiles_psgcompr_bank 2
 extern const unsigned char	blank_tiles_psgcompr[3];
 #define				blank_tiles_psgcompr_size 3
@@ -103,9 +103,6 @@ extern const unsigned char	plasma_grade_palette_bin[16];
 extern const unsigned char	sphere_palette_bin[16];
 #define				sphere_palette_bin_size 16
 #define				sphere_palette_bin_bank 2
-extern const unsigned char	spheres_palette_bin[16];
-#define				spheres_palette_bin_size 16
-#define				spheres_palette_bin_bank 2
 extern const unsigned char	da_mini_fade_palette_bin[13];
 #define				da_mini_fade_palette_bin_size 13
 #define				da_mini_fade_palette_bin_bank 2
@@ -118,6 +115,9 @@ extern const unsigned char	fire_grade_tilemap_stmcompr[10];
 extern const unsigned char	plasma_grade_tilemap_stmcompr[10];
 #define				plasma_grade_tilemap_stmcompr_size 10
 #define				plasma_grade_tilemap_stmcompr_bank 2
+extern const unsigned char	spheres_palette_bin[6];
+#define				spheres_palette_bin_size 6
+#define				spheres_palette_bin_bank 2
 extern const unsigned char	font_alpha_tilemap_stmcompr[4];
 #define				font_alpha_tilemap_stmcompr_size 4
 #define				font_alpha_tilemap_stmcompr_bank 2

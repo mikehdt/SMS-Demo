@@ -58,7 +58,7 @@ void init_spheres(void)
 {
     SMS_initSprites();
     SMS_loadPSGaidencompressedTiles(spheres_tiles_psgcompr, PALMS_OFFSET);
-    SMS_loadSpritePalette(palms_palette_bin);
+    SMS_loadSpritePalette(spheres_palette_bin);
 
     calc_sphere_sin();
 }
