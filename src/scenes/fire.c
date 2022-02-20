@@ -29,6 +29,7 @@ void fire_scene_init(void)
 
 void seed_fire_tiles(void)
 {
+    // This is a bit messy, :shrug:
     uint8_t *fire_arr = fire + FIRE_SIZE;
     const uint8_t *fire_end = fire + SEED_SIZE,
                   *fire_edge_a = fire + FIRE_SIZE + EDGE_WIDTH,
@@ -125,21 +126,15 @@ __endasm;
 
 void fire_scene_update(void)
 {
+    seed_fire_tiles();
+    calc_fire_tiles_asm();
+
     wait_for_vblank();
 
-    if (frame_count & 1 == 1)
-    {
-        seed_fire_tiles();
-
-        // Splat the tilemap to the VDP
-        SMS_VRAMmemcpy(SMS_PNTAddress, &fire, FIRE_SIZE);
-        // Slower sectional copy; more efficient with smaller fire sizes
-        // SMS_loadTileMapArea((32 - (ROW_WIDTH >> 1)) >> 1, 0, &fire, (ROW_WIDTH >> 1), ROW_TOTAL);
-    }
-    else
-    {
-        calc_fire_tiles_asm();
-    }
+    // Splat the tilemap to the VDP
+    SMS_VRAMmemcpy(SMS_PNTAddress, &fire, FIRE_SIZE);
+    // Slower sectional copy; more efficient with smaller fire sizes
+    // SMS_loadTileMapArea((32 - (ROW_WIDTH >> 1)) >> 1, 0, &fire, (ROW_WIDTH >> 1), ROW_TOTAL);
 }
 
 // Transpiled to z80 assembly above

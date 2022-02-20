@@ -44,6 +44,7 @@ void enable_scrolling(void)
 
 void scroller_scene_init(void)
 {
+    SMS_initSprites(); // For some reason there's corruption after plasma
     load_assets();
     enable_scrolling();
 }
