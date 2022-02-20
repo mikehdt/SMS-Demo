@@ -69,13 +69,14 @@ void calc_fire_tiles_asm(void) __naked
 
     // clang-format off
 __asm
-    ld  bc, #_fire
+    ld  hl, #_fire
+    ld  bc, #0xffc0
     ld  d, #0x00
 ; // while (fire_arr < fire_end)
 MainFireLoop:
 ; // fire_tile = fire_arr[32 - 1] >> 2;
-    ld  hl, #0x1f
-    add hl, bc
+    ld  e, #0x1f
+    add hl, de
     ld  a, (hl)
     rra
     rra
@@ -105,15 +106,16 @@ MainFireLoop:
 ; // fire_tile -= 3;
     add a, #0xfd
 SetFireTile:
+    add hl, bc
 ; // *fire_arr = fire_tile;
-    ld  (bc), a
+    ld  (hl), a
 ; // fire_arr++;
-    inc bc
+    inc hl
 ; // }
     ; // 0x0300 (768) is the size of the fire array not including seed rows
-    ld  a, c
+    ld  a, l
     sub a, #<(_fire + 0x0300) ; // This seems to be an SDCC feature for lower byte?
-    ld  a, b
+    ld  a, h
     sbc a, #>(_fire + 0x0300) ; // This seems to be an SDCC feature for upper byte?
     jp  C, MainFireLoop
 ; // Fallthrough

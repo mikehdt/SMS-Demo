@@ -2,13 +2,29 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build (Release)",
+            "label": "Rebuild Full (Debug)",
             "type": "shell",
             "windows": {
-                "command": ".\\scripts\\build.bat"
+                "command": ".\\scripts\\clean-assets.bat; .\\scripts\\clean-build.bat; .\\scripts\\assets.bat; .\\scripts\\build-debug.bat"
             },
             "presentation": {
-                "reveal": "never",
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Rebuild Full (Release)",
+            "type": "shell",
+            "windows": {
+                "command": ".\\scripts\\clean-assets.bat; .\\scripts\\clean-build.bat; .\\scripts\\assets.bat; .\\scripts\\build.bat"
+            },
+            "presentation": {
+                "reveal": "always",
                 "revealProblems": "onProblem",
                 "clear": true
             },
@@ -34,6 +50,22 @@
             }
         },
         {
+            "label": "Build (Release)",
+            "type": "shell",
+            "windows": {
+                "command": ".\\scripts\\build.bat"
+            },
+            "presentation": {
+                "reveal": "never",
+                "revealProblems": "onProblem",
+                "clear": true
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "Compile Assets",
             "type": "shell",
             "windows": {
@@ -46,10 +78,22 @@
             }
         },
         {
-            "label": "Clean",
+            "label": "Clean (Assets)",
             "type": "shell",
             "windows": {
-                "command": ".\\scripts\\clean.bat"
+                "command": ".\\scripts\\clean-assets.bat"
+            },
+            "presentation": {
+                "reveal": "never",
+                "revealProblems": "onProblem",
+                "clear": true
+            }
+        },
+        {
+            "label": "Clean (Build)",
+            "type": "shell",
+            "windows": {
+                "command": ".\\scripts\\clean-build.bat"
             },
             "presentation": {
                 "reveal": "never",

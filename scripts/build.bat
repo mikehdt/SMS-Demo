@@ -16,7 +16,7 @@ echo *** SDCC compiling complete ***
 
 :: Link
 echo *** SDCC linking ***
-sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x8000 smslib/crt0_sms.rel   bank2.rel   main.rel   core.rel palettes.rel scenes.rel vblank.rel   clear_tilemap.rel memcpy_expand_byte.rel ps_rand.rel sintab.rel   default.rel fire.rel grid.rel intro.rel particles.rel plasma.rel scroller.rel sphere.rel sineline.rel type.rel   SMSlib.lib %DEBUG%
+sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x8000 smslib/crt0_sms.rel   bank2.rel   main.rel   init_console.rel palettes.rel scenes.rel vblank.rel   clear_tilemap.rel memcpy_expand_byte.rel ps_rand.rel sintab.rel   default.rel fire.rel grid.rel intro.rel particles.rel plasma.rel scroller.rel sphere.rel sineline.rel type.rel   SMSlib.lib %DEBUG%
 echo *** SDCC linking complete ***
 
 :: Execute
@@ -25,21 +25,9 @@ ihx2sms demo.ihx demo.sms
 echo *** Converting to SMS ROM complete ***
 :: The makesms app also exists, but seems to result in a broken ROM?
 
-:: Tidy up
-echo *** Tidying up ***
-@REM del *.rel > nul
-@REM Note: If asm are present, Emulicious extension's debugger gets confused
-del *.asm > nul
-del *.adb > nul
-del *.ihx > nul
-del *.lk > nul
-del *.lst > nul
-del *.map > nul
-del *.noi > nul
-del *.sym > nul
-
 :: Move to dist
-move demo.* ../dist
+IF EXIST "demo.cdb" move demo.cdb ../dist
+move demo.sms ../dist
 
 cd ..
 echo *** All done! ***

@@ -10,5 +10,3 @@ del *.psgcompr > nul
 echo *** Cleaning assets done ***
 
 cd ..
-
-:: Output TBC
