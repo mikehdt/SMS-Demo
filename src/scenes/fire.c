@@ -68,11 +68,11 @@ void calc_fire_tiles_asm(void) __naked
     // clang-format off
 __asm
     ld  bc, #_fire
-    ld  d, #0
+    ld  d, #0x00
 ; // while (fire_arr < fire_end)
 MainFireLoop:
 ; // fire_tile = fire_arr[32 * 2 - 2] >> 2;
-    ld  hl, #62
+    ld  hl, #0x3e
     add hl, bc
     ld  a, (hl)
     rra
@@ -93,7 +93,7 @@ MainFireLoop:
     srl e
     add a, e
 ; // fire_tile += fire_arr[32 * 2 * 2] >> 2;
-    ld  e, #62 ; // 64 - 2
+    ld  e, #0x3e ; // 64 - 2
     add hl, de
     ld  e, (hl)
     srl e
