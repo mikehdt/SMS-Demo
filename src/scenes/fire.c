@@ -4,14 +4,15 @@
 #include "../engine/scenes.h"
 #include "../engine/vblank.h"
 #include "../helpers/clear_tilemap.h"
+#include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
 #include "../libs/SMSlib.h"
 #include <stdlib.h>
 
 // #define MAX(a, b) ((a) > (b)) ? (a) : (b); // Best a/b are not expressions...
-#define ROW_WIDTH 32 * 2 // doubled due to 8-bit pairs, max 32
-#define ROW_TOTAL 24     // max 24
-#define EDGE_WIDTH 3 * 2 // doubled due to 8-bit pairs
+#define ROW_WIDTH 32 // max 32
+#define ROW_TOTAL 24 // max 24
+#define EDGE_WIDTH 3
 #define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
 #define SEED_SIZE ((ROW_TOTAL + 2) * ROW_WIDTH)
 
@@ -57,7 +58,7 @@ void seed_fire_tiles(void)
                 *fire_arr = 255;
         }
 
-        fire_arr += 2; // Skip every second byte
+        fire_arr++; // Skip every second byte
     }
 }
 
@@ -72,29 +73,27 @@ __asm
     ld  d, #0x00
 ; // while (fire_arr < fire_end)
 MainFireLoop:
-; // fire_tile = fire_arr[32 * 2 - 2] >> 2;
-    ld  hl, #0x3e
+; // fire_tile = fire_arr[32 - 1] >> 2;
+    ld  hl, #0x1f
     add hl, bc
     ld  a, (hl)
     rra
     rra
-    and a, #0x3f ; // Bit-masking to 3f (63)?
+    and a, #0x3f ; // Bit-masking to 3f (63)
+; // fire_tile += fire_arr[32] >> 2;
+    inc hl
+    ld  e, (hl)
+    srl e
+    srl e
+    add a, e
+; // fire_tile += fire_arr[32 + 1] >> 2;
+    inc hl
+    ld  e, (hl)
+    srl e
+    srl e
+    add a, e
 ; // fire_tile += fire_arr[32 * 2] >> 2;
-    inc hl
-    inc hl
-    ld  e, (hl)
-    srl e
-    srl e
-    add a, e
-; // fire_tile += fire_arr[32 * 2 + 2] >> 2;
-    inc hl
-    inc hl
-    ld  e, (hl)
-    srl e
-    srl e
-    add a, e
-; // fire_tile += fire_arr[32 * 2 * 2] >> 2;
-    ld  e, #0x3e ; // 64 - 2
+    ld  e, #0x1f ; // 32 - 1
     add hl, de
     ld  e, (hl)
     srl e
@@ -108,15 +107,14 @@ MainFireLoop:
 SetFireTile:
 ; // *fire_arr = fire_tile;
     ld  (bc), a
-; // fire_arr += 2;
-    inc bc
+; // fire_arr++;
     inc bc
 ; // }
-    ; // 0x0600 (1536) is the size of the fire array not including seed rows
+    ; // 0x0300 (768) is the size of the fire array not including seed rows
     ld  a, c
-    sub a, #<(_fire + 0x0600) ; // This seems to be an SDCC feature for lower byte?
+    sub a, #<(_fire + 0x0300) ; // This seems to be an SDCC feature for lower byte?
     ld  a, b
-    sbc a, #>(_fire + 0x0600) ; // This seems to be an SDCC feature for upper byte?
+    sbc a, #>(_fire + 0x0300) ; // This seems to be an SDCC feature for upper byte?
     jp  C, MainFireLoop
 ; // Fallthrough
     ret
@@ -132,15 +130,15 @@ void fire_scene_update(void)
     wait_for_vblank();
 
     // Splat the tilemap to the VDP
-    SMS_VRAMmemcpy(SMS_PNTAddress, &fire, FIRE_SIZE);
+    VRAMmemcpyExpandByte(SMS_PNTAddress, &fire, FIRE_SIZE);
     // Slower sectional copy; more efficient with smaller fire sizes
-    // SMS_loadTileMapArea((32 - (ROW_WIDTH >> 1)) >> 1, 0, &fire, (ROW_WIDTH >> 1), ROW_TOTAL);
+    // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &fire, ROW_WIDTH, ROW_TOTAL);
 }
 
 // Transpiled to z80 assembly above
-// #define FIRE_A ROW_WIDTH - 2
+// #define FIRE_A ROW_WIDTH - 1
 // #define FIRE_B ROW_WIDTH
-// #define FIRE_C ROW_WIDTH + 2
+// #define FIRE_C ROW_WIDTH + 1
 // #define FIRE_X ROW_WIDTH * 2
 // #define FIRE_DAMPEN 3 // lower = taller flames
 // void calc_fire_tiles(void)
@@ -165,6 +163,6 @@ void fire_scene_update(void)
 
 //         *fire_arr = fire_tile;
 
-//         fire_arr += 2; // Skip every second byte
+//         fire_arr++;
 //     }
 // }
