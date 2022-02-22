@@ -69,14 +69,13 @@ void calc_fire_tiles_asm(void) __naked
 
     // clang-format off
 __asm
-    ld  hl, #_fire
-    ld  bc, #0xffc0
+    ld  bc, #_fire
     ld  d, #0x00
 ; // while (fire_arr < fire_end)
 MainFireLoop:
 ; // fire_tile = fire_arr[32 - 1] >> 2;
-    ld  e, #0x1f
-    add hl, de
+    ld  hl, #0x1f
+    add hl, bc
     ld  a, (hl)
     rra
     rra
@@ -94,7 +93,7 @@ MainFireLoop:
     srl e
     add a, e
 ; // fire_tile += fire_arr[32 * 2] >> 2;
-    ld  e, #0x1f ; // 32 - 1
+    ld  e, #0x1f ; // 32 - 1, because we're at off by one from the previous row
     add hl, de
     ld  e, (hl)
     srl e
@@ -106,16 +105,15 @@ MainFireLoop:
 ; // fire_tile -= 3;
     add a, #0xfd
 SetFireTile:
-    add hl, bc
 ; // *fire_arr = fire_tile;
-    ld  (hl), a
+    ld  (bc), a
 ; // fire_arr++;
-    inc hl
+    inc bc
 ; // }
     ; // 0x0300 (768) is the size of the fire array not including seed rows
-    ld  a, l
+    ld  a, c
     sub a, #<(_fire + 0x0300) ; // This seems to be an SDCC feature for lower byte?
-    ld  a, h
+    ld  a, b
     sbc a, #>(_fire + 0x0300) ; // This seems to be an SDCC feature for upper byte?
     jp  C, MainFireLoop
 ; // Fallthrough
@@ -153,8 +151,7 @@ void fire_scene_update(void)
 //     //   x   <- Second row below
 //     while (fire_arr < fire_end)
 //     {
-//         // This may seem unnecessary in C, but it makes the generated z80
-//         // assembly code muck about less. fire_arr[VAL] == *(fire_arr + VAL)
+//         // For memory: fire_arr[VAL] same as *(fire_arr + VAL)
 //         fire_tile = fire_arr[FIRE_A] >> 2;
 //         fire_tile += fire_arr[FIRE_B] >> 2;
 //         fire_tile += fire_arr[FIRE_C] >> 2;
