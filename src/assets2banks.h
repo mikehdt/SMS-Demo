@@ -7,15 +7,15 @@ extern const unsigned char	lady_close_tilemap_stmcompr[288];
 extern const unsigned char	lady_close_palette_bin[16];
 #define				lady_close_palette_bin_size 16
 #define				lady_close_palette_bin_bank 2
+extern const unsigned char	mesh_01_palette_bin[4];
+#define				mesh_01_palette_bin_size 4
+#define				mesh_01_palette_bin_bank 2
 extern const unsigned char	mesh_01_tiles_psgcompr[13];
 #define				mesh_01_tiles_psgcompr_size 13
 #define				mesh_01_tiles_psgcompr_bank 2
 extern const unsigned char	mesh_01_tilemap_stmcompr[26];
 #define				mesh_01_tilemap_stmcompr_size 26
 #define				mesh_01_tilemap_stmcompr_bank 2
-extern const unsigned char	mesh_01_palette_bin[4];
-#define				mesh_01_palette_bin_size 4
-#define				mesh_01_palette_bin_bank 2
 extern const unsigned char	mesh_02_tiles_psgcompr[141];
 #define				mesh_02_tiles_psgcompr_size 141
 #define				mesh_02_tiles_psgcompr_bank 2
