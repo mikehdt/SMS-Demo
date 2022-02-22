@@ -1,7 +1,7 @@
 @echo off
 
 :: Clean Assets
-call .\scripts\clean.bat
+call .\scripts\clean-assets.bat
 
 :: Build Assets
 cd assets
