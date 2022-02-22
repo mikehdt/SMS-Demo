@@ -2,7 +2,6 @@
 #include "../assets2banks.h" // Generated with the assets task
 #include "../engine/globals.h"
 #include "../engine/scenes.h"
-#include "../engine/vblank.h"
 #include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
@@ -74,7 +73,7 @@ void type_scene_init(void)
 
 void type_scene_update(void)
 {
-    wait_for_vblank();
+    SMS_waitForVBlank();
 
     if (type_scroll_tick++ != 1)
         return;
@@ -101,7 +100,7 @@ void type_scene_update(void)
 
 void type_scene_end(void)
 {
-    wait_for_vblank();
+    SMS_waitForVBlank();
     SMS_setBGScrollX(0);
     SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK);
 }

@@ -2,7 +2,6 @@
 #include "../assets2banks.h" // Generated with the assets task
 #include "../engine/globals.h"
 #include "../engine/scenes.h"
-#include "../engine/vblank.h"
 #include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
@@ -55,6 +54,8 @@ void sineline_scene_init(void)
 
     for (uint8_t i = 0; i < 8; i++)
         SMS_addSprite(8 + (i * 32), 72, 60);
+
+    SMS_copySpritestoSAT();
 }
 
 void fill_line_tilemap(uint16_t row, uint16_t tile) // Must be an int, not a uint_8t or such
@@ -64,7 +65,7 @@ void fill_line_tilemap(uint16_t row, uint16_t tile) // Must be an int, not a uin
 
 void sineline_scene_update(void)
 {
-    wait_for_vblank();
+    SMS_waitForVBlank();
 
     if (frame_count % 2 == 0)
     {
@@ -83,7 +84,7 @@ void sineline_scene_update(void)
 
 void sineline_scene_end(void)
 {
-    wait_for_vblank();
+    SMS_waitForVBlank();
 
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_NORMAL);

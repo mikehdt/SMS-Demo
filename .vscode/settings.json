@@ -32,6 +32,7 @@
         "globals.h": "c",
         "sintab.h": "c",
         "intro.h": "c",
-        "init_console.h": "c"
+        "init_console.h": "c",
+        "clear_tilemap.h": "c"
     }
 }

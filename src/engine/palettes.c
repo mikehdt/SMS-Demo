@@ -1,10 +1,10 @@
 #include "palettes.h"
 #include "../libs/SMSlib.h"
-#include "vblank.h"
 
 // Palette reference: https://www.smspower.org/maxim/HowToProgram/Palette
 
-// Eventually, decouple these fns from blocking with wait_for_vblank() calls
+// Eventually, decouple these fns from blocking with wait for vblank calls
+// Also tidy this into several different helper functions
 
 unsigned char background_palette[16] = {
     0x00, 0x00, 0x00, 0x00,
@@ -44,6 +44,7 @@ unsigned char fade_fragment(unsigned char current_color, unsigned char target_co
         return current_color - 1;
     else if (current_color < target_color)
         return current_color + 1;
+
     return current_color;
 }
 
@@ -75,6 +76,7 @@ unsigned char color_array_in[9] = {
     COLOR_B, COLOR_B, COLOR_R,
     COLOR_B, COLOR_R, COLOR_G,
     COLOR_R, COLOR_G, COLOR_G};
+
 unsigned char color_array_out[9] = {
     COLOR_G, COLOR_G, COLOR_R,
     COLOR_G, COLOR_R, COLOR_B,
@@ -109,7 +111,7 @@ void fade_to_palette(unsigned char *target_palette, bool is_in)
 
         // Need to decouple this delay somehow...
         for (j = 0; j < 6; j++)
-            wait_for_vblank();
+            SMS_waitForVBlank();
     }
 
     // Copy the palette across to the background
@@ -143,7 +145,7 @@ void fade_from_black(unsigned char *target_palette)
 
         // Need to decouple this delay somehow...
         for (j = 0; j < frame_delay; j++)
-            wait_for_vblank();
+            SMS_waitForVBlank();
     }
 }
 

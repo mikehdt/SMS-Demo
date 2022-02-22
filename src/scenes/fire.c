@@ -2,7 +2,6 @@
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
-#include "../engine/vblank.h"
 #include "../helpers/clear_tilemap.h"
 #include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
@@ -130,7 +129,7 @@ void fire_scene_update(void)
     seed_fire_tiles();
     calc_fire_tiles_asm();
 
-    wait_for_vblank();
+    SMS_waitForVBlank();
 
     // Splat the tilemap to the VDP
     VRAMmemcpyExpandByte(SMS_PNTAddress, &fire, FIRE_SIZE);

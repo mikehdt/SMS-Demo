@@ -2,7 +2,6 @@
 #include "../assets2banks.h" // Generated with the assets task
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
-#include "../engine/vblank.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
@@ -165,7 +164,8 @@ void particles_scene_update(void)
     SMS_setBGScrollX(particle_scroll_x++ >> 3);
 
     animate_spheres();
-    wait_for_vblank();
+    SMS_waitForVBlank();
+    SMS_copySpritestoSAT();
 }
 
 void particles_scene_end(void)
@@ -173,7 +173,8 @@ void particles_scene_end(void)
     for (int i = count; i >= 0; i--)
     {
         SMS_hideSprite(i);
-        wait_for_vblank();
+        SMS_waitForVBlank();
+        SMS_copySpritestoSAT();
     }
 
     SMS_initSprites();

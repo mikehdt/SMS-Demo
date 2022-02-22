@@ -7,6 +7,7 @@ extern int8_t current_scene;
 
 void init_scenes(void);
 void update_scene(void);
+void check_keys(void);
 
 void transition_to_scene(int8_t target_scene);
 

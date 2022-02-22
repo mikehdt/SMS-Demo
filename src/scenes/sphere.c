@@ -1,7 +1,6 @@
 #include "sphere.h"
 #include "../assets2banks.h" // Generated with the assets task
 #include "../engine/palettes.h"
-#include "../engine/vblank.h"
 #include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
 
@@ -171,7 +170,8 @@ void sphere_scene_init(void)
 
     init_background();
     init_sphere_sprites();
-    wait_for_vblank();
+    SMS_copySpritestoSAT();
+    SMS_waitForVBlank();
 
     SMS_displayOn();
 }
@@ -189,7 +189,7 @@ void sphere_scene_update(void)
     }
 
     // Waiting first may be undesirable... to check further
-    wait_for_vblank();
+    SMS_waitForVBlank();
 
     if (last_subset_ptr == subset_ptr)
         return; // Don't update the palette, it hasn't changed
@@ -207,7 +207,7 @@ void sphere_scene_update(void)
 void sphere_scene_end(void)
 {
     set_palette(palette_black, PALETTE_BOTH);
-    wait_for_vblank();
+    SMS_waitForVBlank();
 
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_NORMAL);

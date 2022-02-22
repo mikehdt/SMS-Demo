@@ -3,7 +3,6 @@
 #include "../engine/globals.h"
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
-#include "../engine/vblank.h"
 #include "../helpers/clear_tilemap.h"
 #include "../helpers/ps_rand.h"
 #include "../helpers/sintab.h"
@@ -40,7 +39,7 @@ void first_plasma_scene_update(void)
     //     for (y = 0; y < SCREEN_COLUMNS; y++)
     //         buffer[(x * SCREEN_COLUMNS) + y] = (plasma[(x * SCREEN_COLUMNS) + y] + palette_shift) & 255;
 
-    // wait_for_vblank();
+    // SMS_waitForVBlank();
 
     // // This will be heinously slow
     // SMS_VRAMmemcpy(SMS_PNTAddress, &buffer, screen_size_bytes);
@@ -130,10 +129,8 @@ void plasma_scene_init(void)
 
 void plasma_scene_update(void)
 {
-    wait_for_vblank();
-
+    SMS_waitForVBlank();
     animate_buffer();
-
     SMS_VRAMmemcpy(SMS_PNTAddress, &screen, SCREEN_SIZE_BYTES);
 
     CycleCnt++;

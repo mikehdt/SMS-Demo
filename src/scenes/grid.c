@@ -1,7 +1,6 @@
 #include "grid.h"
 #include "../assets2banks.h" // Generated with the assets task
 #include "../engine/scenes.h"
-#include "../engine/vblank.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
 
@@ -15,7 +14,7 @@ void grid_scene_init(void)
 
 void grid_scene_update(void)
 {
-    wait_for_vblank();
+    SMS_waitForVBlank();
 
     switch (show_mesh)
     {

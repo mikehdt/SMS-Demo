@@ -68,25 +68,32 @@ void init_scenes(void)
     transition_to_scene(SCENE_DEFAULT);
 }
 
-void update_scene(void)
+void check_keys(void)
 {
-    // Need to handle this better
     if (SMS_getKeysHeld() & PORT_A_KEY_1)
     {
+        uint8_t next_scene;
+
         // "Debounce" the button press as it were... this is a bit hacky
         while (SMS_getKeysHeld() != 0x0000)
             SMS_waitForVBlank();
 
-        if (current_scene + 1 >= MAX_SCENES)
+        next_scene = current_scene + 1;
+
+        if (next_scene >= MAX_SCENES)
             transition_to_scene(1);
         else
-            transition_to_scene(current_scene + 1);
+            transition_to_scene(next_scene);
     }
+}
 
+void update_scene(void)
+{
     scenes[current_scene].update();
     frame_count++;
 }
 
+// TODO: Add ability to communicte a stage to the next scene's init
 void transition_to_scene(int8_t target_scene)
 {
     if (current_scene != target_scene)

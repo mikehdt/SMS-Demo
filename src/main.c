@@ -32,6 +32,7 @@ void main(void)
                     continue;
             }
 
+            check_keys();
             update_scene();
         } while (~(keys_pressed & RESET_KEY));
     }
