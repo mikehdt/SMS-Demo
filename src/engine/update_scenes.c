@@ -1,4 +1,4 @@
-#include "scenes.h"
+#include "update_scenes.h"
 #include "../libs/SMSlib.h"
 #include "init_scenes.h"
 #include <stdlib.h>
@@ -12,7 +12,7 @@ void update_scene(void)
     frame_count++;
 }
 
-// TODO: Add ability to communicte a stage to the next scene's init
+// TODO: Add ability to communicate a stage to the next scene's init
 void transition_to_scene(int8_t target_scene)
 {
     if (current_scene != target_scene)

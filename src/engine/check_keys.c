@@ -1,7 +1,7 @@
 #include "check_keys.h"
 #include "../libs/SMSlib.h"
 #include "init_scenes.h"
-#include "scenes.h"
+#include "update_scenes.h"
 #include <stdint.h>
 
 void check_keys(void)

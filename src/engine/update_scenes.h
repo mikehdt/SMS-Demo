@@ -1,5 +1,5 @@
-#ifndef _SCENES_H
-#define _SCENES_H
+#ifndef _UPDATE_SCENES_H
+#define _UPDATE_SCENES_H
 #include <stdint.h>
 
 extern uint16_t frame_count;

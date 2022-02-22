@@ -9,7 +9,7 @@
 #include "../scenes/sineline.h"
 #include "../scenes/sphere.h"
 #include "../scenes/type.h"
-#include "scenes.h"
+#include "update_scenes.h"
 
 Scenes scenes[MAX_SCENES];
 
