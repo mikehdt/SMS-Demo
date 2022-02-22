@@ -39,6 +39,8 @@ uint16_t sineline_ptr;
 
 void sineline_scene_init(void)
 {
+    SMS_mapROMBank(small_sine_tiles_psgcompr_bank);
+
     SMS_loadPSGaidencompressedTiles(small_sine_tiles_psgcompr, 0);
     SMS_loadBGPalette(small_sine_palette_bin);
     sineline_ptr = 0;

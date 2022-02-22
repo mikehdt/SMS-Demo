@@ -21,6 +21,7 @@ uint8_t fire[SEED_SIZE] = {0};
 
 void fire_scene_init(void)
 {
+    SMS_mapROMBank(fire_grade_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(fire_grade_tiles_psgcompr, 0);
     SMS_loadBGPalette(fire_grade_palette_bin);
     SMS_loadSpritePalette(palette_black);

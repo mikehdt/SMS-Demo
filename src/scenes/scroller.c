@@ -9,7 +9,8 @@ unsigned char lineCnt;
 
 void load_assets(void)
 {
-    // SMS_mapROMBank(test_tiles_psgcompr_bank);
+    SMS_mapROMBank(sunset_tiles_psgcompr_bank);
+
     SMS_loadPSGaidencompressedTiles(sunset_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, sunset_tilemap_stmcompr);
     SMS_loadBGPalette(sunset_palette_bin);

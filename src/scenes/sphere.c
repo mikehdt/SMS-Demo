@@ -95,6 +95,8 @@ void init_background(void)
 {
     uint16_t bg_tile = 121 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
 
+    SMS_mapROMBank(blank_tiles_psgcompr_bank);
+
     // Background
     SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 121);
     SMS_loadSpritePalette(palms_palette_bin);

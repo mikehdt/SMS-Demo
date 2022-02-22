@@ -9,6 +9,7 @@ uint8_t show_mesh = 0;
 
 void grid_scene_init(void)
 {
+    SMS_mapROMBank(mesh_01_palette_bin_bank);
     SMS_loadBGPalette(mesh_01_palette_bin);
 }
 
