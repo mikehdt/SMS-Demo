@@ -31,6 +31,7 @@
         "ps_rand.h": "c",
         "globals.h": "c",
         "sintab.h": "c",
-        "intro.h": "c"
+        "intro.h": "c",
+        "init_console.h": "c"
     }
 }

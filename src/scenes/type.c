@@ -59,13 +59,14 @@ void print_string_char(unsigned char x, unsigned char y, unsigned char string_ch
 
 void type_scene_init(void)
 {
-    SMS_mapROMBank(font_alpha_tiles_psgcompr_bank);
-
     SMS_setBGScrollX(0);
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK);
+    SMS_mapROMBank(font_alpha_palette_bin_bank);
     SMS_loadBGPalette(font_alpha_palette_bin);
     SMS_loadSpritePalette(font_alpha_palette_bin);
     SMS_loadPSGaidencompressedTiles(font_alpha_tiles_psgcompr, 0);
+
+    SMS_mapROMBank(blank_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 40);
 
     clear_tilemap(40);

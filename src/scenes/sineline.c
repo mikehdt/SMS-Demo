@@ -40,7 +40,6 @@ uint16_t sineline_ptr;
 void sineline_scene_init(void)
 {
     SMS_mapROMBank(small_sine_tiles_psgcompr_bank);
-
     SMS_loadPSGaidencompressedTiles(small_sine_tiles_psgcompr, 0);
     SMS_loadBGPalette(small_sine_palette_bin);
     sineline_ptr = 0;
@@ -49,11 +48,13 @@ void sineline_scene_init(void)
 
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_ZOOMED);
+
+    SMS_mapROMBank(spheres_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(spheres_tiles_psgcompr, 57);
-    SMS_loadSpritePalette(palms_palette_bin);
+    SMS_loadSpritePalette(spheres_palette_bin);
 
     for (uint8_t i = 0; i < 8; i++)
-        SMS_addSprite(8 + (i * 32), 72, 57);
+        SMS_addSprite(8 + (i * 32), 72, 60);
 }
 
 void fill_line_tilemap(uint16_t row, uint16_t tile) // Must be an int, not a uint_8t or such
@@ -63,17 +64,15 @@ void fill_line_tilemap(uint16_t row, uint16_t tile) // Must be an int, not a uin
 
 void sineline_scene_update(void)
 {
+    wait_for_vblank();
+
     if (frame_count % 2 == 0)
     {
-        wait_for_vblank();
         return;
     }
 
     uint8_t i;
-
     uint16_t priority = (sineline_ptr > 3 && sineline_ptr < 15) ? 0 : TILE_PRIORITY;
-
-    wait_for_vblank();
 
     for (i = 0; i < 4; i++)
         fill_line_tilemap(i, sineline[i + (sineline_ptr << 2)] | priority);

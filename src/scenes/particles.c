@@ -152,6 +152,7 @@ void particles_scene_init(void)
 
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK); // Hide stuff for scrolling
     SMS_setBGScrollX(0);
+    SMS_mapROMBank(palms_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(palms_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, palms_tilemap_stmcompr);
 

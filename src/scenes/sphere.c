@@ -95,16 +95,18 @@ void init_background(void)
 {
     uint16_t bg_tile = 121 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
 
-    SMS_mapROMBank(blank_tiles_psgcompr_bank);
-
     // Background
+    SMS_mapROMBank(blank_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 121);
+
+    SMS_mapROMBank(palms_palette_bin_bank);
     SMS_loadSpritePalette(palms_palette_bin);
     SMS_setSpritePaletteColor(0, 0x10);
 
     clear_tilemap(bg_tile);
 
     // Sphere
+    SMS_mapROMBank(sphere_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(sphere_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(10, 5, sphere_tilemap_stmcompr);
 

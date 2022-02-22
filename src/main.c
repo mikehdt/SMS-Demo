@@ -2,6 +2,7 @@
 #include "engine/scenes.h"
 #include "libs/SMSlib.h"
 #include <stdbool.h>
+#include <stdint.h>
 
 void main(void)
 {

@@ -114,7 +114,6 @@ void animate_buffer(void)
 void plasma_scene_init(void)
 {
     SMS_mapROMBank(plasma_grade_tiles_psgcompr_bank);
-
     SMS_loadPSGaidencompressedTiles(plasma_grade_tiles_psgcompr, 0);
     SMS_loadBGPalette(plasma_grade_palette_bin);
     SMS_loadSpritePalette(palette_black);
