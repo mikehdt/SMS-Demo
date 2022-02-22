@@ -15,13 +15,14 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 -   [x] Add a second example file
 -   [x] Animate the palette in from black
 -   [x] Have a scene manager to swap between effects
--   [ ] Have more than one bank, to learn about bank switching -- gonna happen soon, almost outta space
--   [ ] Improve the build pipeline
--   [ ] Improve the responsiveness of button presses
+-   [x] Have more than one bank, to learn about bank switching
+-   [x] Improve the responsiveness of button presses
+-   [ ] Improve the build pipeline (makefile)
 -   [ ] Investigate making the build pipeline cross-platform (as much as is possible)
 -   [ ] Investigate whether the `z88dk` SDCC patch is viable with Emulicious debugging as an alternative
 -   [ ] Animate palettes between each other (not just from black)
--   [ ] Figure out a nice way to integrate inline z80 assembly with VScode...
+-   [ ] Figure out a nicer way to integrate inline z80 assembly with VScode...
+-   [ ] Improve the core structure with more single-purpose functions
 -   [ ] Add music?
 
 ## Controls
