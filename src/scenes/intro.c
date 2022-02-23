@@ -1,5 +1,5 @@
 #include "intro.h"
-#include "../engine/scenes.h"
+#include "../engine/update_scenes.h"
 
 void intro_scene_init(void)
 {

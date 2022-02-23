@@ -1,7 +1,7 @@
 #include "fire.h"
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
-#include "../engine/scenes.h"
+#include "../engine/update_scenes.h"
 #include "../helpers/clear_tilemap.h"
 #include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"

@@ -1,6 +1,6 @@
 #include "grid.h"
 #include "../assets2banks.h" // Generated with the assets task
-#include "../engine/scenes.h"
+#include "../engine/update_scenes.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
 

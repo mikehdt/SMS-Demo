@@ -3,6 +3,8 @@
 #include "init_scenes.h"
 #include <stdlib.h>
 
+// I want to abstract these somewhere, maybe to globals? Then have these fns
+// as separate concerns
 uint16_t frame_count;
 int8_t current_scene = -1;
 

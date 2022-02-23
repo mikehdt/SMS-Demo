@@ -1,7 +1,7 @@
 #include "engine/check_keys.h"
 #include "engine/init_console.h"
 #include "engine/init_scenes.h"
-#include "engine/scenes.h"
+#include "engine/update_scenes.h"
 #include "libs/SMSlib.h"
 #include <stdbool.h>
 #include <stdint.h>
