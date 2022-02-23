@@ -15,7 +15,6 @@
 #define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
 #define SEED_SIZE ((ROW_TOTAL + 2) * ROW_WIDTH)
 
-// Compensate for 8-bit width by multiplying by 2
 uint8_t fire[SEED_SIZE] = {0};
 
 void fire_scene_init(void)
@@ -58,7 +57,7 @@ void seed_fire_tiles(void)
                 *fire_arr = 255;
         }
 
-        fire_arr++; // Skip every second byte
+        fire_arr++;
     }
 }
 
