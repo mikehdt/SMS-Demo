@@ -1,6 +1,7 @@
 #include "fire.h"
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
+#include "../engine/screen_buffer.h"
 #include "../engine/update_scenes.h"
 #include "../helpers/clear_tilemap.h"
 #include "../helpers/memcpy_expand_byte.h"
@@ -15,8 +16,6 @@
 #define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
 #define SEED_SIZE ((ROW_TOTAL + 2) * ROW_WIDTH)
 
-uint8_t fire[SEED_SIZE] = {0};
-
 void fire_scene_init(void)
 {
     SMS_mapROMBank(fire_grade_tiles_psgcompr_bank);
@@ -30,12 +29,12 @@ void fire_scene_init(void)
 void seed_fire_tiles(void)
 {
     // This is a bit messy, :shrug:
-    uint8_t *fire_arr = fire + FIRE_SIZE;
-    const uint8_t *fire_end = fire + SEED_SIZE,
-                  *fire_edge_a = fire + FIRE_SIZE + EDGE_WIDTH,
-                  *fire_edge_b = fire + FIRE_SIZE + ROW_WIDTH - EDGE_WIDTH,
-                  *fire_edge_c = fire + FIRE_SIZE + ROW_WIDTH + EDGE_WIDTH,
-                  *fire_edge_d = fire + SEED_SIZE - EDGE_WIDTH;
+    uint8_t *fire_arr = screen_buffer + FIRE_SIZE;
+    const uint8_t *fire_end = screen_buffer + SEED_SIZE,
+                  *fire_edge_a = screen_buffer + FIRE_SIZE + EDGE_WIDTH,
+                  *fire_edge_b = screen_buffer + FIRE_SIZE + ROW_WIDTH - EDGE_WIDTH,
+                  *fire_edge_c = screen_buffer + FIRE_SIZE + ROW_WIDTH + EDGE_WIDTH,
+                  *fire_edge_d = screen_buffer + SEED_SIZE - EDGE_WIDTH;
 
     // Generate noise across "virtual" lines
     while (fire_arr < fire_end)
@@ -68,7 +67,7 @@ void calc_fire_tiles_asm(void) __naked
 
     // clang-format off
 __asm
-    ld  bc, #_fire
+    ld  bc, #_screen_buffer
     ld  d, #0x00
 ; // do {
 MainFireLoop:
@@ -111,9 +110,9 @@ SetFireTile:
 ; // } while (fire_arr < fire_end);
     ; // 0x0300 (768) is the size of the fire array not including seed rows
     ld  a, c
-    sub a, #<(_fire + 0x0300) ; // This seems to be an SDCC feature for lower byte?
+    sub a, #<(_screen_buffer + 0x0300) ; // This seems to be an SDCC feature for lower byte?
     ld  a, b
-    sbc a, #>(_fire + 0x0300) ; // This seems to be an SDCC feature for upper byte?
+    sbc a, #>(_screen_buffer + 0x0300) ; // This seems to be an SDCC feature for upper byte?
     jp  C, MainFireLoop
 ; // Fallthrough
     ret
@@ -129,7 +128,7 @@ void fire_scene_update(void)
     SMS_waitForVBlank();
 
     // Splat the tilemap to the VDP
-    VRAMmemcpyExpandByte(SMS_PNTAddress, &fire, FIRE_SIZE);
+    VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE);
     // Slower sectional copy; more efficient with smaller fire sizes
     // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &fire, ROW_WIDTH, ROW_TOTAL);
 }

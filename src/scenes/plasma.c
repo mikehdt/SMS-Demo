@@ -2,6 +2,7 @@
 #include "../assets2banks.h"
 #include "../engine/globals.h"
 #include "../engine/palettes.h"
+#include "../engine/screen_buffer.h"
 #include "../engine/update_scenes.h"
 #include "../helpers/clear_tilemap.h"
 #include "../helpers/memcpy_expand_byte.h"
@@ -33,8 +34,7 @@ uint8_t sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe
 // initialised to some values above. Both array values get heavily mutated.
 uint8_t sin_pts_x[PLASMA_PTS] = {0x00};
 
-uint8_t plasma_starts[SCREEN_SIZE] = {0x00},
-        plasma_buffer[SCREEN_SIZE] = {0x00};
+uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 
 // Init
 // I(x,y) = 8/Σ/n=1 sin(Sn + Xn * x + Yn + y)
@@ -98,7 +98,7 @@ void animate_buffer(void)
         for (j = 0; j < SCREEN_COLUMNS; j++)
         {
             arr_offset = (i * SCREEN_COLUMNS) + j;
-            plasma_buffer[arr_offset] = plasma_starts[arr_offset] + distortion_val;
+            screen_buffer[arr_offset] = plasma_starts[arr_offset] + distortion_val;
         }
     }
 }
@@ -120,5 +120,5 @@ void plasma_scene_update(void)
     animate_buffer();
 
     SMS_waitForVBlank();
-    VRAMmemcpyExpandByte(SMS_PNTAddress, &plasma_buffer, SCREEN_SIZE);
+    VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, SCREEN_SIZE);
 }

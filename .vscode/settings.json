@@ -34,6 +34,7 @@
         "init_console.h": "c",
         "clear_tilemap.h": "c",
         "update_scenes.h": "c",
-        "memcpy_expand_byte.h": "c"
+        "memcpy_expand_byte.h": "c",
+        "screen_array.h": "c"
     }
 }
