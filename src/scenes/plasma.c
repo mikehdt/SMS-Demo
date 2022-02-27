@@ -24,15 +24,14 @@
 // configuration for how the final plasma effect looks and animates.
 uint8_t sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
         sin_adds_y[PLASMA_PTS] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02},
-        sin_starts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
+        sin_pts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
         sin_speeds[2] = {0xfe, 0xfc},
         plasma_freqs[2] = {0x06, 0x07},
         cycle_speed = 0xff;
 
-// Stores the state of the 8 composed sine values as x and y components, these
-// values are mutated repeatedly on initialisation to create the base plasma.
-uint8_t sin_pts_x[PLASMA_PTS] = {0x00},
-        sin_pts_y[PLASMA_PTS] = {0x00};
+// Stores the state of the x component of the sine values. The y complement is
+// initialised to some values above. Both array values get heavily mutated.
+uint8_t sin_pts_x[PLASMA_PTS] = {0x00};
 
 uint8_t plasma_starts[SCREEN_SIZE] = {0x00},
         plasma_buffer[SCREEN_SIZE] = {0x00};
@@ -45,10 +44,6 @@ void init_buffer(void)
 {
     uint16_t i, j, k;
     uint8_t plasma_value;
-
-    // Calc plasma starting Y values
-    for (i = 0; i < PLASMA_PTS; i++)
-        sin_pts_y[i] = sin_starts_y[i];
 
     // Y loop
     for (i = 0; i < SCREEN_ROWS; i++)
@@ -122,9 +117,8 @@ void plasma_scene_init(void)
 
 void plasma_scene_update(void)
 {
-    SMS_waitForVBlank();
-
     animate_buffer();
 
+    SMS_waitForVBlank();
     VRAMmemcpyExpandByte(SMS_PNTAddress, &plasma_buffer, SCREEN_SIZE);
 }
