@@ -17,22 +17,22 @@
 // C is slower, for sure, but I also wanted to understand the logical
 // underpinning of the effect, even if that comes at a performance hit :)
 
-#define PLASMA_SIN_POINTS 8
+#define PLASMA_PTS 8
 
 // These are all 0-255 numbers that get combined in weird and wonderful ways
 // to reference a point in the sine table. Each of these values forms the
 // configuration for how the final plasma effect looks and animates.
-uint8_t sin_adds_x[8] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
-        sin_adds_y[8] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02},
-        sin_starts_y[8] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
+uint8_t sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
+        sin_adds_y[PLASMA_PTS] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02},
+        sin_starts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
         sin_speeds[2] = {0xfe, 0xfc},
         plasma_freqs[2] = {0x06, 0x07},
         cycle_speed = 0xff;
 
 // Stores the state of the 8 composed sine values as x and y components, these
 // values are mutated repeatedly on initialisation to create the base plasma.
-uint8_t sin_pts_x[8] = {0x00},
-        sin_pts_y[8] = {0x00};
+uint8_t sin_pts_x[PLASMA_PTS] = {0x00},
+        sin_pts_y[PLASMA_PTS] = {0x00};
 
 uint8_t plasma_starts[SCREEN_SIZE] = {0x00},
         plasma_buffer[SCREEN_SIZE] = {0x00};
@@ -47,14 +47,14 @@ void init_buffer(void)
     uint8_t plasma_value;
 
     // Calc plasma starting Y values
-    for (i = 0; i < PLASMA_SIN_POINTS; i++)
+    for (i = 0; i < PLASMA_PTS; i++)
         sin_pts_y[i] = sin_starts_y[i];
 
     // Y loop
     for (i = 0; i < SCREEN_ROWS; i++)
     {
         // Sine points Y loop
-        for (j = 0; j < PLASMA_SIN_POINTS; j++)
+        for (j = 0; j < PLASMA_PTS; j++)
         {
             sin_pts_y[j] += sin_adds_y[j];
             sin_pts_x[j] = sin_pts_y[j];
@@ -64,13 +64,13 @@ void init_buffer(void)
         for (j = 0; j < SCREEN_COLUMNS; j++)
         {
             // Sine points X loop
-            for (k = 0; k < PLASMA_SIN_POINTS; k++)
+            for (k = 0; k < PLASMA_PTS; k++)
                 sin_pts_x[k] += sin_adds_x[k];
 
             plasma_value = 0;
 
             // Sine add loop
-            for (k = 0; k < PLASMA_SIN_POINTS; k++)
+            for (k = 0; k < PLASMA_PTS; k++)
                 plasma_value += sintab[sin_pts_x[k]];
 
             plasma_starts[(i * SCREEN_COLUMNS) + j] = plasma_value;
