@@ -19,30 +19,33 @@
 
 uint8_t num_sin_pts = 8;
 
-// These are all 0-255 numbers that reference a point in the sine table
-// Each of these values forms the configuration for how the plasma effect looks
-uint8_t sin_adds_x[8] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe};
-uint8_t sin_adds_y[8] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02};
-uint8_t sin_starts_y[8] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41};
-uint8_t sin_speeds[2] = {0xfe, 0xfc};
-uint8_t plasma_freqs[2] = {0x06, 0x07};
-uint8_t cycle_speed = 0xff;
+// These are all 0-255 numbers that get combined in weird and wonderful ways
+// to reference a point in the sine table. Each of these values forms the
+// configuration for how the final plasma effect looks and animates.
+uint8_t sin_adds_x[8] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
+        sin_adds_y[8] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02},
+        sin_starts_y[8] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
+        sin_speeds[2] = {0xfe, 0xfc},
+        plasma_freqs[2] = {0x06, 0x07},
+        cycle_speed = 0xff;
 
-// Stores the state of the 8 composed sine values as x and y components
-uint8_t sin_pts_x[8] = {0x00};
-uint8_t sin_pts_y[8] = {0x00};
+// Stores the state of the 8 composed sine values as x and y components, these
+// values are mutated repeatedly on initialisation to create the base plasma.
+uint8_t sin_pts_x[8] = {0x00},
+        sin_pts_y[8] = {0x00};
 
-uint8_t plasma_base[SCREEN_SIZE] = {0x00};
-uint8_t plasma_buffer[SCREEN_SIZE] = {0x00};
+uint8_t plasma_base[SCREEN_SIZE] = {0x00},
+        plasma_buffer[SCREEN_SIZE] = {0x00};
 
 // Init
 // I(x,y) = 8/Σ/n=1 sin(Sn + Xn * x + Yn + y)
-// For each Column(x) of Row(y), where S = sin_starts_y, X = sin_adds_x, Y = sin_adds_y
+// For each x(Column), y(Row), S(sin_starts_y), X(sin_adds_x), Y(sin_adds_y)
+// Upon reflection, I'm not sure the complexity is captured in that formula...
 void init_buffer(void)
 {
-    uint16_t i, j, k;
+    uint16_t i, j, k,
+        arr_offset;
     uint8_t plasma_value;
-    uint16_t arr_offset;
 
     // Calc plasma starting Y values
     for (i = 0; i < num_sin_pts; i++)
@@ -54,7 +57,7 @@ void init_buffer(void)
         // Sine points Y loop
         for (j = 0; j < num_sin_pts; j++)
         {
-            sin_pts_y[j] = sin_pts_y[j] + sin_adds_y[j];
+            sin_pts_y[j] += sin_adds_y[j];
             sin_pts_x[j] = sin_pts_y[j];
         }
 
@@ -79,12 +82,14 @@ void init_buffer(void)
 
 // Animate
 // D(n,y) = (sin(S1 * n + P1 * y) + sin(S2 * n + P2 * y)) / 2 + C * n
-// For each Row(y) of Frame(n), where S = sin_speeds, P = plasma_freqs, C = cycle_speed
+// Where y(Row), n(Frame), S(sin_speeds), P(plasma_freqs), C(cycle_speed)
 void animate_buffer(void)
 {
-    uint8_t i, j, sin_1, sin_2, distortion_val;
-    uint8_t cur_speed = cycle_speed * frame_count;
-    uint8_t plasma_speed[2] = {0x00};
+    uint8_t i, j,
+        sin_1, sin_2,
+        distortion_val,
+        cur_speed = cycle_speed * frame_count,
+        plasma_speed[2] = {0x00};
     uint16_t arr_offset;
 
     plasma_speed[0] = sin_speeds[0] * frame_count;
@@ -119,8 +124,9 @@ void plasma_scene_init(void)
 
 void plasma_scene_update(void)
 {
+    SMS_waitForVBlank();
+
     animate_buffer();
 
-    SMS_waitForVBlank();
     VRAMmemcpyExpandByte(SMS_PNTAddress, &plasma_buffer, SCREEN_SIZE);
 }
