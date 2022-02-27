@@ -17,7 +17,7 @@
 // C is slower, for sure, but I also wanted to understand the logical
 // underpinning of the effect, even if that comes at a performance hit :)
 
-uint8_t num_sin_pts = 8;
+#define PLASMA_SIN_POINTS 8
 
 // These are all 0-255 numbers that get combined in weird and wonderful ways
 // to reference a point in the sine table. Each of these values forms the
@@ -34,7 +34,7 @@ uint8_t sin_adds_x[8] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
 uint8_t sin_pts_x[8] = {0x00},
         sin_pts_y[8] = {0x00};
 
-uint8_t plasma_base[SCREEN_SIZE] = {0x00},
+uint8_t plasma_starts[SCREEN_SIZE] = {0x00},
         plasma_buffer[SCREEN_SIZE] = {0x00};
 
 // Init
@@ -48,14 +48,14 @@ void init_buffer(void)
     uint8_t plasma_value;
 
     // Calc plasma starting Y values
-    for (i = 0; i < num_sin_pts; i++)
+    for (i = 0; i < PLASMA_SIN_POINTS; i++)
         sin_pts_y[i] = sin_starts_y[i];
 
     // Y loop
     for (i = 0; i < SCREEN_ROWS; i++)
     {
         // Sine points Y loop
-        for (j = 0; j < num_sin_pts; j++)
+        for (j = 0; j < PLASMA_SIN_POINTS; j++)
         {
             sin_pts_y[j] += sin_adds_y[j];
             sin_pts_x[j] = sin_pts_y[j];
@@ -65,17 +65,17 @@ void init_buffer(void)
         for (j = 0; j < SCREEN_COLUMNS; j++)
         {
             // Sine points X loop
-            for (k = 0; k < num_sin_pts; k++)
+            for (k = 0; k < PLASMA_SIN_POINTS; k++)
                 sin_pts_x[k] += sin_adds_x[k];
 
             plasma_value = 0;
 
             // Sine add loop
-            for (k = 0; k < num_sin_pts; k++)
+            for (k = 0; k < PLASMA_SIN_POINTS; k++)
                 plasma_value += sintab[sin_pts_x[k]];
 
             arr_offset = (i * SCREEN_COLUMNS) + j;
-            plasma_base[arr_offset] = plasma_value;
+            plasma_starts[arr_offset] = plasma_value;
         }
     }
 }
@@ -105,7 +105,7 @@ void animate_buffer(void)
         {
             arr_offset = (i * SCREEN_COLUMNS) + j;
             // This relies on being able to wrap-around an 8-bit integer value
-            plasma_buffer[arr_offset] = plasma_base[arr_offset] + distortion_val;
+            plasma_buffer[arr_offset] = plasma_starts[arr_offset] + distortion_val;
         }
     }
 }
