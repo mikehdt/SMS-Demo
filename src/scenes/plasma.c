@@ -69,7 +69,7 @@ void init_buffer(void)
 
             // Sine add loop
             for (k = 0; k < num_sin_pts; k++)
-                plasma_value += usintab[sin_pts_x[k]];
+                plasma_value += sintab[sin_pts_x[k]];
 
             arr_offset = (i * SCREEN_COLUMNS) + j;
             plasma_base[arr_offset] = plasma_value;
@@ -87,8 +87,6 @@ void animate_buffer(void)
     uint8_t plasma_speed[2] = {0x00};
     uint16_t arr_offset;
 
-    // So there's some setup stuff that needs to go here first possibly, from
-    // pp4-5
     plasma_speed[0] = sin_speeds[0] * frame_count;
     plasma_speed[1] = sin_speeds[1] * frame_count;
 
@@ -96,7 +94,7 @@ void animate_buffer(void)
     {
         sin_1 = plasma_speed[0] + (plasma_freqs[0] * i);
         sin_2 = plasma_speed[1] + (plasma_freqs[1] * i);
-        distortion_val = ((usintab[sin_1] + usintab[sin_2]) >> 1) + cur_speed;
+        distortion_val = ((sintab[sin_1] + sintab[sin_2]) >> 1) + cur_speed;
 
         for (j = 0; j < SCREEN_COLUMNS; j++)
         {
