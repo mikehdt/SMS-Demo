@@ -4,108 +4,105 @@
 #include "../engine/palettes.h"
 #include "../engine/update_scenes.h"
 #include "../helpers/clear_tilemap.h"
+#include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
 #include <stdlib.h>
 
-// uint16_t plasma[SCREEN_COLUMNS * SCREEN_ROWS],
-//     buffer[SCREEN_COLUMNS * SCREEN_ROWS];
-#define SCREEN_SIZE_BYTES (SCREEN_COLUMNS * SCREEN_ROWS * 2) // 2bpp
+// This is a reverse deconstruction of:
+// https://hackaday.io/project/159057-game-boards-for-rc2014/log/183324-plasma-effect-for-tms9918
+//
+// C is slower, for sure, but I also wanted to understand the logical
+// underpinning of the effect, even if that comes at a performance hit :)
 
-void first_plasma_scene_init(void)
-{
-    // SMS_loadPSGaidencompressedTiles(plasma_grade_tiles_psgcompr, 0);
-    // SMS_loadBGPalette(plasma_grade_palette_bin);
-    // SMS_loadSpritePalette(palette_black);
+uint8_t num_sin_pts = 8;
 
-    // clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
+// These are all 0-255 numbers that reference a point in the sine table
+// Each of these values forms the configuration for how the plasma effect looks
+uint8_t sin_adds_x[8] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe};
+uint8_t sin_adds_y[8] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02};
+uint8_t sin_starts_y[8] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41};
+uint8_t sin_speeds[2] = {0xfe, 0xfc};
+uint8_t plasma_freqs[2] = {0x06, 0x07};
+uint8_t cycle_speed = 0xff;
 
-    // uint16_t x, y;
+// Stores the state of the 8 composed sine values as x and y components
+uint8_t sin_pts_x[8] = {0x00};
+uint8_t sin_pts_y[8] = {0x00};
 
-    // for (x = 0; x < SCREEN_ROWS; x++)
-    //     for (y = 0; y < SCREEN_COLUMNS; y++)
-    //         plasma[(x * SCREEN_COLUMNS) + y] = (128 + sintab[x << 3] + 128 + sintab[y << 3]) >> 1;
-}
-
-void first_plasma_scene_update(void)
-{
-    // uint16_t x, y, palette_shift;
-
-    // palette_shift = (frame_count << 2) & 255;
-
-    // for (x = 0; x < SCREEN_ROWS; x++)
-    //     for (y = 0; y < SCREEN_COLUMNS; y++)
-    //         buffer[(x * SCREEN_COLUMNS) + y] = (plasma[(x * SCREEN_COLUMNS) + y] + palette_shift) & 255;
-
-    // SMS_waitForVBlank();
-
-    // // This will be heinously slow
-    // SMS_VRAMmemcpy(SMS_PNTAddress, &buffer, screen_size_bytes);
-}
-
-//-----
-
-uint16_t NumSinePnts = 8;
-uint16_t ColorPalette = 0; // This can be any colour palette
-uint16_t ScreenWidth = 32;
-uint16_t ScreenHeight = 24;
-
-uint8_t SineAddsX[8] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe};
-uint8_t SineAddsY[8] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02};
-uint8_t SineStartsY[8] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41};
-uint8_t SineSpeeds[2] = {0xfe, 0xfc};
-uint8_t PlasmaFreqs[2] = {0x06, 0x07};
-uint8_t CycleSpeed = 0xff;
-
-uint16_t buffer[SCREEN_ROWS][SCREEN_COLUMNS]; // optimise to double 8-bit later
-uint16_t screen[SCREEN_ROWS][SCREEN_COLUMNS]; // optimise to double 8-bit later
-uint16_t PlasmaCnts, CycleCnt, DurationCnt;
+uint8_t plasma_base[SCREEN_SIZE] = {0x00};
+uint8_t plasma_buffer[SCREEN_SIZE] = {0x00};
 
 // Init
 // I(x,y) = 8/Σ/n=1 sin(Sn + Xn * x + Yn + y)
-// For each Column(x) of Row(y), where S = SinStartsY, X = SinAddsX, Y = SinAddsY
+// For each Column(x) of Row(y), where S = sin_starts_y, X = sin_adds_x, Y = sin_adds_y
 void init_buffer(void)
 {
-    uint8_t x, y, Phase, sin_val; // Are we relying on sin_val / sintab_lookup overflowing?
-    uint16_t sintab_lookup;
+    uint16_t i, j, k;
+    uint8_t plasma_value;
+    uint16_t arr_offset;
 
-    for (y = 0; y < SCREEN_ROWS; y++)
+    // Calc plasma starting Y values
+    for (i = 0; i < num_sin_pts; i++)
+        sin_pts_y[i] = sin_starts_y[i];
+
+    // Y loop
+    for (i = 0; i < SCREEN_ROWS; i++)
     {
-        for (x = 0; x < SCREEN_COLUMNS; x++)
+        // Sine points Y loop
+        for (j = 0; j < num_sin_pts; j++)
         {
-            sin_val = 0;
+            sin_pts_y[j] = sin_pts_y[j] + sin_adds_y[j];
+            sin_pts_x[j] = sin_pts_y[j];
+        }
 
-            for (Phase = 0; Phase <= NumSinePnts; Phase++)
-            {
-                sintab_lookup = (SineStartsY[Phase] + (SineAddsX[Phase] * x) + (SineAddsY[Phase] * y)) >> 6;
-                sin_val += sintab[sintab_lookup] + 128;
-            }
+        // X loop
+        for (j = 0; j < SCREEN_COLUMNS; j++)
+        {
+            // Sine points X loop
+            for (k = 0; k < num_sin_pts; k++)
+                sin_pts_x[k] += sin_adds_x[k];
 
-            buffer[y][x] = sin_val;
+            plasma_value = 0;
+
+            // Sine add loop
+            for (k = 0; k < num_sin_pts; k++)
+                plasma_value += usintab[sin_pts_x[k]];
+
+            arr_offset = (i * SCREEN_COLUMNS) + j;
+            plasma_base[arr_offset] = plasma_value;
         }
     }
 }
 
 // Animate
-// D(n,y) = 1/2 * (sin(S1 * n + P1 * y) + sin(S2 * n + P2 * y)) + C * n
-// For each Row(y) of Frame(n), where S = SineSpeeds, P = PlasmaFreqs, C = CycleSpeed
+// D(n,y) = (sin(S1 * n + P1 * y) + sin(S2 * n + P2 * y)) / 2 + C * n
+// For each Row(y) of Frame(n), where S = sin_speeds, P = plasma_freqs, C = cycle_speed
 void animate_buffer(void)
 {
-    uint8_t x, y;
-    uint16_t sintab_lookup_a, sintab_lookup_b, sintab_lookup_c;
+    uint8_t i, j, sin_1, sin_2, distortion_val;
+    uint8_t cur_speed = cycle_speed * frame_count;
+    uint8_t plasma_speed[2] = {0x00};
+    uint16_t arr_offset;
 
-    for (y = 0; y < SCREEN_ROWS; y++)
+    // So there's some setup stuff that needs to go here first possibly, from
+    // pp4-5
+    plasma_speed[0] = sin_speeds[0] * frame_count;
+    plasma_speed[1] = sin_speeds[1] * frame_count;
+
+    for (i = 0; i < SCREEN_ROWS; i++)
     {
-        // This code is cursed
-        sintab_lookup_a = (SineSpeeds[0] * CycleCnt) + (PlasmaFreqs[0] * y);
-        sintab_lookup_b = (SineSpeeds[1] * CycleCnt) + (PlasmaFreqs[1] * y);
-        sintab_lookup_c = (((sintab[sintab_lookup_a] + 128) + (sintab[sintab_lookup_b] + 128)) >> 1) + (8 * CycleCnt);
+        sin_1 = plasma_speed[0] + (plasma_freqs[0] * i);
+        sin_2 = plasma_speed[1] + (plasma_freqs[1] * i);
+        distortion_val = ((usintab[sin_1] + usintab[sin_2]) >> 1) + cur_speed;
 
-        for (x = 0; x < SCREEN_COLUMNS; x++)
+        for (j = 0; j < SCREEN_COLUMNS; j++)
         {
-            screen[y][x] = (buffer[y][x] + sintab_lookup_c) & 255;
+            arr_offset = (i * SCREEN_COLUMNS) + j;
+            // This relies on being able to wrap-around an 8-bit integer value
+            plasma_buffer[arr_offset] = plasma_base[arr_offset] + distortion_val;
         }
     }
 }
@@ -115,23 +112,17 @@ void plasma_scene_init(void)
     SMS_mapROMBank(plasma_grade_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(plasma_grade_tiles_psgcompr, 0);
     SMS_loadBGPalette(plasma_grade_palette_bin);
-    SMS_loadSpritePalette(palette_black);
-
     clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
 
-    // make_sine_table(); // found in sin_tab
-    // make_speed_code(); // future :)
-    // load_pattern_table(); // this is done by the PSG tiles above :)
-    init_buffer(); // init first effect
+    init_buffer();
 
-    CycleCnt = 0;
+    SMS_loadSpritePalette(palette_black);
 }
 
 void plasma_scene_update(void)
 {
-    SMS_waitForVBlank();
     animate_buffer();
-    SMS_VRAMmemcpy(SMS_PNTAddress, &screen, SCREEN_SIZE_BYTES);
 
-    CycleCnt++;
+    SMS_waitForVBlank();
+    VRAMmemcpyExpandByte(SMS_PNTAddress, &plasma_buffer, SCREEN_SIZE);
 }

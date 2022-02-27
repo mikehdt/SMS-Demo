@@ -70,7 +70,7 @@ void calc_fire_tiles_asm(void) __naked
 __asm
     ld  bc, #_fire
     ld  d, #0x00
-; // while (fire_arr < fire_end)
+; // do {
 MainFireLoop:
 ; // fire_tile = fire_arr[32 - 1] >> 2;
     ld  hl, #0x1f
@@ -102,13 +102,13 @@ MainFireLoop:
     cp  a, #0x03
     jr  C, SetFireTile
 ; // fire_tile -= 3;
-    add a, #0xfd
+    sub a, #0x03
 SetFireTile:
 ; // *fire_arr = fire_tile;
     ld  (bc), a
 ; // fire_arr++;
     inc bc
-; // }
+; // } while (fire_arr < fire_end);
     ; // 0x0300 (768) is the size of the fire array not including seed rows
     ld  a, c
     sub a, #<(_fire + 0x0300) ; // This seems to be an SDCC feature for lower byte?
