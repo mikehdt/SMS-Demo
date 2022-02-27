@@ -39,12 +39,11 @@ uint8_t plasma_starts[SCREEN_SIZE] = {0x00},
 
 // Init
 // I(x,y) = 8/Σ/n=1 sin(Sn + Xn * x + Yn + y)
-// For each x(Column), y(Row), S(sin_starts_y), X(sin_adds_x), Y(sin_adds_y)
+// Where x(Column), y(Row), S(sin_starts_y), X(sin_adds_x), Y(sin_adds_y)
 // Upon reflection, I'm not sure the complexity is captured in that formula...
 void init_buffer(void)
 {
-    uint16_t i, j, k,
-        arr_offset;
+    uint16_t i, j, k;
     uint8_t plasma_value;
 
     // Calc plasma starting Y values
@@ -74,8 +73,7 @@ void init_buffer(void)
             for (k = 0; k < PLASMA_SIN_POINTS; k++)
                 plasma_value += sintab[sin_pts_x[k]];
 
-            arr_offset = (i * SCREEN_COLUMNS) + j;
-            plasma_starts[arr_offset] = plasma_value;
+            plasma_starts[(i * SCREEN_COLUMNS) + j] = plasma_value;
         }
     }
 }
@@ -101,10 +99,10 @@ void animate_buffer(void)
         sin_2 = plasma_speed[1] + (plasma_freqs[1] * i);
         distortion_val = ((sintab[sin_1] + sintab[sin_2]) >> 1) + cur_speed;
 
+        // This relies on being able to wrap-around an 8-bit integer value
         for (j = 0; j < SCREEN_COLUMNS; j++)
         {
             arr_offset = (i * SCREEN_COLUMNS) + j;
-            // This relies on being able to wrap-around an 8-bit integer value
             plasma_buffer[arr_offset] = plasma_starts[arr_offset] + distortion_val;
         }
     }
