@@ -14,8 +14,9 @@
 
 // This is a reverse deconstruction of:
 // https://hackaday.io/project/159057-game-boards-for-rc2014/log/183324-plasma-effect-for-tms9918
+// which itself is a Z80-compatible interpretation of Cruzer/CML's C64 routine
 //
-// C is slower, for sure, but I also wanted to understand the logical
+// Compiled C is slower, for sure, but I also wanted to understand the logical
 // underpinning of the effect, even if that comes at a performance hit :)
 
 #define PLASMA_PTS 8
@@ -33,6 +34,7 @@ uint8_t sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe
 // Stores the state of the x component of the sine values. The y complement is
 // initialised to some values above. Both array values get heavily mutated.
 uint8_t sin_pts_x[PLASMA_PTS] = {0x00};
+// I cut sin_pts_y out here, but might need to put it back...
 
 uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 
@@ -43,7 +45,7 @@ uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 void init_buffer(void)
 {
     uint16_t i, j, k;
-    uint8_t plasma_value;
+    uint8_t *plasma_arr = plasma_starts;
 
     // Y loop
     for (i = 0; i < SCREEN_ROWS; i++)
@@ -62,13 +64,13 @@ void init_buffer(void)
             for (k = 0; k < PLASMA_PTS; k++)
                 sin_pts_x[k] += sin_adds_x[k];
 
-            plasma_value = 0;
+            *plasma_arr = 0;
 
             // Sine add loop
             for (k = 0; k < PLASMA_PTS; k++)
-                plasma_value += sintab[sin_pts_x[k]];
+                *plasma_arr += sintab[sin_pts_x[k]];
 
-            plasma_starts[(i * SCREEN_COLUMNS) + j] = plasma_value;
+            plasma_arr++;
         }
     }
 }
@@ -78,29 +80,39 @@ void init_buffer(void)
 // Where y(Row), n(Frame), S(sin_speeds), P(plasma_freqs), C(cycle_speed)
 void animate_buffer(void)
 {
-    uint8_t i, j,
-        sin_1, sin_2,
-        distortion_val,
-        cur_speed = cycle_speed * frame_count,
-        plasma_speed[2] = {0x00};
-    uint16_t arr_offset;
+    uint8_t i = 0,
+            sin_1, sin_2,
+            distortion_val,
+            plasma_speed[2] = {0x00},
+            *plasma_arr = plasma_starts,
+            *plasma_mid = plasma_starts,
+            *plasma_end = plasma_starts + SCREEN_SIZE,
+            *buffer_arr = screen_buffer;
+    const uint8_t cur_speed = cycle_speed * frame_count;
 
     plasma_speed[0] = sin_speeds[0] * frame_count;
     plasma_speed[1] = sin_speeds[1] * frame_count;
 
-    for (i = 0; i < SCREEN_ROWS; i++)
+    do
     {
+        // For some reason, the code goes sideways if these are collapsed into
+        // the distortion_val formula below...
         sin_1 = plasma_speed[0] + (plasma_freqs[0] * i);
         sin_2 = plasma_speed[1] + (plasma_freqs[1] * i);
         distortion_val = ((sintab[sin_1] + sintab[sin_2]) >> 1) + cur_speed;
+        i++; // I really want to get rid of this counter...
+
+        plasma_mid = plasma_arr + SCREEN_COLUMNS;
 
         // This relies on being able to wrap-around an 8-bit integer value
-        for (j = 0; j < SCREEN_COLUMNS; j++)
+        do
         {
-            arr_offset = (i * SCREEN_COLUMNS) + j;
-            screen_buffer[arr_offset] = plasma_starts[arr_offset] + distortion_val;
-        }
-    }
+            *buffer_arr = *plasma_arr + distortion_val;
+
+            plasma_arr++;
+            buffer_arr++;
+        } while (plasma_arr < plasma_mid);
+    } while (plasma_arr < plasma_end);
 }
 
 void plasma_scene_init(void)

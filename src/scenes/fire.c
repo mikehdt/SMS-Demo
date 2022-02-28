@@ -141,7 +141,7 @@ void fire_scene_update(void)
 // #define FIRE_DAMPEN 3 // lower = taller flames
 // void calc_fire_tiles(void)
 // {
-//     uint8_t *fire_arr = fire, fire_tile;
+//     uint8_t *fire_arr = screen_buffer, fire_tile;
 //     const uint8_t *fire_end = fire + FIRE_SIZE;
 
 //     //   i   <- Current row item
