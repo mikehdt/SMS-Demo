@@ -17,7 +17,7 @@ Some basic settings exist for VSCode. I'm currently building on Windows, but as 
 -   [x] Have a scene manager to swap between effects
 -   [x] Have more than one bank, to learn about bank switching
 -   [x] Improve the responsiveness of button presses
--   [ ] Figure out why the plasma effect is _cursed_
+-   [x] Figure out why the plasma effect is _cursed_
 -   [ ] Improve the build pipeline (makefile)
 -   [ ] Investigate making the build pipeline cross-platform (as much as is possible)
 -   [ ] Investigate whether the `z88dk` SDCC patch is viable with Emulicious debugging as an alternative
