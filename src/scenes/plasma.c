@@ -44,35 +44,66 @@ uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 // Upon reflection, I'm not sure the complexity is captured in that formula...
 void init_buffer(void)
 {
-    uint16_t i, j, k;
-    uint8_t *plasma_arr = plasma_starts;
+    uint8_t *sin_pts_x_arr, *sin_pts_y_arr,
+        *sin_adds_x_arr, *sin_adds_y_arr,
+        *plasma_arr = plasma_starts,
+        *plasma_end = plasma_starts + SCREEN_SIZE,
+        *plasma_loop,
+        *plasma_offset_loop;
 
     // Y loop
-    for (i = 0; i < SCREEN_ROWS; i++)
+    do
     {
+        // Reset offsets
+        sin_pts_x_arr = sin_pts_x;
+        sin_pts_y_arr = sin_pts_y;
+        sin_adds_y_arr = sin_adds_y;
+        plasma_loop = sin_pts_y_arr + PLASMA_PTS;
+
         // Sine points Y loop
-        for (j = 0; j < PLASMA_PTS; j++)
+        do
         {
-            sin_pts_y[j] += sin_adds_y[j];
-            sin_pts_x[j] = sin_pts_y[j];
-        }
+            *sin_pts_y_arr += *sin_adds_y_arr;
+            *sin_pts_x_arr = *sin_pts_y_arr;
+
+            sin_pts_x_arr++;
+            sin_pts_y_arr++;
+            sin_adds_y_arr++;
+        } while (sin_pts_y_arr < plasma_loop);
 
         // X loop
-        for (j = 0; j < SCREEN_COLUMNS; j++)
+        plasma_loop = plasma_arr + SCREEN_COLUMNS;
+
+        do
         {
+            sin_pts_x_arr = sin_pts_x;
+            sin_adds_x_arr = sin_adds_x;
+            plasma_offset_loop = sin_pts_x + PLASMA_PTS;
+
             // Sine points X loop
-            for (k = 0; k < PLASMA_PTS; k++)
-                sin_pts_x[k] += sin_adds_x[k];
+            do
+            {
+                *sin_pts_x_arr += *sin_adds_x_arr;
+
+                sin_pts_x_arr++;
+                sin_adds_x_arr++;
+            } while (sin_pts_x_arr < plasma_offset_loop);
+
+            // Reset offset
+            sin_pts_x_arr = sin_pts_x;
 
             *plasma_arr = 0;
 
             // Sine add loop
-            for (k = 0; k < PLASMA_PTS; k++)
-                *plasma_arr += sintab[sin_pts_x[k]];
+            do
+            {
+                *plasma_arr += sintab[*sin_pts_x_arr];
+                sin_pts_x_arr++;
+            } while (sin_pts_x_arr < plasma_offset_loop);
 
             plasma_arr++;
-        }
-    }
+        } while (plasma_arr < plasma_loop);
+    } while (plasma_arr < plasma_end);
 }
 
 // Animate
