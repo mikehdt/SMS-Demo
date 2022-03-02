@@ -33,9 +33,8 @@ uint8_t sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe
 
 // Stores the state of the x component of the sine values. The y complement is
 // initialised to some values above. Both array values get heavily mutated.
-uint8_t sin_pts_x[PLASMA_PTS] = {0x00};
-uint8_t sin_pts_y[PLASMA_PTS] = {0x00};
-// I cut sin_pts_y out here, but might need to put it back...
+uint8_t sin_pts_x[PLASMA_PTS] = {0x00},
+        sin_pts_y[PLASMA_PTS] = {0x00};
 
 uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 
@@ -126,24 +125,24 @@ void init_buffer(void)
 void animate_buffer(void)
 {
     uint8_t row_count = 0,
+            plasma_speed_1, plasma_speed_2,
             sin_1, sin_2,
             distortion_val,
-            plasma_speed[2] = {0x00},
             *plasma_arr = plasma_starts,
             *plasma_mid = plasma_starts,
             *plasma_end = plasma_starts + SCREEN_SIZE,
             *buffer_arr = screen_buffer;
     const uint8_t cur_speed = cycle_speed * frame_count;
 
-    plasma_speed[0] = sin_speeds[0] * frame_count;
-    plasma_speed[1] = sin_speeds[1] * frame_count;
+    plasma_speed_1 = sin_speeds[0] * frame_count;
+    plasma_speed_2 = sin_speeds[1] * frame_count;
 
     do
     {
         // For some reason, the code goes sideways if these are collapsed into
         // the distortion_val formula below...
-        sin_1 = plasma_speed[0] + (plasma_freqs[0] * row_count);
-        sin_2 = plasma_speed[1] + (plasma_freqs[1] * row_count);
+        sin_1 = plasma_speed_1 + (plasma_freqs[0] * row_count);
+        sin_2 = plasma_speed_2 + (plasma_freqs[1] * row_count);
         distortion_val = ((sintab[sin_1] + sintab[sin_2]) >> 1) + cur_speed;
         row_count++; // I really want to get rid of this counter...
 
