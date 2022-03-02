@@ -26,7 +26,7 @@
 // configuration for how the final plasma effect looks and animates.
 uint8_t sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
         sin_adds_y[PLASMA_PTS] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02},
-        sin_pts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
+        sin_starts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
         sin_speeds[2] = {0xfe, 0xfc},
         plasma_freqs[2] = {0x06, 0x07},
         cycle_speed = 0xff;
@@ -34,6 +34,7 @@ uint8_t sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe
 // Stores the state of the x component of the sine values. The y complement is
 // initialised to some values above. Both array values get heavily mutated.
 uint8_t sin_pts_x[PLASMA_PTS] = {0x00};
+uint8_t sin_pts_y[PLASMA_PTS] = {0x00};
 // I cut sin_pts_y out here, but might need to put it back...
 
 uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
@@ -44,12 +45,25 @@ uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 // Upon reflection, I'm not sure the complexity is captured in that formula...
 void init_buffer(void)
 {
-    uint8_t *sin_pts_x_arr, *sin_pts_y_arr,
-        *sin_adds_x_arr, *sin_adds_y_arr,
-        *plasma_arr = plasma_starts,
-        *plasma_end = plasma_starts + SCREEN_SIZE,
-        *plasma_loop,
-        *plasma_offset_loop;
+    uint8_t *sin_starts_y_arr = sin_starts_y,
+            *sin_starts_y_end = sin_starts_y + PLASMA_PTS,
+            *sin_pts_x_arr = sin_pts_x,
+            *sin_pts_y_arr = sin_pts_y,
+            *sin_adds_x_arr = sin_adds_x,
+            *sin_adds_y_arr = sin_adds_y,
+            *plasma_arr = plasma_starts,
+            *plasma_end = plasma_starts + SCREEN_SIZE,
+            *plasma_loop,
+            *plasma_offset_loop;
+
+    // Calc plasma starting Y values
+    do
+    {
+        *sin_pts_y_arr = *sin_starts_y_arr;
+
+        sin_pts_y_arr++;
+        sin_starts_y_arr++;
+    } while (sin_starts_y_arr < sin_starts_y_end);
 
     // Y loop
     do
