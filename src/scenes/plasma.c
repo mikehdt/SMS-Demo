@@ -125,7 +125,7 @@ void init_buffer(void)
 // Where y(Row), n(Frame), S(sin_speeds), P(plasma_freqs), C(cycle_speed)
 void animate_buffer(void)
 {
-    uint8_t i = 0,
+    uint8_t row_count = 0,
             sin_1, sin_2,
             distortion_val,
             plasma_speed[2] = {0x00},
@@ -142,10 +142,10 @@ void animate_buffer(void)
     {
         // For some reason, the code goes sideways if these are collapsed into
         // the distortion_val formula below...
-        sin_1 = plasma_speed[0] + (plasma_freqs[0] * i);
-        sin_2 = plasma_speed[1] + (plasma_freqs[1] * i);
+        sin_1 = plasma_speed[0] + (plasma_freqs[0] * row_count);
+        sin_2 = plasma_speed[1] + (plasma_freqs[1] * row_count);
         distortion_val = ((sintab[sin_1] + sintab[sin_2]) >> 1) + cur_speed;
-        i++; // I really want to get rid of this counter...
+        row_count++; // I really want to get rid of this counter...
 
         plasma_mid = plasma_arr + SCREEN_COLUMNS;
 
