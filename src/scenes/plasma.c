@@ -126,16 +126,17 @@ void init_buffer(void)
 // Where y(Row), n(Frame), S(sin_speeds), P(plasma_freqs), C(cycle_speed)
 void animate_buffer(void)
 {
-    uint8_t row_count = 0,
-            col_count,
-            sin_1, sin_2,
-            distortion_val,
-            *plasma_arr = plasma_starts,
-            *buffer_arr = screen_buffer,
-            *buffer_end = screen_buffer + SCREEN_SIZE;
+    uint8_t row_count, col_count,
+        sin_1, sin_2,
+        distortion_val,
+        *plasma_arr = plasma_starts,
+        *buffer_arr = screen_buffer,
+        *buffer_end = screen_buffer + SCREEN_SIZE;
     const uint8_t cur_speed = cycle_speed * frame_count,
                   plasma_speed_1 = sin_speeds_1 * frame_count,
                   plasma_speed_2 = sin_speeds_2 * frame_count;
+
+    row_count = 0;
 
     do
     {
