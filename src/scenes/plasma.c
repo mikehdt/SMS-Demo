@@ -12,9 +12,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-// This is a reverse deconstruction of:
+// This is a reverse deconstruction of the fantastic:
 // https://hackaday.io/project/159057-game-boards-for-rc2014/log/183324-plasma-effect-for-tms9918
-// which itself is a Z80-compatible interpretation of Cruzer/CML's C64 routine
+// which itself is a Z80 interpretation of Cruzer/CML's smart C64 routine
 //
 // Compiled C is slower, for sure, but I also wanted to understand the logical
 // underpinning of the effect, even if that comes at a performance hit :)
@@ -24,9 +24,9 @@
 // These are all 0-255 numbers that get combined in weird and wonderful ways
 // to reference a point in the sine table. Each of these values forms the
 // configuration for how the final plasma effect looks and animates.
-uint8_t sin_config[PLASMA_PTS * 3] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe,  // sin_adds_x
-                                      0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02,  // sin_adds_y
-                                      0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41}; // sin_starts_y
+uint8_t sin_starts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
+        sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
+        sin_adds_y[PLASMA_PTS] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02};
 uint8_t sin_speeds_1 = 0xfe,
         sin_speeds_2 = 0xfc,
         plasma_freqs_1 = 0x06,
@@ -44,81 +44,137 @@ uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 // I(x,y) = 8/Σ/n=1 sin(Sn + Xn * x + Yn + y)
 // Where x(Column), y(Row), S(sin_starts_y), X(sin_adds_x), Y(sin_adds_y)
 // Upon reflection, I'm not sure the complexity is captured in that formula...
-void init_buffer(void)
+void init_buffer(void) __naked
 {
-    uint8_t *sin_starts_y_arr = sin_config + (PLASMA_PTS * 2),
-            *sin_starts_y_end = sin_config + (PLASMA_PTS * 3),
-            *sin_pts_x_arr = sin_pts_x,
-            *sin_pts_y_arr = sin_pts_y,
-            *sin_adds_x_arr = sin_config,
-            *sin_adds_y_arr = sin_config + PLASMA_PTS,
-            *plasma_arr = plasma_starts,
-            *plasma_end = plasma_starts + SCREEN_SIZE,
-            *plasma_loop,
-            *plasma_offset_loop;
+    // clang-format off
+__asm
+InitSinPtsY:
+    ld  hl, #_sin_starts_y
+    ld  de, #_sin_pts_y
+    ld  bc, #PLASMA_PTS
+    ldir    ; // ld (de), (hl) then decrement bc, repeat until bc is 0
 
-    // Calc plasma starting Y values
-    do
-    {
-        *sin_pts_y_arr = *sin_starts_y_arr;
+    ld  hl, #_plasma_starts     ; // used later on after adding sine loop values
+    ld  c, #SCREEN_ROWS
 
-        sin_pts_y_arr++;
-        sin_starts_y_arr++;
-    } while (sin_starts_y_arr < sin_starts_y_end);
+YLoop:
+    exx     ; // use bc', de', hl'
+    ld  bc, #_sin_pts_y
+    ld  hl, #_sin_adds_y
+    ld  de, #_sin_pts_x
+    exx     ; // use bc, de, hl
 
-    // Y loop
-    do
-    {
-        // Reset offsets
-        sin_adds_y_arr = sin_config + PLASMA_PTS;
-        sin_pts_x_arr = sin_pts_x;
-        sin_pts_y_arr = sin_pts_y;
-        plasma_loop = sin_pts_y + PLASMA_PTS;
+    ld  d, #PLASMA_PTS  ; // paired with #SCREEN_ROWS above
 
-        // Sine points Y loop
-        do
+SinPtsYLoop:
+    exx     ; // use bc', de', hl'
+
+    ld  a, (bc) ; // load sin_pts_y
+    add a, (hl) ; // add sin_adds_y
+    ld  (bc), a ; // store acc into sin_pts_y value
+    ld  (de), a ; // store acc into sin_pts_x value
+
+    inc bc
+    inc de
+    inc hl
+
+    exx     ; // use bc, de, hl
+
+    dec d
+    jp  NZ, SinPtsYLoop
+    ; // END SinPtsYLoop
+
+    ld b, #SCREEN_COLUMNS
+
+XLoop:
+    exx     ; // use bc', de', hl'
+
+    ld  de, #_sin_pts_x
+    ld  hl, #_sin_adds_x
+    ld  b, #PLASMA_PTS
+
+SinPtsXLoop:
+    ld  a, (de) ; // sin_pts_x
+    add a, (hl) ; // sin_adds_x
+    ld  (de), a
+
+    inc de
+    inc hl
+    djnz SinPtsXLoop
+    ; // END SinPtsXLoop
+
+    ld  de, #_sin_pts_x ; // reset the pointer to sin_pts_x
+    xor a               ; // clear the accumulator
+    ld  b, #PLASMA_PTS
+
+SinAddLoop:
+    ex  af, af' ;' // use af'
+    ld  a, (de)
+
+    ld  hl, #_sintab    ; // not as nice as the page-aligned version, ah well
+
+    ; // add hl, a -- from https://plutiedev.com/z80-add-8bit-to-16bit et al
+    add   a, l    ; // a = a + l
+    ld    l, a    ; // l = a + l
+    adc   a, h    ; // a = a + l + h + (carry)
+    sub   l       ; // a = h + (carry)
+    ld    h, a    ; // h = h + (carry)
+
+    ex  af, af' ;' // use af
+
+    add a, (hl) ; // Add sine value from the table
+    inc de
+    djnz SinAddLoop
+    ; // END SinAddLoop
+
+    exx ; // use bc, de, hl
+    ld  (hl), a ; // save compiled sine number back into plasma_starts
+    inc hl
+    djnz XLoop
+    ; // END XLoop
+
+    dec c
+    jp  NZ, YLoop
+    ; // END YLoop
+
+    ret
+__endasm;
+    // clang-format on
+    /*
+        // C implementation (good readability, but unoptimal when compiled)
+
+        // Calc plasma starting Y values
+        for (i = 0; i < PLASMA_PTS; i++)
+            sin_pts_y[i] = sin_starts_y[i];
+
+        // Y loop
+        for (i = 0; i < SCREEN_ROWS; i++)
         {
-            *sin_pts_y_arr += *sin_adds_y_arr;
-            *sin_pts_x_arr = *sin_pts_y_arr;
-
-            sin_pts_x_arr++;
-            sin_pts_y_arr++;
-            sin_adds_y_arr++;
-        } while (sin_pts_y_arr < plasma_loop);
-
-        // X loop
-        plasma_loop = plasma_arr + SCREEN_COLUMNS;
-
-        do
-        {
-            sin_pts_x_arr = sin_pts_x;
-            sin_adds_x_arr = sin_config;
-            plasma_offset_loop = sin_pts_x + PLASMA_PTS;
-
-            // Sine points X loop
-            do
+            // Sine points Y loop
+            for (j = 0; j < PLASMA_PTS; j++)
             {
-                *sin_pts_x_arr += *sin_adds_x_arr;
+                sin_pts_y[j] = sin_pts_y[j] + sin_adds_y[j];
+                sin_pts_x[j] = sin_pts_y[j];
+            }
 
-                sin_pts_x_arr++;
-                sin_adds_x_arr++;
-            } while (sin_pts_x_arr < plasma_offset_loop);
-
-            // Reset offset
-            sin_pts_x_arr = sin_pts_x;
-
-            *plasma_arr = 0;
-
-            // Sine add loop
-            do
+            // X loop
+            for (j = 0; j < SCREEN_COLUMNS; j++)
             {
-                *plasma_arr += sintab[*sin_pts_x_arr];
-                sin_pts_x_arr++;
-            } while (sin_pts_x_arr < plasma_offset_loop);
+                // Sine points X loop
+                for (k = 0; k < PLASMA_PTS; k++)
+                    sin_pts_x[k] += sin_adds_x[k];
 
-            plasma_arr++;
-        } while (plasma_arr < plasma_loop);
-    } while (plasma_arr < plasma_end);
+                plasma_value = 0;
+
+                // Sine add loop
+                for (k = 0; k < PLASMA_PTS; k++)
+                    plasma_value += sintab[sin_pts_x[k]];
+
+                arr_offset = (i * SCREEN_COLUMNS) + j;
+                plasma_base[arr_offset] = plasma_value;
+            }
+        }
+    */
 }
 
 // Animate
