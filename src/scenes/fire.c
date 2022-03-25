@@ -37,7 +37,7 @@ void seed_fire_tiles(void)
                   *fire_edge_d = screen_buffer + SEED_SIZE - EDGE_WIDTH;
 
     // Generate noise across "virtual" lines
-    while (fire_arr < fire_end)
+    do
     {
         // Blank the sides across the two noise rows
         if ((fire_arr < fire_edge_a) ||
@@ -57,7 +57,7 @@ void seed_fire_tiles(void)
         }
 
         fire_arr++;
-    }
+    } while (fire_arr < fire_end);
 }
 
 void calc_fire_tiles_asm(void) __naked

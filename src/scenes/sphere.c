@@ -206,11 +206,14 @@ void sphere_scene_update(void)
 
 void sphere_scene_end(void)
 {
-    set_palette(palette_black, PALETTE_BOTH);
     SMS_waitForVBlank();
 
+    set_palette(palette_black, PALETTE_BOTH);
     SMS_initSprites();
+    SMS_copySpritestoSAT(); // Feels weird that I have to do this _as well_
     SMS_setSpriteMode(SPRITEMODE_NORMAL);
+
+    SMS_waitForVBlank();
 
     clear_tilemap(0);
 }

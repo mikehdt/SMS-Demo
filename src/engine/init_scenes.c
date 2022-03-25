@@ -34,6 +34,7 @@ void init_scenes(void)
 
     scenes[SCENE_PLASMA].init = plasma_scene_init;
     scenes[SCENE_PLASMA].update = plasma_scene_update;
+    // scenes[SCENE_PLASMA].end = plasma_scene_end;
 
     scenes[SCENE_SCROLLER].init = scroller_scene_init;
     scenes[SCENE_SCROLLER].update = scroller_scene_update;

@@ -1,4 +1,10 @@
 .DS_Store
+*.adb
 *.cdb
+*.ihx
+*.lk
+*.map
+*.noi
 compile/
 assets/src/
+CMakeCache.txt
