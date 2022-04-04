@@ -65,6 +65,8 @@ void calc_fire_tiles_asm(void) __naked
     // I haven't gotten the inline assembly to work nicely in VScode yet, so the
     // extra double-slashes in the asm comments are just to fake readability
 
+    // TODO: Investigate possible register thwacking, maybe need to play nicer.
+
     // clang-format off
 __asm
     ld  bc, #_screen_buffer

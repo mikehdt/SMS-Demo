@@ -6,5 +6,6 @@
 *.map
 *.noi
 compile/
+!compile/smslib/
 assets/src/
 CMakeCache.txt
