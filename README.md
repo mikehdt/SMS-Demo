@@ -34,7 +34,7 @@ Press the `1` button to cycle through the various scenes (some more computationa
 
 It uses [devkitSMS](https://github.com/sverx/devkitSMS) as a basis for doing all its fancy stuff.
 
-Code is compiled with [SDCC](http://sdcc.sourceforge.net/) `4.1.0` (`4.1.12+` nightlies are also compatible, but will need the `--sdcccall 0` flag to be added in `scripts/build.bat`. However, I found the nightlies had _massive_ problems with the Emulicious debugger bridge to VScode where variable values were completely wrong and would appear and disappear almost randomly. I've gone back to `4.1.0` stable for the time being. I really appreciate Calindro's efforts on helping investigate this issue from the Emulicious side).
+Code is compiled with [SDCC](http://sdcc.sourceforge.net/) `4.1.0` . The SDCC `4.2.0` release changes a lot of things. Currently the C debugging is broken between Emulicious / VSCode, as well as seemingly any places I've used inline assembly. So `4.1.0` is needed for now.
 
 The [bmp2tile](https://github.com/maxim-zhao/bmp2tile) project is included here for compiling assets, but I might move it to be an external dep later. For cross-platform support later, the [png2tile](https://github.com/yuv422/png2tile) looks like a great starting point.
 
