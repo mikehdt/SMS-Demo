@@ -37,6 +37,7 @@
         "memcpy_expand_byte.h": "c",
         "screen_array.h": "c",
         "init_scenes.h": "c",
-        "vscode.h": "c"
+        "vscode.h": "c",
+        "tilemap.h": "c"
     }
 }

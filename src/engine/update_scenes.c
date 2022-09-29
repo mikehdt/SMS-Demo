@@ -19,13 +19,13 @@ void transition_to_scene(int8_t target_scene)
 {
     if (current_scene != target_scene)
     {
-        if (scenes[current_scene].end != NULL)
+        if (scenes[current_scene].end)
             scenes[current_scene].end();
 
         current_scene = target_scene;
         frame_count = 0;
 
-        if (scenes[current_scene].init != NULL)
+        if (scenes[current_scene].init)
             scenes[current_scene].init();
     }
 }

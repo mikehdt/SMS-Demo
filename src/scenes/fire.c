@@ -1,8 +1,8 @@
 #include "fire.h"
 #include "../assets2banks.h"
-#include "../engine/clear_tilemap.h"
 #include "../engine/palettes.h"
 #include "../engine/screen_buffer.h"
+#include "../engine/tilemap.h"
 #include "../engine/update_scenes.h"
 #include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
@@ -60,6 +60,53 @@ void seed_fire_tiles(void)
     } while (fire_arr < fire_end);
 }
 
+// ----- TO BE OPTIMISED -----
+#define FIRE_A ROW_WIDTH - 1
+#define FIRE_B ROW_WIDTH
+#define FIRE_C ROW_WIDTH + 1
+#define FIRE_X ROW_WIDTH * 2
+#define FIRE_DAMPEN 3 // lower = taller flames
+void calc_fire_tiles(void)
+{
+    uint8_t *fire_arr = screen_buffer, fire_tile;
+    const uint8_t *fire_end = screen_buffer + FIRE_SIZE;
+
+    //   i   <- Current row item
+    // a b c <- First row below
+    //   x   <- Second row below
+    while (fire_arr < fire_end)
+    {
+        // For memory: fire_arr[VAL] same as *(fire_arr + VAL)
+        fire_tile = fire_arr[FIRE_A] >> 2;
+        fire_tile += fire_arr[FIRE_B] >> 2;
+        fire_tile += fire_arr[FIRE_C] >> 2;
+        fire_tile += fire_arr[FIRE_X] >> 2;
+
+        if (fire_tile >= FIRE_DAMPEN)
+            fire_tile -= FIRE_DAMPEN;
+
+        *fire_arr = fire_tile;
+
+        fire_arr++;
+    }
+}
+// -----
+
+void fire_scene_update(void)
+{
+    seed_fire_tiles();
+    calc_fire_tiles();
+
+    SMS_waitForVBlank();
+
+    // Splat the tilemap to the VDP
+    VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE);
+    // Slower sectional copy; more efficient with smaller fire sizes
+    // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &fire, ROW_WIDTH, ROW_TOTAL);
+}
+
+// SDCC 4.1.0 assembly optimisation for reference:
+/*
 void calc_fire_tiles_asm(void) __naked
 {
     // I haven't gotten the inline assembly to work nicely in VScode yet, so the
@@ -121,47 +168,4 @@ SetFireTile:
 __endasm;
     // clang-format on
 }
-
-void fire_scene_update(void)
-{
-    seed_fire_tiles();
-    calc_fire_tiles_asm();
-
-    SMS_waitForVBlank();
-
-    // Splat the tilemap to the VDP
-    VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE);
-    // Slower sectional copy; more efficient with smaller fire sizes
-    // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &fire, ROW_WIDTH, ROW_TOTAL);
-}
-
-// Transpiled to z80 assembly above
-// #define FIRE_A ROW_WIDTH - 1
-// #define FIRE_B ROW_WIDTH
-// #define FIRE_C ROW_WIDTH + 1
-// #define FIRE_X ROW_WIDTH * 2
-// #define FIRE_DAMPEN 3 // lower = taller flames
-// void calc_fire_tiles(void)
-// {
-//     uint8_t *fire_arr = screen_buffer, fire_tile;
-//     const uint8_t *fire_end = fire + FIRE_SIZE;
-
-//     //   i   <- Current row item
-//     // a b c <- First row below
-//     //   x   <- Second row below
-//     while (fire_arr < fire_end)
-//     {
-//         // For memory: fire_arr[VAL] same as *(fire_arr + VAL)
-//         fire_tile = fire_arr[FIRE_A] >> 2;
-//         fire_tile += fire_arr[FIRE_B] >> 2;
-//         fire_tile += fire_arr[FIRE_C] >> 2;
-//         fire_tile += fire_arr[FIRE_X] >> 2;
-
-//         if (fire_tile >= FIRE_DAMPEN)
-//             fire_tile -= FIRE_DAMPEN;
-
-//         *fire_arr = fire_tile;
-
-//         fire_arr++;
-//     }
-// }
+*/

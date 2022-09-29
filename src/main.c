@@ -12,7 +12,7 @@ void main(void)
     // we see fit. From what I understand, the pause button triggers an
     // interrupt, but reset is detected via a bitmask of keys currently pressed.
     uint16_t keys_pressed;
-    static bool global_pause;
+    // static bool global_pause;
 
     while (true)
     {
@@ -25,14 +25,14 @@ void main(void)
         {
             keys_pressed = SMS_getKeysPressed();
 
-            if (SMS_queryPauseRequested())
-            {
-                SMS_resetPauseRequest();
-                global_pause = !global_pause;
+            // if (SMS_queryPauseRequested())
+            // {
+            //     SMS_resetPauseRequest();
+            //     global_pause = !global_pause;
 
-                if (global_pause)
-                    continue;
-            }
+            //     if (global_pause)
+            //         continue;
+            // }
 
             check_keys();
             update_scene();
