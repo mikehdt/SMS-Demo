@@ -1,4 +1,5 @@
 #include "init_console.h"
+#include "../engine/palettes.h"
 #include "../libs/SMSlib.h"
 #include "clear_tilemap.h"
 #include <stdbool.h>
@@ -11,7 +12,8 @@ void init_console(void)
     SMS_setSpriteMode(SPRITEMODE_NORMAL);
     SMS_useFirstHalfTilesforSprites(true);
 
-    // Should probably wipe the tile library as well?
+    load_blank_tile(0);
+    set_palette(palette_black, PALETTE_BACKGROUND);
     clear_tilemap(0);
 
     SMS_displayOn();
