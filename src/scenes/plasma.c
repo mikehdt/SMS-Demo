@@ -44,7 +44,7 @@ uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 // I(x,y) = 8/Σ/n=1 sin(Sn + Xn * x + Yn + y)
 // Where x(Column), y(Row), S(sin_starts_y), X(sin_adds_x), Y(sin_adds_y)
 // Upon reflection, I'm not sure the complexity is captured in that formula...
-void init_buffer(void) __naked
+void init_buffer_asm(void) __naked
 {
     // clang-format off
 __asm
@@ -140,42 +140,51 @@ SinAddLoop:
     ret
 __endasm;
     // clang-format on
-    /*
-        // C implementation (good readability, but unoptimal when compiled)
-
-        // Calc plasma starting Y values
-        for (i = 0; i < PLASMA_PTS; i++)
-            sin_pts_y[i] = sin_starts_y[i];
-
-        // Y loop
-        for (i = 0; i < SCREEN_ROWS; i++)
-        {
-            // Sine points Y loop
-            for (j = 0; j < PLASMA_PTS; j++)
-            {
-                sin_pts_y[j] = sin_pts_y[j] + sin_adds_y[j];
-                sin_pts_x[j] = sin_pts_y[j];
-            }
-
-            // X loop
-            for (j = 0; j < SCREEN_COLUMNS; j++)
-            {
-                // Sine points X loop
-                for (k = 0; k < PLASMA_PTS; k++)
-                    sin_pts_x[k] += sin_adds_x[k];
-
-                plasma_value = 0;
-
-                // Sine add loop
-                for (k = 0; k < PLASMA_PTS; k++)
-                    plasma_value += sintab[sin_pts_x[k]];
-
-                arr_offset = (i * SCREEN_COLUMNS) + j;
-                plasma_base[arr_offset] = plasma_value;
-            }
-        }
-    */
 }
+
+// ----- REFERENCE CODE ------
+/*
+void init_buffer(void)
+{
+    // C implementation (good readability, but unoptimal when compiled)
+    uint8_t i, j, k, plasma_value, arr_offset;
+
+    // Calc plasma starting Y values
+    for (i = 0; i < PLASMA_PTS; i++)
+        sin_pts_y[i] = sin_starts_y[i];
+
+    // Y loop
+    for (i = 0; i < SCREEN_ROWS; i++)
+    {
+        // Sine points Y loop
+        for (j = 0; j < PLASMA_PTS; j++)
+        {
+            sin_pts_y[j] = sin_pts_y[j] + sin_adds_y[j];
+            sin_pts_x[j] = sin_pts_y[j];
+        }
+
+        // X loop
+        for (j = 0; j < SCREEN_COLUMNS; j++)
+        {
+            // Sine points X loop
+            for (k = 0; k < PLASMA_PTS; k++)
+            {
+                sin_pts_x[k] += sin_adds_x[k];
+            }
+
+            plasma_value = 0;
+
+            // Sine add loop
+            for (k = 0; k < PLASMA_PTS; k++)
+            {
+                plasma_value += sintab[sin_pts_x[k]];
+            }
+
+            arr_offset = (i * SCREEN_COLUMNS) + j;
+            plasma_starts[arr_offset] = plasma_value;
+        }
+    }
+}*/
 
 // Animate
 // D(n,y) = (sin(S1 * n + P1 * y) + sin(S2 * n + P2 * y)) / 2 + C * n
@@ -222,7 +231,7 @@ void plasma_scene_init(void)
     SMS_loadBGPalette(plasma_grade_palette_bin);
     clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
 
-    init_buffer();
+    init_buffer_asm();
 
     SMS_loadSpritePalette(palette_black);
 }

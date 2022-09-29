@@ -9,7 +9,6 @@
 #include "../libs/SMSlib.h"
 #include <stdlib.h>
 
-// #define MAX(a, b) ((a) > (b)) ? (a) : (b); // Best a/b are not expressions...
 #define ROW_WIDTH 32 // max 32
 #define ROW_TOTAL 24 // max 24
 #define EDGE_WIDTH 3
@@ -60,8 +59,8 @@ void seed_fire_tiles(void)
     } while (fire_arr < fire_end);
 }
 
-// ----- TO BE OPTIMISED -----
-#define FIRE_A ROW_WIDTH - 1
+// ----- FOR REFERENCE -----
+/* #define FIRE_A ROW_WIDTH - 1
 #define FIRE_B ROW_WIDTH
 #define FIRE_C ROW_WIDTH + 1
 #define FIRE_X ROW_WIDTH * 2
@@ -89,24 +88,9 @@ void calc_fire_tiles(void)
 
         fire_arr++;
     }
-}
+} */
 // -----
 
-void fire_scene_update(void)
-{
-    seed_fire_tiles();
-    calc_fire_tiles();
-
-    SMS_waitForVBlank();
-
-    // Splat the tilemap to the VDP
-    VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE);
-    // Slower sectional copy; more efficient with smaller fire sizes
-    // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &screen_buffer, ROW_WIDTH, ROW_TOTAL);
-}
-
-// SDCC 4.1.0 assembly optimisation for reference:
-/*
 void calc_fire_tiles_asm(void) __naked
 {
     // I haven't gotten the inline assembly to work nicely in VScode yet, so the
@@ -168,4 +152,16 @@ SetFireTile:
 __endasm;
     // clang-format on
 }
-*/
+
+void fire_scene_update(void)
+{
+    seed_fire_tiles();
+    calc_fire_tiles_asm();
+
+    SMS_waitForVBlank();
+
+    // Splat the tilemap to the VDP
+    VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE);
+    // Slower sectional copy; more efficient with smaller fire sizes
+    // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &screen_buffer, ROW_WIDTH, ROW_TOTAL);
+}
