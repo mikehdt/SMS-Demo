@@ -1,6 +1,6 @@
 #include "init_console.h"
-#include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
+#include "clear_tilemap.h"
 #include <stdbool.h>
 
 void init_console(void)

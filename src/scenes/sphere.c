@@ -1,7 +1,7 @@
 #include "sphere.h"
 #include "../assets2banks.h" // Generated with the assets task
+#include "../engine/clear_tilemap.h"
 #include "../engine/palettes.h"
-#include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
 
 int cur_pal = 0;
@@ -137,29 +137,29 @@ void init_sphere_sprites(void)
     // Clipping sprites
     SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 122);
 
-    // Clipping sprites
-    // First row
-    SMS_addSprite(12 * 8, 5 * 8, 123);
-    SMS_addSprite(14 * 8, 5 * 8, 124);
-    SMS_addSprite(16 * 8, 5 * 8, 125);
-    SMS_addSprite(18 * 8, 5 * 8, 126);
-    // Second Row
-    SMS_addSprite(10 * 8, 7 * 8, 127);
-    SMS_addSprite(20 * 8, 7 * 8, 128);
-    // Third Row
-    SMS_addSprite(10 * 8, 9 * 8, 129);
-    SMS_addSprite(20 * 8, 9 * 8, 130);
-    // Fourth Row
-    SMS_addSprite(10 * 8, 11 * 8, 131);
-    SMS_addSprite(20 * 8, 11 * 8, 132);
-    // Fifth Row
-    SMS_addSprite(10 * 8, 13 * 8, 133);
-    SMS_addSprite(20 * 8, 13 * 8, 134);
-    // Sixth Row
-    SMS_addSprite(12 * 8, 15 * 8, 135);
-    SMS_addSprite(14 * 8, 15 * 8, 136);
-    SMS_addSprite(16 * 8, 15 * 8, 137);
-    SMS_addSprite(18 * 8, 15 * 8, 138);
+    // // Clipping sprites
+    // // First row
+    // SMS_addSprite(12 * 8, 5 * 8, 123);
+    // SMS_addSprite(14 * 8, 5 * 8, 124);
+    // SMS_addSprite(16 * 8, 5 * 8, 125);
+    // SMS_addSprite(18 * 8, 5 * 8, 126);
+    // // Second Row
+    // SMS_addSprite(10 * 8, 7 * 8, 127);
+    // SMS_addSprite(20 * 8, 7 * 8, 128);
+    // // Third Row
+    // SMS_addSprite(10 * 8, 9 * 8, 129);
+    // SMS_addSprite(20 * 8, 9 * 8, 130);
+    // // Fourth Row
+    // SMS_addSprite(10 * 8, 11 * 8, 131);
+    // SMS_addSprite(20 * 8, 11 * 8, 132);
+    // // Fifth Row
+    // SMS_addSprite(10 * 8, 13 * 8, 133);
+    // SMS_addSprite(20 * 8, 13 * 8, 134);
+    // // Sixth Row
+    // SMS_addSprite(12 * 8, 15 * 8, 135);
+    // SMS_addSprite(14 * 8, 15 * 8, 136);
+    // SMS_addSprite(16 * 8, 15 * 8, 137);
+    // SMS_addSprite(18 * 8, 15 * 8, 138);
 }
 
 void sphere_scene_init(void)

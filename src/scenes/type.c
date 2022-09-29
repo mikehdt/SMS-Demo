@@ -1,8 +1,8 @@
 #include "type.h"
 #include "../assets2banks.h" // Generated with the assets task
+#include "../engine/clear_tilemap.h"
 #include "../engine/globals.h"
 #include "../engine/update_scenes.h"
-#include "../helpers/clear_tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
 #include <stdlib.h>

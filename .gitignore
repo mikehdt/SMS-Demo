@@ -8,4 +8,5 @@
 compile/
 !compile/smslib/
 assets/src/
+src/tmp/
 CMakeCache.txt
