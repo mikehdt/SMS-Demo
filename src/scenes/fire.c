@@ -102,7 +102,7 @@ void fire_scene_update(void)
     // Splat the tilemap to the VDP
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE);
     // Slower sectional copy; more efficient with smaller fire sizes
-    // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &fire, ROW_WIDTH, ROW_TOTAL);
+    // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &screen_buffer, ROW_WIDTH, ROW_TOTAL);
 }
 
 // SDCC 4.1.0 assembly optimisation for reference:

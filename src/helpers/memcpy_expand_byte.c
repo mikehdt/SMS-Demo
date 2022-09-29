@@ -4,16 +4,19 @@
 #pragma disable_warning 85
 void VRAMmemcpyExpandByte(unsigned int dst, const void *src, unsigned int size) __naked __z88dk_callee __preserves_regs(iyh, iyl)
 {
-    //  handwritten asm code
+    // dst in hl
+    // src in de
+    // size onto the stack
+    // handwritten asm code
     // clang-format off
 __asm
-  pop de             ; pop ret address
-  pop hl             ; dst
   set 6,h
   rst #0x08
 
-  pop hl             ; src
-  pop bc             ; size
+  ex de,hl           ; move src in hl
+
+  pop de             ; pop ret address
+  pop bc             ; pop size
   push de            ; push ret address
 
   dec bc
@@ -36,7 +39,7 @@ __asm
   jp  nz,1$          ; 10 = 26 (VRAM safe)
   dec a
   jp  nz,1$
-  ret
+  ret                ; because this function is naked
 __endasm;
     // clang-format on
 }
