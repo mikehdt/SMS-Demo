@@ -1,5 +1,5 @@
-#ifndef _INIT_SCENES_H
-#define _INIT_SCENES_H
+#ifndef __SCENES_H
+#define __SCENES_H
 
 typedef void (*ptr_func)(void);
 
@@ -26,6 +26,6 @@ enum SCENES
 
 extern Scenes scenes[MAX_SCENES];
 
-void init_scenes(void);
+void scenes_init(void);
 
 #endif

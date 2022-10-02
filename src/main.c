@@ -1,8 +1,8 @@
-#include "engine/check_keys.h"
-#include "engine/init_console.h"
-#include "engine/init_scenes.h"
-#include "engine/update_scenes.h"
+#include "engine/console_init.h"
+#include "engine/keys.h"
+#include "engine/scenes.h"
 #include "libs/SMSlib.h"
+#include "scenes/_scenes.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -17,8 +17,8 @@ void main(void)
     while (true)
     {
         // Common initalisation
-        init_console();
-        init_scenes();
+        console_init();
+        scenes_init();
 
         // Loop whilst the reset key is NOT pressed
         do

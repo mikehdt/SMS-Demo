@@ -2,11 +2,11 @@
 #include "../assets2banks.h"
 #include "../engine/globals.h"
 #include "../engine/palettes.h"
-#include "../engine/screen_buffer.h"
+#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
-#include "../engine/update_scenes.h"
 #include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
+#include "../helpers/screen_buffer.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
@@ -143,7 +143,6 @@ __endasm;
 }
 
 // ----- REFERENCE CODE ------
-/*
 void init_buffer(void)
 {
     // C implementation (good readability, but unoptimal when compiled)
@@ -184,7 +183,7 @@ void init_buffer(void)
             plasma_starts[arr_offset] = plasma_value;
         }
     }
-}*/
+}
 
 // Animate
 // D(n,y) = (sin(S1 * n + P1 * y) + sin(S2 * n + P2 * y)) / 2 + C * n
@@ -231,7 +230,8 @@ void plasma_scene_init(void)
     SMS_loadBGPalette(plasma_grade_palette_bin);
     clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
 
-    init_buffer_asm();
+    init_buffer();
+    // init_buffer_asm();
 
     SMS_loadSpritePalette(palette_black);
 }
@@ -243,3 +243,5 @@ void plasma_scene_update(void)
     SMS_waitForVBlank();
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, SCREEN_SIZE);
 }
+
+void plasma_scene_end(void) {}

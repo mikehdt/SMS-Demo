@@ -1,11 +1,11 @@
 #include "fire.h"
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
-#include "../engine/screen_buffer.h"
+#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
-#include "../engine/update_scenes.h"
 #include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
+#include "../helpers/screen_buffer.h"
 #include "../libs/SMSlib.h"
 #include <stdlib.h>
 
@@ -14,16 +14,6 @@
 #define EDGE_WIDTH 3
 #define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
 #define SEED_SIZE ((ROW_TOTAL + 2) * ROW_WIDTH)
-
-void fire_scene_init(void)
-{
-    SMS_mapROMBank(fire_grade_tiles_psgcompr_bank);
-    SMS_loadPSGaidencompressedTiles(fire_grade_tiles_psgcompr, 0);
-    SMS_loadBGPalette(fire_grade_palette_bin);
-    SMS_loadSpritePalette(palette_black);
-
-    clear_tilemap(0 | TILE_USE_SPRITE_PALETTE);
-}
 
 void seed_fire_tiles(void)
 {
@@ -60,7 +50,7 @@ void seed_fire_tiles(void)
 }
 
 // ----- FOR REFERENCE -----
-/* #define FIRE_A ROW_WIDTH - 1
+#define FIRE_A ROW_WIDTH - 1
 #define FIRE_B ROW_WIDTH
 #define FIRE_C ROW_WIDTH + 1
 #define FIRE_X ROW_WIDTH * 2
@@ -88,7 +78,7 @@ void calc_fire_tiles(void)
 
         fire_arr++;
     }
-} */
+}
 // -----
 
 void calc_fire_tiles_asm(void) __naked
@@ -153,10 +143,21 @@ __endasm;
     // clang-format on
 }
 
+void fire_scene_init(void)
+{
+    SMS_mapROMBank(fire_grade_tiles_psgcompr_bank);
+    SMS_loadPSGaidencompressedTiles(fire_grade_tiles_psgcompr, 0);
+    SMS_loadBGPalette(fire_grade_palette_bin);
+    SMS_loadSpritePalette(palette_black);
+
+    clear_tilemap(0 | TILE_USE_SPRITE_PALETTE);
+}
+
 void fire_scene_update(void)
 {
     seed_fire_tiles();
-    calc_fire_tiles_asm();
+    calc_fire_tiles();
+    // calc_fire_tiles_asm();
 
     SMS_waitForVBlank();
 
@@ -165,3 +166,5 @@ void fire_scene_update(void)
     // Slower sectional copy; more efficient with smaller fire sizes
     // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &screen_buffer, ROW_WIDTH, ROW_TOTAL);
 }
+
+void fire_scene_end(void) {}

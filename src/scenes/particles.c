@@ -1,7 +1,7 @@
 #include "particles.h"
 #include "../assets2banks.h" // Generated with the assets task
 #include "../engine/palettes.h"
-#include "../engine/update_scenes.h"
+#include "../engine/scenes.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>

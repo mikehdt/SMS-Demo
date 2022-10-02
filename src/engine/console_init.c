@@ -1,15 +1,15 @@
-#include "init_console.h"
+#include "console_init.h"
 #include "../engine/palettes.h"
 #include "../libs/SMSlib.h"
+#include "sprites.h"
 #include "tilemap.h"
 #include <stdbool.h>
 
-void init_console(void)
+void console_init(void)
 {
     // SMS_VDPturnOnFeature(VDPFEATURE_EXTRAHEIGHT); // PAL / SMS II only
     // SMS_VDPturnOnFeature(VDPFEATURE_240LINES);    // PAL / SMS II only
     init_sprites(SPRITEMODE_NORMAL, true);
-    // clear_sprites();
 
     set_palette(palette_black, PALETTE_BOTH);
     load_blank_tile(0);

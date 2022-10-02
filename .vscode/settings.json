@@ -38,6 +38,11 @@
         "screen_array.h": "c",
         "init_scenes.h": "c",
         "vscode.h": "c",
-        "tilemap.h": "c"
+        "tilemap.h": "c",
+        "check_keys.h": "c",
+        "scenes.h": "c",
+        "console_init.h": "c",
+        "keys_check.h": "c",
+        "scenes_update.h": "c"
     }
 }

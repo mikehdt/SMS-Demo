@@ -11,7 +11,7 @@ __asm
     ld l, a
     ld a, r
     add a, h
-    ld l, a ; // move into l to return the result to C
+    ld l, a; // move into l to return the result to C
     ret
 __endasm;
     // clang-format on

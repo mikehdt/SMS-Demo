@@ -3,5 +3,6 @@
 
 void plasma_scene_init(void);
 void plasma_scene_update(void);
+void plasma_scene_end(void);
 
 #endif

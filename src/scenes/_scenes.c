@@ -1,28 +1,32 @@
-#include "init_scenes.h"
-#include "../scenes/default.h"
-#include "../scenes/fire.h"
-#include "../scenes/intro.h"
-#include "../scenes/particles.h"
-#include "../scenes/plasma.h"
-#include "../scenes/scroller.h"
-#include "../scenes/sineline.h"
-#include "../scenes/sphere.h"
-#include "../scenes/type.h"
-#include "update_scenes.h"
+#include "_scenes.h"
+#include "../engine/scenes.h"
+#include "default.h"
+#include "fire.h"
+#include "intro.h"
+#include "particles.h"
+#include "plasma.h"
+#include "scroller.h"
+#include "sineline.h"
+#include "sphere.h"
+#include "type.h"
 
 Scenes scenes[MAX_SCENES];
 
 // Idea: can I use a struct that's defined by the effects themselves to simplify this?
-void init_scenes(void)
+void scenes_init(void)
 {
     // Default
+    scenes[SCENE_DEFAULT].init = default_scene_init;
     scenes[SCENE_DEFAULT].update = default_scene_update;
+    scenes[SCENE_DEFAULT].end = default_scene_end;
 
     scenes[SCENE_FIRE].init = fire_scene_init;
     scenes[SCENE_FIRE].update = fire_scene_update;
+    scenes[SCENE_FIRE].end = fire_scene_end;
 
     scenes[SCENE_INTRO].init = intro_scene_init;
     scenes[SCENE_INTRO].update = intro_scene_update;
+    scenes[SCENE_INTRO].end = intro_scene_end;
 
     scenes[SCENE_PARTICLES].init = particles_scene_init;
     scenes[SCENE_PARTICLES].update = particles_scene_update;
@@ -30,6 +34,7 @@ void init_scenes(void)
 
     scenes[SCENE_PLASMA].init = plasma_scene_init;
     scenes[SCENE_PLASMA].update = plasma_scene_update;
+    scenes[SCENE_PLASMA].end = plasma_scene_end;
 
     scenes[SCENE_SCROLLER].init = scroller_scene_init;
     scenes[SCENE_SCROLLER].update = scroller_scene_update;

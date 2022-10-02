@@ -3,5 +3,6 @@
 
 void fire_scene_init(void);
 void fire_scene_update(void);
+void fire_scene_end(void);
 
 #endif
