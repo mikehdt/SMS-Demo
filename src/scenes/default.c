@@ -6,7 +6,7 @@ void default_scene_init(void) {}
 
 void default_scene_update(void)
 {
-    transition_to_scene(SCENE_FIRE);
+    transition_to_scene(SCENE_PLASMA);
 }
 
 void default_scene_end(void) {}

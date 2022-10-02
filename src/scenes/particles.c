@@ -66,7 +66,7 @@ void init_spheres(void)
 
 void animate_spheres(void)
 {
-    uint16_t i;
+    uint8_t i;
 
     if (STAGE == 1)
     {
@@ -111,29 +111,28 @@ void animate_spheres(void)
         ang_x++;
         ang_y++;
 
-        if (STAGE == 2 && frame_count % 128 == 0)
-            STAGE = 3;
+        // if (STAGE == 2 && frame_count % 128 == 0)
+        //     STAGE = 3;
     }
     else if (STAGE == 3)
     {
+        // for (i = 0; i < count; i++)
+        // {
+        //     if ((i < (count >> 1) && frame_count % 6 == 0) || i >= (count >> 1) && frame_count % 6 == 3)
+        //     {
+        //         // Some other effect here
+        //         spheres[i].tx = (rand() & 192) + 32;
+        //         spheres[i].ty = rand() & 128;
+        //     }
 
-        for (i = 0; i < count; i++)
-        {
-            if ((i < (count >> 1) && frame_count % 6 == 0) || i >= (count >> 1) && frame_count % 6 == 3)
-            {
-                // Some other effect here
-                spheres[i].tx = (rand() & 192) + 32;
-                spheres[i].ty = rand() & 128;
-            }
+        //     spheres[i].x += (spheres[i].tx - spheres[i].x) >> 3;
+        //     spheres[i].y += (spheres[i].ty - spheres[i].y) >> 3;
 
-            spheres[i].x += (spheres[i].tx - spheres[i].x) >> 3;
-            spheres[i].y += (spheres[i].ty - spheres[i].y) >> 3;
+        //     SMS_updateSpritePosition(i, spheres[i].x, spheres[i].y);
+        // }
 
-            SMS_updateSpritePosition(i, spheres[i].x, spheres[i].y);
-        }
-
-        if (frame_count % 128 == 0)
-            STAGE = 2;
+        // if (frame_count % 128 == 0)
+        //     STAGE = 2;
     }
 }
 

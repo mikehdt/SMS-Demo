@@ -3,8 +3,8 @@
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
+#include "../helpers/fast_rand.h"
 #include "../helpers/memcpy_expand_byte.h"
-#include "../helpers/ps_rand.h"
 #include "../helpers/screen_buffer.h"
 #include "../libs/SMSlib.h"
 #include <stdlib.h>
@@ -37,7 +37,7 @@ void seed_fire_tiles(void)
         }
         else
         {
-            *fire_arr = ps_rand();
+            *fire_arr = 127; // fast_rand();
 
             if (*fire_arr < 32)
                 *fire_arr = 32;

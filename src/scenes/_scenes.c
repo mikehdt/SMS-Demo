@@ -24,9 +24,9 @@ void scenes_init(void)
     scenes[SCENE_FIRE].update = fire_scene_update;
     scenes[SCENE_FIRE].end = fire_scene_end;
 
-    scenes[SCENE_INTRO].init = intro_scene_init;
-    scenes[SCENE_INTRO].update = intro_scene_update;
-    scenes[SCENE_INTRO].end = intro_scene_end;
+    // scenes[SCENE_INTRO].init = intro_scene_init;
+    // scenes[SCENE_INTRO].update = intro_scene_update;
+    // scenes[SCENE_INTRO].end = intro_scene_end;
 
     scenes[SCENE_PARTICLES].init = particles_scene_init;
     scenes[SCENE_PARTICLES].update = particles_scene_update;
