@@ -34,7 +34,7 @@ Press the `1` button to cycle through the various scenes (some more computationa
 
 It uses [devkitSMS](https://github.com/sverx/devkitSMS) as a basis for doing all its fancy stuff.
 
-Code is compiled with [SDCC](http://sdcc.sourceforge.net/) `4.1.0` . The SDCC `4.2.0` release changes a lot of things. Currently the C debugging is broken between Emulicious / VSCode, as well as seemingly any places I've used inline assembly. So `4.1.0` is needed for now.
+Code is compiled with [SDCC](http://sdcc.sourceforge.net/) `4.2.0` . The SDCC `4.2.0` release changed a lot of things. The C debugging is working again between Emulicious / VSCode!
 
 The [bmp2tile](https://github.com/maxim-zhao/bmp2tile) project is included here for compiling assets, but I might move it to be an external dep later. For cross-platform support later, the [png2tile](https://github.com/yuv422/png2tile) looks like a great starting point.
 
