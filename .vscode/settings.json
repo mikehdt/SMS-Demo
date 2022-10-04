@@ -44,6 +44,9 @@
         "console_init.h": "c",
         "keys_check.h": "c",
         "scenes_update.h": "c",
-        "fast_rand.h": "c"
+        "fast_rand.h": "c",
+        "_scenes.h": "c",
+        "global_variables.h": "c",
+        "keys.h": "c"
     }
 }

@@ -14,7 +14,9 @@ echo *** SDCC compiling complete ***
 
 :: Link
 echo *** SDCC linking ***
-sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x8000 -Wl-b_BANK3=0x8000 smslib/crt0_sms.rel   main.rel   console_init.rel keys.rel palettes.rel scenes.rel sprites.rel tilemap.rel   fast_rand.rel memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel sintab.rel   _scenes.rel default.rel fire.rel intro.rel particles.rel plasma.rel scroller.rel sphere.rel sineline.rel type.rel   SMSlib.lib   bank2.rel bank3.rel   %DEBUG%
+:: add -Wl-b_BANK3=0x8000 etc. as needed
+sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK3=0x8000 smslib/crt0_sms.rel psglib/PSGlib.rel   main.rel   console_init.rel global_variables.rel keys.rel palettes.rel scenes.rel sprites.rel tilemap.rel   memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel sintab.rel   _scenes.rel default.rel intro.rel   SMSlib.lib   bank3.rel   %DEBUG%
+
 echo *** SDCC linking complete ***
 
 :: Execute

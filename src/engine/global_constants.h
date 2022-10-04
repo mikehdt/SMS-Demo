@@ -1,5 +1,5 @@
-#ifndef _GLOBALS_H
-#define _GLOBALS_H
+#ifndef _GLOBAL_CONSTANTS_H
+#define _GLOBAL_CONSTANTS_H
 
 #define SCREEN_COLUMNS 32
 #define SCREEN_ROWS 24

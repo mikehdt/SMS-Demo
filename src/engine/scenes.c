@@ -1,12 +1,9 @@
 #include "scenes.h"
+#include "../libs/PSGlib.h"
 #include "../libs/SMSlib.h"
 #include "../scenes/_scenes.h"
+#include "global_variables.h"
 #include <stdlib.h>
-
-// I want to abstract these somewhere, maybe to globals? Then have these fns
-// as separate concerns
-uint8_t frame_count; // Only good to keep track of as a tick, not time
-uint8_t current_scene = 0;
 
 void update_scene(void)
 {
@@ -26,4 +23,42 @@ void transition_to_scene(uint8_t target_scene)
 
         scenes[current_scene].init();
     }
+}
+
+void waitForAudio(uint8_t audio_bank)
+{
+    SMS_mapROMBank(audio_bank);
+
+    // Volume fade
+    if (target_volume < current_volume)
+    {
+        current_volume = current_volume - 4;
+        PSGSetMusicVolumeAttenuation(current_volume >> 4);
+    }
+    else if (target_volume > current_volume)
+    {
+        current_volume = current_volume + 4;
+        PSGSetMusicVolumeAttenuation(current_volume >> 4);
+    }
+
+    PSGFrame();
+}
+
+void waitForVideo(void)
+{
+    SMS_waitForVBlank();
+    SMS_copySpritestoSAT();
+}
+
+void waitForFrame(void)
+{
+    if (PSGGetStatus() == PSG_PLAYING)
+        waitForAudio(current_music_bank);
+
+    if (PSGSFXGetStatus() == PSG_PLAYING)
+        waitForAudio(current_fx_bank);
+
+    SMS_mapROMBank(current_rom_bank);
+
+    waitForVideo();
 }

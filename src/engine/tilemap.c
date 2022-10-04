@@ -1,6 +1,6 @@
 #include "tilemap.h"
 #include "../assets2banks.h" // Generated with the assets task
-#include "../engine/globals.h"
+#include "../engine/global_constants.h"
 #include "../libs/SMSlib.h"
 
 void load_blank_tile(uint16_t tilePos)

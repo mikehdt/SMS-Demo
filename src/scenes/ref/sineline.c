@@ -1,6 +1,6 @@
 #include "sineline.h"
 #include "../assets2banks.h" // Generated with the assets task
-#include "../engine/globals.h"
+#include "../engine/global_constants.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"

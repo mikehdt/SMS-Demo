@@ -1,6 +1,6 @@
 #include "plasma.h"
 #include "../assets2banks.h"
-#include "../engine/globals.h"
+#include "../engine/global_constants.h"
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"

@@ -25,6 +25,7 @@ void main(void)
         {
             keys_pressed = SMS_getKeysPressed();
 
+            // Maybe add back if feeling fancy
             // if (SMS_queryPauseRequested())
             // {
             //     SMS_resetPauseRequest();
@@ -34,7 +35,8 @@ void main(void)
             //         continue;
             // }
 
-            check_keys();
+            // Enable for debugging :)
+            // check_keys();
             update_scene();
         } while (~(keys_pressed & RESET_KEY));
     }
