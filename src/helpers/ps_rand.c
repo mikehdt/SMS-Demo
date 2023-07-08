@@ -3,7 +3,6 @@
 
 uint16_t RandomSeed = 0;
 
-// Candidate to move to its own utility file
 char ps_rand(void) __naked
 {
     // Code adapted for SDCC from Phantasy Star's PRNG as documented at

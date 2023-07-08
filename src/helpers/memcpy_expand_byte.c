@@ -13,7 +13,7 @@ __asm
   set 6,h
   rst #0x08
 
-  ex de,hl           ; move src in hl
+  ex de, hl          ; move src to hl
 
   pop de             ; pop ret address
   pop bc             ; pop size
@@ -23,11 +23,11 @@ __asm
   inc b
   inc c              ; increment B if C is not zero
 
-  ld a,b             ; HI(size)
-  ld b,c             ; LO(size)
+  ld a, b            ; HI(size)
+  ld b, c            ; LO(size)
 
-  ld c,#0xbe
-  ld d,#0            ; 7
+  ld c, #0xbe
+  ld d, #0           ; 7
 
 1$:
   outi               ; 16
@@ -36,12 +36,11 @@ __asm
   nop                ; 4 - in theory this should not be needed, but without an extra delay I get corruption.
   out (c), d         ; 12
   nop                ; 4
-  jp  nz,1$          ; 10 = 26 (VRAM safe)
+  jp  nz, 1$         ; 10 = 26 (VRAM safe)
   dec a
-  jp  nz,1$
+  jp  nz, 1$
   ret                ; because this function is naked
 __endasm;
     // clang-format on
 }
-
 #pragma restore

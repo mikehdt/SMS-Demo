@@ -1,12 +1,12 @@
 #include "default.h"
 #include "../engine/scenes.h"
-#include "_scenes.h"
+#include "config_scenes.h"
 
 void default_scene_init(void) {}
 
 void default_scene_update(void)
 {
-    transition_to_scene(SCENE_INTRO);
+    transition_to_scene(SCENE_LOGO);
 }
 
 void default_scene_end(void) {}

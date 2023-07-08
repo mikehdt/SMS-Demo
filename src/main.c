@@ -2,7 +2,7 @@
 #include "engine/keys.h"
 #include "engine/scenes.h"
 #include "libs/SMSlib.h"
-#include "scenes/_scenes.h"
+#include "scenes/config_scenes.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -37,7 +37,7 @@ void main(void)
 
             // Enable for debugging :)
             // check_keys();
-            update_scene();
+            scene_update();
         } while (~(keys_pressed & RESET_KEY));
     }
 }

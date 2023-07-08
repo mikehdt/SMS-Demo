@@ -1,11 +1,12 @@
 #include "scenes.h"
 #include "../libs/PSGlib.h"
 #include "../libs/SMSlib.h"
-#include "../scenes/_scenes.h"
+#include "../scenes/config_scenes.h"
+#include "audio.h"
 #include "global_variables.h"
 #include <stdlib.h>
 
-void update_scene(void)
+void scene_update(void)
 {
     scenes[current_scene].update();
     frame_count++;
@@ -18,47 +19,52 @@ void transition_to_scene(uint8_t target_scene)
     {
         scenes[current_scene].end();
 
-        current_scene = target_scene;
         frame_count = 0;
+        current_scene = target_scene;
+
+        if (target_scene_stage != 0)
+        {
+            current_scene_stage = target_scene_stage;
+            target_scene_stage = 0;
+        }
 
         scenes[current_scene].init();
     }
 }
 
-void waitForAudio(uint8_t audio_bank)
+void next_scene(void)
 {
-    SMS_mapROMBank(audio_bank);
+    uint8_t next_scene;
 
-    // Volume fade
-    if (target_volume < current_volume)
-    {
-        current_volume = current_volume - 4;
-        PSGSetMusicVolumeAttenuation(current_volume >> 4);
-    }
-    else if (target_volume > current_volume)
-    {
-        current_volume = current_volume + 4;
-        PSGSetMusicVolumeAttenuation(current_volume >> 4);
-    }
+    next_scene = current_scene + 1;
 
-    PSGFrame();
+    // Throws some weird SDCC warning, I mean seriously what
+    // if (next_scene >= MAX_SCENES)
+    //     next_scene == 0;
+
+    transition_to_scene(next_scene);
 }
 
-void waitForVideo(void)
+void set_next_scene_stage(uint8_t target_stage)
+{
+    target_scene_stage = target_stage;
+}
+
+void wait_for_video(void)
 {
     SMS_waitForVBlank();
     SMS_copySpritestoSAT();
 }
 
-void waitForFrame(void)
+void wait_for_frame(void)
 {
     if (PSGGetStatus() == PSG_PLAYING)
-        waitForAudio(current_music_bank);
+        wait_for_audio(current_music_bank);
 
     if (PSGSFXGetStatus() == PSG_PLAYING)
-        waitForAudio(current_fx_bank);
+        wait_for_audio(current_fx_bank);
 
     SMS_mapROMBank(current_rom_bank);
 
-    waitForVideo();
+    wait_for_video();
 }

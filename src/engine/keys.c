@@ -1,7 +1,7 @@
 #include "keys.h"
 #include "../engine/global_variables.h"
 #include "../libs/SMSlib.h"
-#include "../scenes/_scenes.h"
+#include "../scenes/config_scenes.h"
 #include "scenes.h"
 #include <stdint.h>
 

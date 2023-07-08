@@ -69,8 +69,11 @@ void SMS_waitForVBlank (void);
 volatile __at (0xffff) unsigned char ROM_bank_to_be_mapped_on_slot2;
 #define SMS_mapROMBank(n)       ROM_bank_to_be_mapped_on_slot2=(n)
 
-/* macros to preserve and restore the currently mapped ROM bank */
+/* macro to retrieve the currently mapped ROM bank */
+#define SMS_getROMBank()        (ROM_bank_to_be_mapped_on_slot2)
 
+/* macros to preserve and restore the currently mapped ROM bank */
+/* NOTE: they need to be used within the same scope (they use local variables) */
 /* Typical use: In functions using SMS_mapROMBank(), to make sure the mapped bank */
 /* when entering the function is unchanged upon return. */
 /* Use only one SMS_saveROMBank() before the first SMS_mapROMBank() in the function, */
@@ -103,13 +106,14 @@ void SMS_crt0_RST18(unsigned int tile) __z88dk_fastcall __preserves_regs(b,c,d,e
 #define SMS_setTile(tile)         SMS_crt0_RST18(tile)
 #define SMS_setAddr(addr)         SMS_crt0_RST08(addr)
 
-/* PNT define (has address and VDP flags) */
+/* PNT define (address and VDP flags for writing) */
 #define SMS_PNTAddress            0x7800
-/* macro for turning x,y into VRAM addr */
+/* macros for turning x,y into VRAM addr for writing */
 #define XYtoADDR(x,y)             (SMS_PNTAddress|((((unsigned int)(y)<<5)+((unsigned char)(x)))<<1))
 #define SMS_setNextTileatXY(x,y)  SMS_setAddr(XYtoADDR((x),(y)))
 #define SMS_setNextTileatLoc(loc) SMS_setAddr(SMS_PNTAddress|((unsigned int)(loc)<<1))
 #define SMS_setNextTileatAddr(a)  SMS_setAddr(a)
+
 #define SMS_setTileatXY(x,y,tile) do{SMS_setAddr(XYtoADDR((x),(y)));SMS_setTile(tile);}while(0)
 
 #define SMS_VDPVRAMWrite          0x4000
@@ -131,21 +135,44 @@ void SMS_load1bppTiles (const void *src, unsigned int tilefrom, unsigned int siz
 void SMS_loadSTC0compressedTilesatAddr (const void *src, unsigned int dst) __naked __sdcccall(1);
 #define SMS_loadPSGaidencompressedTiles(src,tilefrom) SMS_loadPSGaidencompressedTilesatAddr((src),TILEtoADDR(tilefrom))
 void SMS_loadPSGaidencompressedTilesatAddr (const void *src, unsigned int dst) __naked __sdcccall(1);
+#define SMS_loadZX7compressedTiles(src,tilefrom) SMS_loadZX7compressedTilesatAddr((src),TILEtoADDR(tilefrom))
+void SMS_loadZX7compressedTilesatAddr (const void *src, unsigned int dst) __naked __sdcccall(1);
 
 /* UNSAFE functions to load compressed tiles into VRAM */
-#define UNSAFE_SMS_loadZX7compressedTiles(src,tilefrom) UNSAFE_SMS_loadZX7compressedTilesatAddr((src),TILEtoADDR(tilefrom))
-void UNSAFE_SMS_loadZX7compressedTilesatAddr (const void *src, unsigned int dst) __naked __sdcccall(1);
 #define UNSAFE_SMS_loadaPLibcompressedTiles(src,tilefrom) UNSAFE_SMS_loadaPLibcompressedTilesatAddr((src),TILEtoADDR(tilefrom))
 void UNSAFE_SMS_loadaPLibcompressedTilesatAddr (const void *src, unsigned int dst) __naked __sdcccall(1);
 
 /* functions for the tilemap */
 #define SMS_loadTileMap(x,y,src,size)               SMS_VRAMmemcpy (XYtoADDR((x),(y)),(src),(size))
-void SMS_loadTileMapArea (unsigned char x, unsigned char y, const void *src, unsigned char width, unsigned char height);
+
+void SMS_loadTileMapAreaatAddr (unsigned int dst, const void *src, unsigned char width, unsigned char height) __naked __z88dk_callee __sdcccall(1);
+#define SMS_loadTileMapArea(x,y,src,width,height)   SMS_loadTileMapAreaatAddr(XYtoADDR((x),(y)),(src),(width),(height))
+
+void SMS_loadTileMapColumnatAddr (unsigned int dst, const void *src, unsigned int height) __naked __z88dk_callee __sdcccall(1);
+#define SMS_loadTileMapColumn(x,y,src,height)       SMS_loadTileMapColumnatAddr(XYtoADDR((x),(y)),(src),(height))
 
 void SMS_loadSTMcompressedTileMapatAddr (unsigned int dst, const void *src);
 #define SMS_loadSTMcompressedTileMap(x,y,src)       SMS_loadSTMcompressedTileMapatAddr(XYtoADDR((x),(y)),(src))
 #define SMS_loadSTMcompressedTileMapArea(x,y,src,w) SMS_loadSTMcompressedTileMapatAddr(XYtoADDR((x),(y)),(src))
 // SMS_loadSTMcompressedTileMapArea *DEPRECATED* - will be dropped at some point in 2018
+
+/* function for reading back tiles from PNT */
+unsigned int SMS_getTile(void) __naked __z88dk_fastcall __preserves_regs(b,c,d,e,iyh,iyl);
+
+/* PNT define (address and VDP flags for reading) */
+#define SMS_PNTAddress_READ       0x3800
+
+/* macros for turning x,y into VRAM addr for reading */
+#define XYtoREADADDR(x,y)            (SMS_PNTAddress_READ|((((unsigned int)(y)<<5)+((unsigned char)(x)))<<1))
+#define SMS_readNextTilefromXY(x,y)  SMS_setAddr(XYtoREADADDR((x),(y)))
+#define SMS_readNextTilefromLoc(loc) SMS_setAddr(SMS_PNTAddress_READ|((unsigned int)(loc)<<1))
+#define SMS_readNextTilefromAddr(a)  SMS_setAddr(a)
+
+#define SMS_getTileatXY(x,y)         (SMS_setAddr(XYtoREADADDR((x),(y))),SMS_getTile())
+
+/* Functions for reading back tilemap and VRAM */
+void SMS_saveTileMapArea(unsigned char x, unsigned char y, void *dst, unsigned char width, unsigned char height);
+void SMS_readVRAM(void *dst, unsigned int src, unsigned int size) __naked __z88dk_callee __preserves_regs(iyh,iyl) __sdcccall(1);
 
 /* ***************************************************************** */
 /* Sprites handling                                                  */
@@ -187,11 +214,14 @@ void GG_loadBGPalette (const void *palette) __z88dk_fastcall;
 void GG_loadSpritePalette (const void *palette) __z88dk_fastcall;
 #define GG_setNextBGColoratIndex(i)       SMS_setAddr(SMS_CRAMAddress|((i)<<1))
 #define GG_setNextSpriteColoratIndex(i)   SMS_setAddr(SMS_CRAMAddress|0x20|((i)<<1))
-#define GG_setColor(color)       SMS_crt0_RST18(color)
+#define GG_setColor(color)                SMS_crt0_RST18(color)
 /* GG macros for colors */
 #define RGB(r,g,b)        ((r)|((g)<<4)|((b)<<8))
 #define RGB8(r,g,b)       (((r)>>4)|(((g)>>4)<<4)|(((b)>>4)<<8))
 #define RGBHTML(RGB24bit) (((RGB24bit)>>20)|((((RGB24bit)&0xFFFF)>>12)<<4)|((((RGB24bit)&0xFF)>>4)<<8))
+/* advanced functions for palettes */
+void GG_loadBGPaletteafterColorSubtraction (const void *palette, const unsigned int subtraction_color);
+void GG_loadSpritePaletteafterColorSubtraction (const void *palette, const unsigned int subtraction_color);
 #else
 /* SMS functions to set a color / load a palette */
 void SMS_setBGPaletteColor (unsigned char entry, unsigned char color);
@@ -205,10 +235,13 @@ void SMS_setColor (unsigned char color) __z88dk_fastcall __preserves_regs(b,c,d,
 #define RGB(r,g,b)        ((r)|((g)<<2)|((b)<<4))
 #define RGB8(r,g,b)       (((r)>>6)|(((g)>>6)<<2)|(((b)>>6)<<4))
 #define RGBHTML(RGB24bit) (((RGB24bit)>>22)|((((RGB24bit)&0xFFFF)>>14)<<2)|((((RGB24bit)&0xFF)>>6)<<4))
+/* advanced functions for palettes */
 void SMS_loadBGPaletteHalfBrightness (const void *palette) __z88dk_fastcall;
 void SMS_loadSpritePaletteHalfBrightness (const void *palette) __z88dk_fastcall;
 void SMS_zeroBGPalette (void);
 void SMS_zeroSpritePalette (void);
+void SMS_loadBGPaletteafterColorSubtraction (const void *palette, const unsigned char subtraction_color);
+void SMS_loadSpritePaletteafterColorSubtraction (const void *palette, const unsigned char subtraction_color);
 #endif
 
 /* text renderer */
@@ -219,9 +252,9 @@ void SMS_print (const unsigned char *str);  /* faster than printf() for unformat
 /* Macro to print a string at a given location */
 #define SMS_printatXY(x,y,s) do { SMS_setNextTileatXY(x,y); SMS_print(s); } while(0)
 
-
-/* decompress ZX7-compressed data to RAM */
+/* decompress compressed data to RAM */
 void SMS_decompressZX7 (const void *src, void *dst) __naked __sdcccall(1);
+void SMS_decompressaPLib (const void *src, void *dst) __naked __sdcccall(1);
 
 /* ***************************************************************** */
 /* Input handling (joypads)                                          */

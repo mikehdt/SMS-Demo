@@ -1,8 +1,9 @@
-#include "_scenes.h"
+#include "config_scenes.h"
 #include "../engine/scenes.h"
 #include "default.h"
 // #include "fire.h"
 #include "intro.h"
+#include "logo.h"
 // #include "particles.h"
 // #include "plasma.h"
 // #include "scroller.h"
@@ -13,6 +14,7 @@
 Scenes scenes[MAX_SCENES];
 
 // Idea: can I use a struct that's defined by the effects themselves to simplify this?
+// IMPORTANT: All scenes must implement an init, update and end function.
 void scenes_init(void)
 {
     // Default
@@ -27,6 +29,10 @@ void scenes_init(void)
     scenes[SCENE_INTRO].init = intro_scene_init;
     scenes[SCENE_INTRO].update = intro_scene_update;
     scenes[SCENE_INTRO].end = intro_scene_end;
+
+    scenes[SCENE_LOGO].init = logo_scene_init;
+    scenes[SCENE_LOGO].update = logo_scene_update;
+    scenes[SCENE_LOGO].end = logo_scene_end;
 
     // scenes[SCENE_PARTICLES].init = particles_scene_init;
     // scenes[SCENE_PARTICLES].update = particles_scene_update;

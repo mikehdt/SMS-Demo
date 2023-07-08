@@ -9,6 +9,8 @@
 void console_init(void)
 {
     current_scene = 0;
+    current_scene_stage = 0;
+    target_scene_stage = 0;
 
     current_rom_bank = 0;
     current_music_bank = 0;

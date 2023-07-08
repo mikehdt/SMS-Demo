@@ -1,5 +1,5 @@
-#ifndef __SCENES_H
-#define __SCENES_H
+#ifndef __CONFIG_SCENES_H
+#define __CONFIG_SCENES_H
 
 typedef void (*ptr_func)(void);
 
@@ -15,6 +15,7 @@ enum SCENES
     SCENE_DEFAULT = 0,
     // SCENE_FIRE,
     SCENE_INTRO,
+    SCENE_LOGO,
     // SCENE_PARTICLES,
     // SCENE_PLASMA,
     // SCENE_SCROLLER,
