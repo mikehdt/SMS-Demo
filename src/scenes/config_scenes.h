@@ -14,7 +14,6 @@ enum SCENES
 {
     SCENE_DEFAULT = 0,
     // SCENE_FIRE,
-    SCENE_INTRO,
     SCENE_LOGO,
     // SCENE_PARTICLES,
     // SCENE_PLASMA,

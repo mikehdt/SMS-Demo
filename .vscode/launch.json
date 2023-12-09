@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch in Emulicious",
             "program": "${workspaceFolder}/dist/demo.sms",
-            "emuliciousPath": "${workspaceFolder}/../apps/Emulicious",
+            "emuliciousPath": "${workspaceFolder}/../../apps/Emulicious",
             "port": 58870,
             "stopOnEntry": true,
             "preLaunchTask": "Build (Debug)"

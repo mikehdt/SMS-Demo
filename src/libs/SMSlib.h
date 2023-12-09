@@ -135,8 +135,9 @@ void SMS_load1bppTiles (const void *src, unsigned int tilefrom, unsigned int siz
 void SMS_loadSTC0compressedTilesatAddr (const void *src, unsigned int dst) __naked __sdcccall(1);
 #define SMS_loadPSGaidencompressedTiles(src,tilefrom) SMS_loadPSGaidencompressedTilesatAddr((src),TILEtoADDR(tilefrom))
 void SMS_loadPSGaidencompressedTilesatAddr (const void *src, unsigned int dst) __naked __sdcccall(1);
-#define SMS_loadZX7compressedTiles(src,tilefrom) SMS_loadZX7compressedTilesatAddr((src),TILEtoADDR(tilefrom))
-void SMS_loadZX7compressedTilesatAddr (const void *src, unsigned int dst) __naked __sdcccall(1);
+#define SMS_loadZX7compressedTiles(src,tilefrom) SMS_decompressZX7toVRAM((src),TILEtoADDR(tilefrom))
+#define SMS_loadZX7compressedTilesatAddr(src,dst) SMS_decompressZX7toVRAM((src),(dst))
+void SMS_decompressZX7toVRAM (const void *src, unsigned int dst) __naked __sdcccall(1);
 
 /* UNSAFE functions to load compressed tiles into VRAM */
 #define UNSAFE_SMS_loadaPLibcompressedTiles(src,tilefrom) UNSAFE_SMS_loadaPLibcompressedTilesatAddr((src),TILEtoADDR(tilefrom))
@@ -198,6 +199,11 @@ void SMS_setClippingWindow (unsigned char x0, unsigned char y0, unsigned char x1
 signed char SMS_addSpriteClipping (int x, int y, unsigned char tile);   /* returns -1 if no more sprites are available or sprite clipped */
 void SMS_finalizeSprites (void);     // *DEPRECATED* - will be dropped at some point in 2018
 void SMS_copySpritestoSAT (void);
+
+/* metasprites */
+#define METASPRITE_END   -128
+#define SMS_addMetaSprite(x,y,metasprite)               SMS_addMetaSprite_f(((x)&0xff)|(((y)&0xff)<<8),(metasprite))
+void SMS_addMetaSprite_f (unsigned int origin_yx, void *metasprite) __naked __sdcccall(1);                                     /* doesn't return anything */
 
 /* ***************************************************************** */
 /* Colors / palettes handling                                        */
@@ -377,6 +383,9 @@ void UNSAFE_SMS_VRAMmemcpy128 (unsigned int dst, const void *src);
 #define UNSAFE_SMS_load1Tile(src,theTile)     UNSAFE_SMS_VRAMmemcpy32((theTile)*32,(src))
 #define UNSAFE_SMS_load2Tiles(src,tilefrom)   UNSAFE_SMS_VRAMmemcpy64((tilefrom)*32,(src))
 #define UNSAFE_SMS_load4Tiles(src,tilefrom)   UNSAFE_SMS_VRAMmemcpy128((tilefrom)*32,(src))
+
+/* function to print messages to the debug console of emulators */
+void SMS_debugPrintf(const unsigned char *format, ...) __naked __preserves_regs(a,b,c,iyh,iyl);
 
 /* macros for SEGA and SDSC headers */
 #define SMS_BYTE_TO_BCD(n) (((n)/10)*16+((n)%10))

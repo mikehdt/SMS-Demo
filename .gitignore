@@ -6,7 +6,7 @@
 *.map
 *.noi
 compile/
+!compile/psglib/
 !compile/smslib/
-assets/src/
-src/tmp/
+tmp/
 CMakeCache.txt

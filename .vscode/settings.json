@@ -49,6 +49,7 @@
         "global_variables.h": "c",
         "keys.h": "c",
         "config_scenes.h": "c",
-        "logo.h": "c"
+        "logo.h": "c",
+        "audio.h": "c"
     }
 }

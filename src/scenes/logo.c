@@ -3,7 +3,6 @@
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
-#include "intro.h"
 
 void logo_scene_init(void)
 {
@@ -18,21 +17,21 @@ void logo_scene_init(void)
 
 void logo_scene_update(void)
 {
-    if (frame_count == 24)
-    {
-        SMS_loadSTMcompressedTileMap(11, 12, da_mini_tilemap_stmcompr);
-    }
-    else if (frame_count == 192)
-    {
-        clear_tilemap(0);
-    }
+    // if (frame_count == 24)
+    // {
+    //     SMS_loadSTMcompressedTileMap(11, 12, da_mini_tilemap_stmcompr);
+    // }
+    // else if (frame_count == 192)
+    // {
+    //     clear_tilemap(0);
+    // }
 
     wait_for_frame();
 
-    if (frame_count == 320)
-    {
-        next_scene();
-    }
+    // if (frame_count == 320)
+    // {
+    //     next_scene();
+    // }
 }
 
 void logo_scene_end(void) {}
