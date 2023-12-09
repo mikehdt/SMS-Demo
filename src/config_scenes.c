@@ -2,6 +2,7 @@
 #include "scenes/default.h"
 #include "scenes/fire.h"
 #include "scenes/logo.h"
+#include "scenes/plasma.h"
 
 Scenes scenes[MAX_SCENES];
 
@@ -21,4 +22,8 @@ void scenes_init(void)
     scenes[SCENE_LOGO].init = logo_init;
     scenes[SCENE_LOGO].update = logo_update;
     scenes[SCENE_LOGO].end = logo_end;
+
+    scenes[SCENE_PLASMA].init = plasma_init;
+    scenes[SCENE_PLASMA].update = plasma_update;
+    scenes[SCENE_PLASMA].end = plasma_end;
 }

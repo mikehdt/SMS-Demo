@@ -25,7 +25,7 @@ sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK3=0x8000 .\smsl
 main.rel config_scenes.rel ^
 console_init.rel global_variables.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
 memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel sintab.rel ^
-default.rel fire.rel logo.rel ^
+default.rel fire.rel logo.rel plasma.rel ^
 bank3.rel ^
 SMSlib.lib psglib/PSGlib.rel ^
 %DEBUG%
