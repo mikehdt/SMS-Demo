@@ -1,6 +1,14 @@
 #ifndef __CONFIG_SCENES_H
 #define __CONFIG_SCENES_H
 
+enum SCENES
+{
+    SCENE_DEFAULT = 0,
+    SCENE_LOGO,
+    SCENE_FIRE,
+    MAX_SCENES // This creates a max counter for us, so long as it's last :)
+};
+
 typedef void (*ptr_func)(void);
 
 typedef struct
@@ -9,13 +17,6 @@ typedef struct
     ptr_func update;
     ptr_func end;
 } Scenes;
-
-enum SCENES
-{
-    SCENE_DEFAULT = 0,
-    SCENE_LOGO,
-    MAX_SCENES // This creates a max counter for us, so long as it's last :)
-};
 
 extern Scenes scenes[MAX_SCENES];
 

@@ -1,6 +1,6 @@
 #include "config_scenes.h"
-#include "engine/scenes.h"
 #include "scenes/default.h"
+#include "scenes/fire.h"
 #include "scenes/logo.h"
 
 Scenes scenes[MAX_SCENES];
@@ -14,10 +14,11 @@ void scenes_init(void)
     scenes[SCENE_DEFAULT].update = default_update;
     scenes[SCENE_DEFAULT].end = default_end;
 
+    scenes[SCENE_FIRE].init = fire_init;
+    scenes[SCENE_FIRE].update = fire_update;
+    scenes[SCENE_FIRE].end = fire_end;
+
     scenes[SCENE_LOGO].init = logo_init;
     scenes[SCENE_LOGO].update = logo_update;
     scenes[SCENE_LOGO].end = logo_end;
-
-    // Kick things off
-    change_scene(SCENE_DEFAULT);
 }

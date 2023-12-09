@@ -35,7 +35,7 @@ void logo_update(void)
     // }
 
     SMS_waitForVBlank();
-    SMS_copySpritestoSAT();
+    // SMS_copySpritestoSAT();
 }
 
 void logo_end(void) {}

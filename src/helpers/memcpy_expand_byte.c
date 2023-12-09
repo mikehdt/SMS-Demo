@@ -4,6 +4,7 @@
 #pragma disable_warning 85
 void VRAMmemcpyExpandByte(unsigned int dst, const void *src, unsigned int size) __naked __z88dk_callee __preserves_regs(iyh, iyl)
 {
+    // Written by @bananaboy
     // dst in hl
     // src in de
     // size onto the stack
