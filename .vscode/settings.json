@@ -1,6 +1,7 @@
 {
     "files.exclude": {
-        "**/*.adb": true
+        "**/*.adb": true,
+        "dist/": true
     },
     "files.associations": {
         "*.ejs": "html",

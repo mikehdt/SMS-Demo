@@ -1,7 +1,21 @@
+#include "config_scenes.h"
 #include "engine/console_init.h"
+#include "engine/scenes.h"
 #include "libs/SMSlib.h"
 #include <stdbool.h>
 #include <stdint.h>
+
+void check_keys(void)
+{
+    if (SMS_getKeysHeld() & PORT_A_KEY_1)
+    {
+        // "Debounce" the button press as it were... this is a bit hacky
+        while (SMS_getKeysHeld() != 0x0000)
+            SMS_waitForVBlank();
+
+        next_scene();
+    }
+}
 
 void main(void)
 {
@@ -13,13 +27,14 @@ void main(void)
     while (true)
     {
         console_init();
+        scenes_init();
 
         do
         {
             keys_pressed = SMS_getKeysPressed();
 
-            // check_keys();
-            // scene_update();
+            check_keys();
+            update_scene();
         } while (~(keys_pressed & RESET_KEY));
     }
 }

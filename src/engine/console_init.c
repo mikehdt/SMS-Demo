@@ -1,5 +1,6 @@
 #include "console_init.h"
 #include "../libs/SMSlib.h"
+#include "global_variables.h"
 #include "palettes.h"
 #include "sprites.h"
 #include "tilemap.h"
@@ -7,9 +8,8 @@
 
 void console_init(void)
 {
-    // current_scene = 0;
-
-    // current_gfx_bank = 0;
+    current_scene = 0;
+    current_gfx_bank = 0;
     // current_music_bank = 0;
 
     // SMS_VDPturnOnFeature(VDPFEATURE_EXTRAHEIGHT); // PAL / SMS II only
