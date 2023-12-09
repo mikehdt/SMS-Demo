@@ -26,7 +26,7 @@ void main(void)
     {
         console_init();
         scenes_init();
-        change_scene(SCENE_DEFAULT);
+        change_scene(DEFAULT);
 
         do
         {

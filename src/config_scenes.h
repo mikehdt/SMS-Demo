@@ -3,10 +3,11 @@
 
 enum SCENES
 {
-    SCENE_DEFAULT = 0,
-    SCENE_LOGO,
-    SCENE_FIRE,
-    SCENE_PLASMA,
+    DEFAULT = 0,
+    LOGO,
+    FIRE,
+    PLASMA,
+    SPHERE,
     MAX_SCENES // This creates a max counter for us, so long as it's last :)
 };
 

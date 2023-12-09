@@ -3,6 +3,7 @@
 #include "scenes/fire.h"
 #include "scenes/logo.h"
 #include "scenes/plasma.h"
+#include "scenes/sphere.h"
 
 Scenes scenes[MAX_SCENES];
 
@@ -11,19 +12,23 @@ Scenes scenes[MAX_SCENES];
 void scenes_init(void)
 {
     // Default
-    scenes[SCENE_DEFAULT].init = default_init;
-    scenes[SCENE_DEFAULT].update = default_update;
-    scenes[SCENE_DEFAULT].end = default_end;
+    scenes[DEFAULT].init = default_init;
+    scenes[DEFAULT].update = default_update;
+    scenes[DEFAULT].end = default_end;
 
-    scenes[SCENE_FIRE].init = fire_init;
-    scenes[SCENE_FIRE].update = fire_update;
-    scenes[SCENE_FIRE].end = fire_end;
+    scenes[FIRE].init = fire_init;
+    scenes[FIRE].update = fire_update;
+    scenes[FIRE].end = fire_end;
 
-    scenes[SCENE_LOGO].init = logo_init;
-    scenes[SCENE_LOGO].update = logo_update;
-    scenes[SCENE_LOGO].end = logo_end;
+    scenes[LOGO].init = logo_init;
+    scenes[LOGO].update = logo_update;
+    scenes[LOGO].end = logo_end;
 
-    scenes[SCENE_PLASMA].init = plasma_init;
-    scenes[SCENE_PLASMA].update = plasma_update;
-    scenes[SCENE_PLASMA].end = plasma_end;
+    scenes[PLASMA].init = plasma_init;
+    scenes[PLASMA].update = plasma_update;
+    scenes[PLASMA].end = plasma_end;
+
+    scenes[SPHERE].init = sphere_init;
+    scenes[SPHERE].update = sphere_update;
+    scenes[SPHERE].end = sphere_end;
 }

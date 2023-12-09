@@ -23,7 +23,7 @@ for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -removedupe
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\plasma_grade.png -noremovedupes -palsms -savetiles "plasma_grade.tiles.psgcompr" -savetilemap "plasma_grade.tilemap.stmcompr" -savepalette "plasma_grade.palette.bin"
 
 :: Convert to ROM banks and move them to the compile folder for use
-assets2banks . --firstbank=3 --singleheader --compile
+assets2banks . --firstbank=2 --singleheader --compile
 move *.rel ..\compile
 
 :: This header is needed for the source to build
