@@ -1,6 +1,5 @@
 #include "scenes.h"
 #include "../config_scenes.h"
-#include "../libs/PSGlib.h"
 #include "../libs/SMSlib.h"
 #include "audio.h"
 #include "global_variables.h"
@@ -35,11 +34,6 @@ void change_scene_to(uint8_t next_scene)
 
 void wait_for_frame(void)
 {
-    if (PSGGetStatus() == PSG_PLAYING)
-    {
-        SMS_mapROMBank(current_music_bank);
-        wait_for_audio();
-    }
-
+    update_audio();
     SMS_waitForVBlank();
 }

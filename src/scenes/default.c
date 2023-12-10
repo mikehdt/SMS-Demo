@@ -7,8 +7,7 @@ void default_init(void) {}
 
 void default_update(void)
 {
-    play_song();
-
+    // play_song();
     next_scene();
 }
 

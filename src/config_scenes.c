@@ -3,6 +3,7 @@
 #include "scenes/fire.h"
 #include "scenes/logo.h"
 #include "scenes/plasma.h"
+#include "scenes/scroller.h"
 #include "scenes/sphere.h"
 #include "scenes/type.h"
 
@@ -17,23 +18,27 @@ void scenes_init(void)
     scenes[DEFAULT].update = default_update;
     scenes[DEFAULT].end = default_end;
 
-    scenes[FIRE].init = fire_init;
-    scenes[FIRE].update = fire_update;
-    scenes[FIRE].end = fire_end;
+    // scenes[FIRE].init = fire_init;
+    // scenes[FIRE].update = fire_update;
+    // scenes[FIRE].end = fire_end;
 
-    scenes[LOGO].init = logo_init;
-    scenes[LOGO].update = logo_update;
-    scenes[LOGO].end = logo_end;
+    // scenes[LOGO].init = logo_init;
+    // scenes[LOGO].update = logo_update;
+    // scenes[LOGO].end = logo_end;
 
-    scenes[PLASMA].init = plasma_init;
-    scenes[PLASMA].update = plasma_update;
-    scenes[PLASMA].end = plasma_end;
+    // scenes[PLASMA].init = plasma_init;
+    // scenes[PLASMA].update = plasma_update;
+    // scenes[PLASMA].end = plasma_end;
+
+    scenes[SCROLLER].init = scroller_init;
+    scenes[SCROLLER].update = scroller_update;
+    scenes[SCROLLER].end = scroller_end;
 
     scenes[SPHERE].init = sphere_init;
     scenes[SPHERE].update = sphere_update;
     scenes[SPHERE].end = sphere_end;
 
-    scenes[TYPE].init = type_init;
-    scenes[TYPE].update = type_update;
-    scenes[TYPE].end = type_end;
+    // scenes[TYPE].init = type_init;
+    // scenes[TYPE].update = type_update;
+    // scenes[TYPE].end = type_end;
 }

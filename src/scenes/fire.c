@@ -125,12 +125,18 @@ void calc_fire_tiles_asm(void) __naked
 
 void fire_init(void)
 {
+    SMS_displayOff();
+
+    wait_for_frame();
+
     SMS_mapROMBank(fire_grade_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(fire_grade_tiles_psgcompr, 0);
     SMS_loadBGPalette(fire_grade_palette_bin);
     SMS_loadSpritePalette(palette_black);
 
     clear_tilemap(0);
+
+    SMS_displayOn();
 }
 
 void fire_update(void)
@@ -149,6 +155,12 @@ void fire_update(void)
 
 void fire_end(void)
 {
+    SMS_displayOff();
+
+    wait_for_frame();
+
     clear_screen_buffer();
     clear_tilemap(0);
+
+    SMS_displayOn();
 }

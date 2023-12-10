@@ -13,6 +13,7 @@ void logo_init(void)
     SMS_loadBGPalette(da_mini_palette_bin);
     SMS_loadPSGaidencompressedTiles(da_mini_tiles_psgcompr, 1);
     SMS_loadSTMcompressedTileMap(11, 12, da_mini_tilemap_stmcompr);
+
     SMS_displayOn();
 }
 
@@ -24,5 +25,7 @@ void logo_update(void)
 void logo_end(void)
 {
     wait_for_frame();
+
+    load_blank_tile(0);
     clear_tilemap(0);
 }

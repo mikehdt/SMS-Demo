@@ -9,13 +9,11 @@
 void console_init(void)
 {
     current_scene = 0;
-    current_gfx_bank = 0;
-    // current_music_bank = 0;
 
     // SMS_VDPturnOnFeature(VDPFEATURE_EXTRAHEIGHT); // PAL / SMS II only
     // SMS_VDPturnOnFeature(VDPFEATURE_240LINES);    // PAL / SMS II only
 
-    init_sprites(SPRITEMODE_NORMAL, true);
+    SMS_setSpriteMode(SPRITEMODE_NORMAL);
 
     set_palette(palette_black, PALETTE_BOTH);
     load_blank_tile(0);

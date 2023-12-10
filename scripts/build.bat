@@ -26,7 +26,7 @@ smslib\crt0_sms.rel ^
 main.rel config_scenes.rel ^
 audio.rel console_init.rel global_variables.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
 memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel sintab.rel ^
-default.rel fire.rel logo.rel plasma.rel sphere.rel type.rel ^
+default.rel fire.rel logo.rel plasma.rel scroller.rel sphere.rel type.rel ^
 SMSlib.lib psglib/PSGlib.rel ^
 bank2.rel bank3.rel ^
 %DEBUG%

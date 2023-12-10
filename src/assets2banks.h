@@ -10,9 +10,6 @@ extern const unsigned char	plasma_grade_palette_bin[16];
 extern const unsigned char	plasma_grade_tiles_psgcompr[3527];
 #define				plasma_grade_tiles_psgcompr_size 3527
 #define				plasma_grade_tiles_psgcompr_bank 2
-extern const unsigned char	palms_palette_bin[16];
-#define				palms_palette_bin_size 16
-#define				palms_palette_bin_bank 2
 extern const unsigned char	sphere_tiles_psgcompr[2260];
 #define				sphere_tiles_psgcompr_size 2260
 #define				sphere_tiles_psgcompr_bank 2
@@ -34,12 +31,24 @@ extern const unsigned char	palms_tiles_psgcompr[1148];
 extern const unsigned char	palms_tilemap_stmcompr[180];
 #define				palms_tilemap_stmcompr_size 180
 #define				palms_tilemap_stmcompr_bank 2
+extern const unsigned char	palms_palette_bin[16];
+#define				palms_palette_bin_size 16
+#define				palms_palette_bin_bank 2
 extern const unsigned char	sphere_palette_bin[16];
 #define				sphere_palette_bin_size 16
 #define				sphere_palette_bin_bank 2
 extern const unsigned char	blank_palette_bin[1];
 #define				blank_palette_bin_size 1
 #define				blank_palette_bin_bank 2
+extern const unsigned char	sunset_tiles_psgcompr[736];
+#define				sunset_tiles_psgcompr_size 736
+#define				sunset_tiles_psgcompr_bank 3
+extern const unsigned char	sunset_tilemap_stmcompr[422];
+#define				sunset_tilemap_stmcompr_size 422
+#define				sunset_tilemap_stmcompr_bank 3
+extern const unsigned char	sunset_palette_bin[16];
+#define				sunset_palette_bin_size 16
+#define				sunset_palette_bin_bank 3
 extern const unsigned char	font_alpha_palette_bin[6];
 #define				font_alpha_palette_bin_size 6
 #define				font_alpha_palette_bin_bank 3

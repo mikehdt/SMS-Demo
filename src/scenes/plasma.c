@@ -220,20 +220,24 @@ void animate_buffer(void)
             plasma_arr++;
             buffer_arr++;
         } while (++col_count < SCREEN_COLUMNS);
-    } while (++row_count < SCREEN_ROWS);
+    } while (++row_count < 2); // SCREEN_ROWS
 }
 
 void plasma_init(void)
 {
+    SMS_displayOff();
+
+    wait_for_frame();
+
     SMS_mapROMBank(plasma_grade_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(plasma_grade_tiles_psgcompr, 0);
     SMS_loadBGPalette(plasma_grade_palette_bin);
-    clear_tilemap(256 | TILE_USE_SPRITE_PALETTE); // Suspicious of this 256
+    SMS_loadSpritePalette(palette_black);
 
     // init_buffer();
     init_buffer_asm();
 
-    SMS_loadSpritePalette(palette_black);
+    SMS_displayOn();
 }
 
 void plasma_update(void)

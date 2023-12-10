@@ -101,11 +101,6 @@ void init_background(void)
     SMS_mapROMBank(blank_tiles_psgcompr_bank);
     clear_tilemap(bg_tile);
 
-    // ??? Not sure what I was thinking here
-    SMS_mapROMBank(palms_palette_bin_bank);
-    SMS_loadSpritePalette(palms_palette_bin);
-    SMS_setSpritePaletteColor(0, 0x10);
-
     // Sphere
     SMS_mapROMBank(sphere_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(sphere_tiles_psgcompr, 0);
@@ -136,44 +131,52 @@ void init_background(void)
 
 void init_sphere_sprites(void)
 {
+    SMS_setSpriteMode(SPRITEMODE_ZOOMED);
+    SMS_useFirstHalfTilesforSprites(false);
+    SMS_initSprites();
+
     // Clipping sprites
-    SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 132);
+    SMS_mapROMBank(sphere_clip_tiles_psgcompr_bank);
+    SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 255);
+
+    SMS_mapROMBank(palms_palette_bin_bank);
+    SMS_loadSpritePalette(palms_palette_bin);
+    SMS_setSpritePaletteColor(0, 0x10);
+
     // First row
-    SMS_addSprite(12 * 8, 5 * 8, 133);
-    SMS_addSprite(14 * 8, 5 * 8, 134);
-    SMS_addSprite(16 * 8, 5 * 8, 135);
-    SMS_addSprite(18 * 8, 5 * 8, 136);
+    SMS_addSprite(12 * 8, 5 * 8, 256);
+    SMS_addSprite(14 * 8, 5 * 8, 257);
+    SMS_addSprite(16 * 8, 5 * 8, 258);
+    SMS_addSprite(18 * 8, 5 * 8, 259);
     // Second Row
-    SMS_addSprite(10 * 8, 7 * 8, 137);
-    SMS_addSprite(20 * 8, 7 * 8, 138);
+    SMS_addSprite(10 * 8, 7 * 8, 260);
+    SMS_addSprite(20 * 8, 7 * 8, 261);
     // Third Row
-    SMS_addSprite(10 * 8, 9 * 8, 139);
-    SMS_addSprite(20 * 8, 9 * 8, 140);
+    SMS_addSprite(10 * 8, 9 * 8, 262);
+    SMS_addSprite(20 * 8, 9 * 8, 263);
     // Fourth Row
-    SMS_addSprite(10 * 8, 11 * 8, 141);
-    SMS_addSprite(20 * 8, 11 * 8, 142);
+    SMS_addSprite(10 * 8, 11 * 8, 264);
+    SMS_addSprite(20 * 8, 11 * 8, 265);
     // Fifth Row
-    SMS_addSprite(10 * 8, 13 * 8, 143);
-    SMS_addSprite(20 * 8, 13 * 8, 144);
+    SMS_addSprite(10 * 8, 13 * 8, 266);
+    SMS_addSprite(20 * 8, 13 * 8, 267);
     // Sixth Row
-    SMS_addSprite(12 * 8, 15 * 8, 145);
-    SMS_addSprite(14 * 8, 15 * 8, 146);
-    SMS_addSprite(16 * 8, 15 * 8, 147);
-    SMS_addSprite(18 * 8, 15 * 8, 148);
+    SMS_addSprite(12 * 8, 15 * 8, 268);
+    SMS_addSprite(14 * 8, 15 * 8, 269);
+    SMS_addSprite(16 * 8, 15 * 8, 270);
+    SMS_addSprite(18 * 8, 15 * 8, 271);
+
+    SMS_copySpritestoSAT();
 }
 
 void sphere_init(void)
 {
     SMS_displayOff();
+
+    wait_for_frame();
     init_background();
-
-    SMS_initSprites();
-    SMS_setSpriteMode(SPRITEMODE_ZOOMED);
-
     init_sphere_sprites();
 
-    SMS_copySpritestoSAT();
-    wait_for_frame();
     SMS_displayOn();
 }
 
@@ -207,8 +210,12 @@ void sphere_update(void)
 
 void sphere_end(void)
 {
-    set_palette(palette_black, PALETTE_BOTH);
+    SMS_displayOff();
 
-    clear_sprites();
+    wait_for_frame();
+    set_palette(palette_black, PALETTE_BACKGROUND);
     clear_tilemap(0);
+    clear_sprites();
+
+    SMS_displayOn();
 }

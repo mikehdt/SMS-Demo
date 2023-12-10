@@ -4,7 +4,13 @@
 #include "../libs/SMSlib.h"
 #include "global_variables.h"
 
-void wait_for_audio(void)
+void map_audio_bank(void)
+{
+    if (SMS_getROMBank() != madness_psg_bank)
+        SMS_mapROMBank(madness_psg_bank);
+}
+
+void update_audio(void)
 {
     // Volume fade
     // if (target_attenuation < current_attenuation)
@@ -18,14 +24,15 @@ void wait_for_audio(void)
     //     PSGSetMusicVolumeAttenuation(current_attenuation >> 4);
     // }
 
-    PSGFrame();
+    if (PSGGetStatus() == PSG_PLAYING)
+    {
+        map_audio_bank();
+        PSGFrame();
+    }
 }
 
 void play_song(void)
 {
-    SMS_mapROMBank(madness_psg_bank);
-
-    current_music_bank = madness_psg_bank;
-
+    map_audio_bank();
     PSGPlay(madness_psg);
 }

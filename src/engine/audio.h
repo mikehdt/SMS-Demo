@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void wait_for_audio(void);
+void update_audio(void);
 void play_song(void);
 
 #endif
