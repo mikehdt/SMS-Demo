@@ -1,5 +1,6 @@
 #include "palettes.h"
 #include "../libs/SMSlib.h"
+#include "scenes.h"
 
 // Palette reference: https://www.smspower.org/maxim/HowToProgram/Palette
 
@@ -111,7 +112,7 @@ void fade_to_palette(unsigned char *target_palette, bool is_in)
 
         // Need to decouple this delay somehow...
         for (j = 0; j < 6; j++)
-            SMS_waitForVBlank();
+            wait_for_frame();
     }
 
     // Copy the palette across to the background
@@ -145,7 +146,7 @@ void fade_from_black(unsigned char *target_palette)
 
         // Need to decouple this delay somehow...
         for (j = 0; j < frame_delay; j++)
-            SMS_waitForVBlank();
+            wait_for_frame();
     }
 }
 

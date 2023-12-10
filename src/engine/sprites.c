@@ -10,10 +10,14 @@ void init_sprites(uint8_t spriteMode, bool useFirstHalfTiles)
 
 void clear_sprites(void)
 {
-    for (int i = 0; i <= 64; i--)
-    {
-        SMS_hideSprite(i);
-    }
-
+    SMS_initSprites();
+    SMS_setSpriteMode(SPRITEMODE_NORMAL);
     SMS_copySpritestoSAT();
+
+    // for (int i = 0; i <= 64; i--)
+    // {
+    //     SMS_hideSprite(i);
+    // }
+
+    // SMS_copySpritestoSAT();
 }

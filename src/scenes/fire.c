@@ -140,7 +140,7 @@ void fire_update(void)
     // calc_fire_tiles();
     calc_fire_tiles_asm();
 
-    SMS_waitForVBlank();
+    wait_for_frame();
 
     // Splat the tilemap to the VDP
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE); // + SEED_SIZE for visual seed debug

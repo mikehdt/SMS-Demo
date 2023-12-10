@@ -32,12 +32,6 @@ void change_scene(uint8_t next_scene)
     }
 }
 
-void wait_for_video(void)
-{
-    SMS_waitForVBlank();
-    SMS_copySpritestoSAT();
-}
-
 void wait_for_frame(void)
 {
     // if (PSGGetStatus() == PSG_PLAYING)
@@ -46,6 +40,6 @@ void wait_for_frame(void)
     //     wait_for_audio();
     // }
 
-    SMS_mapROMBank(current_gfx_bank);
-    wait_for_video();
+    // SMS_mapROMBank(current_gfx_bank);
+    SMS_waitForVBlank();
 }

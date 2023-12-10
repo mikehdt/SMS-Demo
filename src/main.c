@@ -11,7 +11,7 @@ void check_keys(void)
     {
         // "Debounce" the button press
         while (SMS_getKeysHeld() != 0x0000)
-            SMS_waitForVBlank();
+            wait_for_frame();
 
         next_scene();
     }

@@ -241,7 +241,7 @@ void plasma_update(void)
 {
     animate_buffer();
 
-    SMS_waitForVBlank();
+    wait_for_frame();
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, SCREEN_SIZE);
 }
 

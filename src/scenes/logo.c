@@ -1,6 +1,5 @@
 #include "../assets2banks.h"
-// #include "../engine/global_variables.h"
-// #include "../engine/scenes.h"
+#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 
@@ -19,22 +18,7 @@ void logo_init(void)
 
 void logo_update(void)
 {
-    // if (frame_count == 24)
-    // {
-    // }
-    // else if (frame_count == 192)
-    // {
-    //     clear_tilemap(0);
-    // }
-
-    // wait_for_frame();
-
-    // if (frame_count == 320)
-    // {
-    //     next_scene();
-    // }
-
-    SMS_waitForVBlank();
+    wait_for_frame();
     // SMS_copySpritestoSAT();
 }
 
