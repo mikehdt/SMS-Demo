@@ -6,6 +6,10 @@ void default_init(void) {}
 
 void default_update(void)
 {
+    // Hacky!
+    // if (current_music_bank == 0)
+    //     play_song();
+
     next_scene();
 }
 

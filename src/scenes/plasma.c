@@ -229,7 +229,7 @@ void plasma_init(void)
     SMS_mapROMBank(plasma_grade_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(plasma_grade_tiles_psgcompr, 0);
     SMS_loadBGPalette(plasma_grade_palette_bin);
-    clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
+    clear_tilemap(256 | TILE_USE_SPRITE_PALETTE); // Suspicious of this 256
 
     // init_buffer();
     init_buffer_asm();

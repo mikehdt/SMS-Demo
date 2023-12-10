@@ -4,6 +4,7 @@
 #include "scenes/logo.h"
 #include "scenes/plasma.h"
 #include "scenes/sphere.h"
+#include "scenes/type.h"
 
 Scenes scenes[MAX_SCENES];
 
@@ -31,4 +32,8 @@ void scenes_init(void)
     scenes[SPHERE].init = sphere_init;
     scenes[SPHERE].update = sphere_update;
     scenes[SPHERE].end = sphere_end;
+
+    scenes[TYPE].init = type_init;
+    scenes[TYPE].update = type_update;
+    scenes[TYPE].end = type_end;
 }
