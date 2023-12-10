@@ -6,8 +6,6 @@
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 
-#pragma disable_warning 158 // SDCC being a silly about unsigned ints in SMS_addSprite for now
-
 int cur_pal = 0;
 
 const unsigned char sphere_palette[] = {
@@ -97,7 +95,7 @@ int last_subset_ptr = -1;
 void init_background(void)
 {
     // Background
-    uint16_t bg_tile = 132 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
+    uint16_t bg_tile = 256 | TILE_USE_SPRITE_PALETTE | TILE_PRIORITY;
     SMS_mapROMBank(blank_tiles_psgcompr_bank);
     clear_tilemap(bg_tile);
 
@@ -210,12 +208,16 @@ void sphere_update(void)
 
 void sphere_end(void)
 {
+    wait_for_frame();
+
     SMS_displayOff();
 
-    wait_for_frame();
     set_palette(palette_black, PALETTE_BACKGROUND);
+    load_blank_tile(0);
     clear_tilemap(0);
     clear_sprites();
+
+    wait_for_frame();
 
     SMS_displayOn();
 }

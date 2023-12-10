@@ -11,5 +11,5 @@ void clear_sprites(void)
     }
 
     SMS_setSpriteMode(SPRITEMODE_NORMAL);
-    // SMS_copySpritestoSAT();
+    SMS_copySpritestoSAT();
 }

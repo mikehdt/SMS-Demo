@@ -76,9 +76,9 @@ void scroller_update(void)
 // also disable int handling
 void scroller_end(void)
 {
-    SMS_displayOff();
-
     wait_for_frame();
+
+    SMS_displayOff();
 
     SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK);
     SMS_disableLineInterrupt();
@@ -86,6 +86,8 @@ void scroller_end(void)
 
     load_blank_tile(0);
     clear_tilemap(0);
+
+    wait_for_frame();
 
     SMS_displayOn();
 }

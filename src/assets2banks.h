@@ -43,8 +43,8 @@ extern const unsigned char	blank_palette_bin[1];
 extern const unsigned char	sunset_tiles_psgcompr[736];
 #define				sunset_tiles_psgcompr_size 736
 #define				sunset_tiles_psgcompr_bank 3
-extern const unsigned char	sunset_tilemap_stmcompr[422];
-#define				sunset_tilemap_stmcompr_size 422
+extern const unsigned char	sunset_tilemap_stmcompr[340];
+#define				sunset_tilemap_stmcompr_size 340
 #define				sunset_tilemap_stmcompr_bank 3
 extern const unsigned char	sunset_palette_bin[16];
 #define				sunset_palette_bin_size 16
