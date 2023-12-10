@@ -195,8 +195,7 @@ void animate_buffer(void)
         sin_1, sin_2,
         distortion_val,
         *plasma_arr = plasma_starts,
-        *buffer_arr = screen_buffer,
-        *buffer_end = screen_buffer + SCREEN_SIZE;
+        *buffer_arr = screen_buffer;
     const uint8_t cur_speed = cycle_speed * frame_count,
                   plasma_speed_1 = sin_speeds_1 * frame_count,
                   plasma_speed_2 = sin_speeds_2 * frame_count;
@@ -242,6 +241,7 @@ void plasma_update(void)
     animate_buffer();
 
     wait_for_frame();
+
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, SCREEN_SIZE);
 }
 

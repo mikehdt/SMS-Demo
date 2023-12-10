@@ -25,8 +25,7 @@ void seed_fire_tiles(void)
     do
     {
         *fire_arr = ps_rand();
-        fire_arr++;
-    } while (fire_arr < fire_end);
+    } while (++fire_arr < fire_end);
 }
 
 // ----- FOR REFERENCE -----

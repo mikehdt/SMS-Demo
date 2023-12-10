@@ -1,14 +1,13 @@
 #include "default.h"
 #include "../config_scenes.h"
+#include "../engine/audio.h"
 #include "../engine/scenes.h"
 
 void default_init(void) {}
 
 void default_update(void)
 {
-    // Hacky!
-    // if (current_music_bank == 0)
-    //     play_song();
+    play_song();
 
     next_scene();
 }
