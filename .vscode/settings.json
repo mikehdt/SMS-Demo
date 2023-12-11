@@ -53,6 +53,7 @@
         "logo.h": "c",
         "audio.h": "c",
         "screen_buffer.h": "c",
-        "global_constants.h": "c"
+        "global_constants.h": "c",
+        "plasma.h": "c"
     }
 }

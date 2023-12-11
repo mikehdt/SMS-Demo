@@ -2,8 +2,10 @@
 #include "scenes/default.h"
 #include "scenes/fire.h"
 #include "scenes/logo.h"
+#include "scenes/particles.h"
 #include "scenes/plasma.h"
 #include "scenes/scroller.h"
+#include "scenes/sineline.h"
 #include "scenes/sphere.h"
 #include "scenes/type.h"
 
@@ -26,6 +28,10 @@ void scenes_init(void)
     scenes[LOGO].update = logo_update;
     scenes[LOGO].end = logo_end;
 
+    scenes[PARTICLES].init = particles_init;
+    scenes[PARTICLES].update = particles_update;
+    scenes[PARTICLES].end = particles_end;
+
     scenes[PLASMA].init = plasma_init;
     scenes[PLASMA].update = plasma_update;
     scenes[PLASMA].end = plasma_end;
@@ -33,6 +39,10 @@ void scenes_init(void)
     scenes[SCROLLER].init = scroller_init;
     scenes[SCROLLER].update = scroller_update;
     scenes[SCROLLER].end = scroller_end;
+
+    scenes[SINELINE].init = sineline_init;
+    scenes[SINELINE].update = sineline_update;
+    scenes[SINELINE].end = sineline_end;
 
     scenes[SPHERE].init = sphere_init;
     scenes[SPHERE].update = sphere_update;

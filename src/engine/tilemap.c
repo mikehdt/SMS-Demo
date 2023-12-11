@@ -1,5 +1,5 @@
 #include "tilemap.h"
-#include "../assets2banks.h" // Generated with the assets task
+#include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../libs/SMSlib.h"
 

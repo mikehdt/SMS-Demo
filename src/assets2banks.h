@@ -55,6 +55,12 @@ extern const unsigned char	font_alpha_palette_bin[6];
 extern const unsigned char	font_alpha_tiles_psgcompr[796];
 #define				font_alpha_tiles_psgcompr_size 796
 #define				font_alpha_tiles_psgcompr_bank 3
+extern const unsigned char	small_sine_tiles_psgcompr[544];
+#define				small_sine_tiles_psgcompr_size 544
+#define				small_sine_tiles_psgcompr_bank 3
+extern const unsigned char	spheres_tiles_psgcompr[141];
+#define				spheres_tiles_psgcompr_size 141
+#define				spheres_tiles_psgcompr_bank 3
 extern const unsigned char	da_mini_palette_bin[2];
 #define				da_mini_palette_bin_size 2
 #define				da_mini_palette_bin_bank 3
@@ -64,6 +70,9 @@ extern const unsigned char	da_mini_tiles_psgcompr[79];
 extern const unsigned char	da_mini_tilemap_stmcompr[4];
 #define				da_mini_tilemap_stmcompr_size 4
 #define				da_mini_tilemap_stmcompr_bank 3
+extern const unsigned char	small_sine_tilemap_stmcompr[46];
+#define				small_sine_tilemap_stmcompr_size 46
+#define				small_sine_tilemap_stmcompr_bank 3
 extern const unsigned char	sphere_clip_palette_bin[12];
 #define				sphere_clip_palette_bin_size 12
 #define				sphere_clip_palette_bin_bank 3
@@ -73,6 +82,12 @@ extern const unsigned char	fire_grade_tilemap_stmcompr[10];
 extern const unsigned char	plasma_grade_tilemap_stmcompr[10];
 #define				plasma_grade_tilemap_stmcompr_size 10
 #define				plasma_grade_tilemap_stmcompr_bank 3
+extern const unsigned char	small_sine_palette_bin[8];
+#define				small_sine_palette_bin_size 8
+#define				small_sine_palette_bin_bank 3
+extern const unsigned char	spheres_palette_bin[6];
+#define				spheres_palette_bin_size 6
+#define				spheres_palette_bin_bank 3
 extern const unsigned char	blank_tilemap_stmcompr[4];
 #define				blank_tilemap_stmcompr_size 4
 #define				blank_tilemap_stmcompr_bank 3

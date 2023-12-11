@@ -4,6 +4,8 @@
 enum SCENES
 {
     DEFAULT = 0,
+    PARTICLES,
+    SINELINE,
     SPHERE,
     PLASMA,
     LOGO,

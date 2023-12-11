@@ -1,5 +1,5 @@
 #include "sphere.h"
-#include "../assets2banks.h" // Generated with the assets task
+#include "../assets2banks.h"
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
 #include "../engine/sprites.h"

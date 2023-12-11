@@ -13,10 +13,10 @@ void update_scene(void)
 
 void next_scene(void)
 {
-    change_scene_to(current_scene + 1);
+    jump_to_scene(current_scene + 1);
 }
 
-void change_scene_to(uint8_t next_scene)
+void jump_to_scene(uint8_t next_scene)
 {
     if (current_scene != next_scene)
     {

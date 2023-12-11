@@ -11,5 +11,6 @@ void clear_sprites(void)
     }
 
     SMS_setSpriteMode(SPRITEMODE_NORMAL);
+    SMS_useFirstHalfTilesforSprites(false);
     SMS_copySpritestoSAT();
 }

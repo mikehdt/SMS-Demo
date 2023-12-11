@@ -1,5 +1,5 @@
 #include "type.h"
-#include "../assets2banks.h" // Generated with the assets task
+#include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
