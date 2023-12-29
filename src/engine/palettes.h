@@ -23,8 +23,13 @@ enum PALETTE_TYPE
 extern const unsigned char palette_black[16];
 extern const unsigned char palette_white[16];
 
-void fade_to_palette(unsigned char *target_palette, bool is_in);
-void fade_from_black(unsigned char *target_palette);
-void set_palette(unsigned char *palette, uint8_t palette_type);
+// void fade_to_palette(unsigned char *target_palette, unsigned char color_array_step);
+void fade_to_black(unsigned char palette[16], unsigned char step);
+void fade_from_black(unsigned char palette[16], unsigned char step);
+void fade_to_white(unsigned char palette[16], unsigned char step);
+void fade_from_white(unsigned char palette[16], unsigned char step);
+void load_palette(unsigned char *palette, uint8_t palette_type);
+
+void loadBGPaletteafterColorAddition(const void *palette, const unsigned char addition_color);
 
 #endif

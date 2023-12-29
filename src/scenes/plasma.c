@@ -1,9 +1,9 @@
 #include "plasma.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
+#include "../engine/global_helpers.h"
 #include "../engine/global_variables.h"
 #include "../engine/palettes.h"
-#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
@@ -48,98 +48,98 @@ uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
 void init_buffer_asm(void) __naked
 {
     // clang-format off
-__asm
-InitSinPtsY:
-    ld  hl, #_sin_starts_y
-    ld  de, #_sin_pts_y
-    ld  bc, #PLASMA_PTS
-    ldir    ; // ld (de), (hl) then decrement bc, repeat until bc is 0
+    __asm
+    InitSinPtsY:
+        ld  hl, #_sin_starts_y
+        ld  de, #_sin_pts_y
+        ld  bc, #PLASMA_PTS
+        ldir        ; // ld (de), (hl) then decrement bc, repeat until bc is 0
 
-    ld  hl, #_plasma_starts     ; // used later on after adding sine loop values
-    ld  c, #SCREEN_ROWS
+        ld  hl, #_plasma_starts     ; // used later on after adding sine loop values
+        ld  c, #SCREEN_ROWS
 
-YLoop:
-    exx     ; // use bc', de', hl'
-    ld  bc, #_sin_pts_y
-    ld  hl, #_sin_adds_y
-    ld  de, #_sin_pts_x
-    exx     ; // use bc, de, hl
+    YLoop:
+        exx         ; // use bc', de', hl'
+        ld  bc, #_sin_pts_y
+        ld  hl, #_sin_adds_y
+        ld  de, #_sin_pts_x
+        exx         ; // use bc, de, hl
 
-    ld  d, #PLASMA_PTS  ; // paired with #SCREEN_ROWS above
+        ld  d, #PLASMA_PTS  ; // paired with #SCREEN_ROWS above
 
-SinPtsYLoop:
-    exx     ; // use bc', de', hl'
+    SinPtsYLoop:
+        exx         ; // use bc', de', hl'
 
-    ld  a, (bc) ; // load sin_pts_y
-    add a, (hl) ; // add sin_adds_y
-    ld  (bc), a ; // store acc into sin_pts_y value
-    ld  (de), a ; // store acc into sin_pts_x value
+        ld  a, (bc) ; // load sin_pts_y
+        add a, (hl) ; // add sin_adds_y
+        ld  (bc), a ; // store acc into sin_pts_y value
+        ld  (de), a ; // store acc into sin_pts_x value
 
-    inc bc
-    inc de
-    inc hl
+        inc bc
+        inc de
+        inc hl
 
-    exx     ; // use bc, de, hl
+        exx     ; // use bc, de, hl
 
-    dec d
-    jp  NZ, SinPtsYLoop
-    ; // END SinPtsYLoop
+        dec d
+        jp  NZ, SinPtsYLoop
+        ; // END SinPtsYLoop
 
-    ld b, #SCREEN_COLUMNS
+        ld b, #SCREEN_COLUMNS
 
-XLoop:
-    exx     ; // use bc', de', hl'
+    XLoop:
+        exx     ; // use bc', de', hl'
 
-    ld  de, #_sin_pts_x
-    ld  hl, #_sin_adds_x
-    ld  b, #PLASMA_PTS
+        ld  de, #_sin_pts_x
+        ld  hl, #_sin_adds_x
+        ld  b, #PLASMA_PTS
 
-SinPtsXLoop:
-    ld  a, (de) ; // sin_pts_x
-    add a, (hl) ; // sin_adds_x
-    ld  (de), a
+    SinPtsXLoop:
+        ld  a, (de) ; // sin_pts_x
+        add a, (hl) ; // sin_adds_x
+        ld  (de), a
 
-    inc de
-    inc hl
-    djnz SinPtsXLoop
-    ; // END SinPtsXLoop
+        inc de
+        inc hl
+        djnz SinPtsXLoop
+        ; // END SinPtsXLoop
 
-    ld  de, #_sin_pts_x ; // reset the pointer to sin_pts_x
-    xor a               ; // clear the accumulator
-    ld  b, #PLASMA_PTS
+        ld  de, #_sin_pts_x ; // reset the pointer to sin_pts_x
+        xor a               ; // clear the accumulator
+        ld  b, #PLASMA_PTS
 
-SinAddLoop:
-    ex  af, af' ;' // use af'
-    ld  a, (de)
+    SinAddLoop:
+        ex  af, af' ;' // use af' (also yes that ;' is to "fix" VScode highlighting)
+        ld  a, (de)
 
-    ld  hl, #_sintab    ; // not as nice as the page-aligned version, ah well
+        ld  hl, #_sintab ; // not as nice as the page-aligned version, ah well
 
-    ; // add hl, a -- from https://plutiedev.com/z80-add-8bit-to-16bit et al
-    add   a, l    ; // a = a + l
-    ld    l, a    ; // l = a + l
-    adc   a, h    ; // a = a + l + h + (carry)
-    sub   l       ; // a = h + (carry)
-    ld    h, a    ; // h = h + (carry)
+        ; // add hl, a -- from https://plutiedev.com/z80-add-8bit-to-16bit et al
+        add a, l    ; // a = a + l
+        ld  l, a    ; // l = a + l
+        adc a, h    ; // a = a + l + h + (carry)
+        sub l       ; // a = h + (carry)
+        ld  h, a    ; // h = h + (carry)
 
-    ex  af, af' ;' // use af
+        ex  af, af' ;' // use af
 
-    add a, (hl) ; // Add sine value from the table
-    inc de
-    djnz SinAddLoop
-    ; // END SinAddLoop
+        add a, (hl) ; // Add sine value from the table
+        inc de
+        djnz SinAddLoop
+        ; // END SinAddLoop
 
-    exx ; // use bc, de, hl
-    ld  (hl), a ; // save compiled sine number back into plasma_starts
-    inc hl
-    djnz XLoop
-    ; // END XLoop
+        exx ; // use bc, de, hl
+        ld  (hl), a ; // save compiled sine number back into plasma_starts
+        inc hl
+        djnz XLoop
+        ; // END XLoop
 
-    dec c
-    jp  NZ, YLoop
-    ; // END YLoop
+        dec c
+        jp  NZ, YLoop
+        ; // END YLoop
 
-    ret
-__endasm;
+        ret
+    __endasm;
     // clang-format on
 }
 
@@ -191,21 +191,19 @@ __endasm;
 // Where y(Row), n(Frame), S(sin_speeds), P(plasma_freqs), C(cycle_speed)
 void animate_buffer(void)
 {
-    uint8_t row_count, col_count,
+    uint8_t row_count,
         sin_1, sin_2,
         distortion_val,
         *plasma_arr = plasma_starts,
         *buffer_arr = screen_buffer;
-    const uint8_t cur_speed = cycle_speed * frame_count,
-                  plasma_speed_1 = sin_speeds_1 * frame_count,
-                  plasma_speed_2 = sin_speeds_2 * frame_count;
+    const uint8_t cur_speed = cycle_speed * frame_count & 0xff,
+                  plasma_speed_1 = sin_speeds_1 * frame_count & 0xff,
+                  plasma_speed_2 = sin_speeds_2 * frame_count & 0xff;
 
     row_count = 0;
 
     do
     {
-        col_count = 0;
-
         // For some reason, the code goes sideways if these are collapsed into
         // the distortion_val formula below...
         sin_1 = plasma_speed_1 + (plasma_freqs_1 * row_count);
@@ -213,18 +211,49 @@ void animate_buffer(void)
         distortion_val = (sintab[sin_1] >> 1) + (sintab[sin_2] >> 1) + cur_speed;
 
         // This relies on being able to wrap-around an 8-bit integer value
-        do
-        {
-            *buffer_arr = *plasma_arr + distortion_val;
-
-            plasma_arr++;
-            buffer_arr++;
-        } while (++col_count < SCREEN_COLUMNS);
-    } while (++row_count < 2); // SCREEN_ROWS
+        // While loop:
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        // Unrolled manually (yes this is gross, sorry)
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+        *buffer_arr++ = *plasma_arr++ + distortion_val;
+    } while (++row_count < SCREEN_ROWS);
 }
 
 void plasma_init(void)
 {
+    // init_buffer();
+    init_buffer_asm();
+
     SMS_displayOff();
 
     wait_for_frame();
@@ -234,8 +263,7 @@ void plasma_init(void)
     SMS_loadBGPalette(plasma_grade_palette_bin);
     SMS_loadSpritePalette(palette_black);
 
-    // init_buffer();
-    init_buffer_asm();
+    wait_for_frame();
 
     SMS_displayOn();
 }
@@ -243,6 +271,7 @@ void plasma_init(void)
 void plasma_update(void)
 {
     animate_buffer();
+    // animate_buffer_asm();
 
     wait_for_frame();
 

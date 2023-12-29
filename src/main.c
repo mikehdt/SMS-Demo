@@ -1,5 +1,6 @@
 #include "config_scenes.h"
 #include "engine/console_init.h"
+#include "engine/global_helpers.h"
 #include "engine/scenes.h"
 #include "libs/SMSlib.h"
 #include <stdbool.h>

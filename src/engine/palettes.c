@@ -1,17 +1,11 @@
 #include "palettes.h"
 #include "../libs/SMSlib.h"
-#include "scenes.h"
+#include "global_helpers.h"
 
 // Palette reference: https://www.smspower.org/maxim/HowToProgram/Palette
 
 // Eventually, decouple these fns from blocking with wait for vblank calls
 // Also tidy this into several different helper functions
-
-unsigned char background_palette[16] = {
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00};
 
 const unsigned char palette_black[16] = {
     0x00, 0x00, 0x00, 0x00,
@@ -25,102 +19,141 @@ const unsigned char palette_white[16] = {
     0x3f, 0x3f, 0x3f, 0x3f,
     0x3f, 0x3f, 0x3f, 0x3f};
 
-enum COLOR_COMPONENTS
-{
-    COLOR_R,
-    COLOR_G,
-    COLOR_B
-};
+/*
+COLOR_G, COLOR_G, COLOR_R,
+COLOR_G, COLOR_R, COLOR_B,
+COLOR_R, COLOR_B, COLOR_B
+*/
 
-unsigned char fade_fragment(unsigned char current_color, unsigned char target_color)
-{
-    // So this routine flattens colours from immediate, rather than from end.
-    //
-    // I wonder if there's a way to determine if say, the colour channel is a 1,
-    // the target is 0 but it's only the first loop, don't flatten it until it
-    // hits the third time?
-    //
-    // Perhaps have a bitwise counter, which is reset on iteration 0?
-    if (current_color > target_color)
-        return current_color - 1;
-    else if (current_color < target_color)
-        return current_color + 1;
+// White
+const unsigned char color_increase_in[10] = {RGB(0, 0, 0),
+                                             RGB(1, 0, 0), RGB(2, 0, 0), RGB(2, 1, 0),
+                                             RGB(3, 1, 0), RGB(3, 2, 0), RGB(3, 2, 1),
+                                             RGB(3, 3, 1), RGB(3, 3, 2), RGB(3, 3, 3)};
+const unsigned char color_increase_out[10] = {RGB(3, 3, 3), RGB(3, 2, 3), RGB(3, 2, 2),
+                                              RGB(2, 2, 2), RGB(2, 1, 2), RGB(2, 1, 1),
+                                              RGB(1, 1, 1), RGB(1, 0, 1), RGB(1, 0, 0),
+                                              RGB(0, 0, 0)};
 
-    return current_color;
+// Black
+const unsigned char color_reduction_out[10] = {RGB(0, 0, 0),
+                                               RGB(0, 1, 0), RGB(0, 2, 0), RGB(1, 2, 0),
+                                               RGB(1, 3, 0), RGB(2, 3, 0), RGB(2, 3, 1),
+                                               RGB(3, 3, 1), RGB(3, 3, 2), RGB(3, 3, 3)};
+const unsigned char color_reduction_in[10] = {RGB(3, 3, 3), RGB(3, 3, 2), RGB(3, 3, 1),
+                                              RGB(2, 3, 1), RGB(2, 3, 0), RGB(1, 3, 0),
+                                              RGB(1, 2, 0), RGB(0, 2, 0), RGB(0, 1, 0),
+                                              RGB(0, 0, 0)};
+
+// Adapted from devkitSMS' subtractive version
+#define COLOR_ADD(c, r) (((c & 0x03) + (r & 0x03) >= 0x03 ? 0x03 : (c & 0x03) + (r & 0x03)) | ((c & 0x0c) + (r & 0x0c) >= 0x0c ? 0x0c : (c & 0x0c) + (r & 0x0c)) | ((c & 0x30) + (r & 0x30) >= 0x30 ? 0x30 : (c & 0x30) + (r & 0x30)))
+
+void loadBGPaletteafterColorAddition(const void *palette, const unsigned char addition_color)
+{
+    unsigned char i;
+    SMS_setNextBGColoratIndex(0);
+    for (i = 0; i < 16; i++)
+        SMS_setColor(COLOR_ADD(((unsigned char *)(palette))[i], addition_color));
 }
 
-unsigned char fade_to_color(unsigned char temporal_color, unsigned char target_color, int color_type)
+void fade_from_white(unsigned char palette[16], unsigned char step)
 {
-    unsigned char r, g, b;
-
-    r = (color_type == COLOR_R)
-            ? fade_fragment(getRFromRGB(temporal_color), getRFromRGB(target_color))
-            : getRFromRGB(temporal_color);
-    g = (color_type == COLOR_G)
-            ? fade_fragment(getGFromRGB(temporal_color), getGFromRGB(target_color))
-            : getGFromRGB(temporal_color);
-    b = (color_type == COLOR_B)
-            ? fade_fragment(getBFromRGB(temporal_color), getBFromRGB(target_color))
-            : getBFromRGB(temporal_color);
-
-    return RGB(r, g, b);
+    loadBGPaletteafterColorAddition(palette, color_increase_out[step]);
 }
 
-void fade_to_color_loop(unsigned char *temporal_palette, unsigned char *target_palette, uint8_t color_type)
+void fade_to_white(unsigned char palette[16], unsigned char step)
 {
-    for (uint8_t i = 0; i < 16; i++)
-        temporal_palette[i] = fade_to_color(temporal_palette[i], target_palette[i], color_type);
+    loadBGPaletteafterColorAddition(palette, color_increase_in[step]);
 }
 
-// Temp, works for now -- make better later
-unsigned char color_array_in[9] = {
-    COLOR_B, COLOR_B, COLOR_R,
-    COLOR_B, COLOR_R, COLOR_G,
-    COLOR_R, COLOR_G, COLOR_G};
-
-unsigned char color_array_out[9] = {
-    COLOR_G, COLOR_G, COLOR_R,
-    COLOR_G, COLOR_R, COLOR_B,
-    COLOR_R, COLOR_B, COLOR_B};
-
-// To consider: palette offset / total change, instead of always being 0.
-void fade_to_palette(unsigned char *target_palette, bool is_in)
+void fade_from_black(unsigned char palette[16], unsigned char step)
 {
-    uint8_t i, j;
-
-    unsigned char temporal_palette[16];
-    unsigned char *color_array;
-
-    // temp hack
-    if (is_in)
-        color_array = color_array_in;
-    else
-        color_array = color_array_out;
-
-    memcpy(temporal_palette, background_palette, sizeof(temporal_palette));
-
-    for (i = 0; i < 9; i++)
-    {
-        if (color_array[i] == COLOR_R)
-            fade_to_color_loop(temporal_palette, target_palette, COLOR_R);
-        else if (color_array[i] == COLOR_G)
-            fade_to_color_loop(temporal_palette, target_palette, COLOR_G);
-        else if (color_array[i] == COLOR_B)
-            fade_to_color_loop(temporal_palette, target_palette, COLOR_B);
-
-        SMS_loadBGPalette(temporal_palette);
-
-        // Need to decouple this delay somehow...
-        for (j = 0; j < 6; j++)
-            wait_for_frame();
-    }
-
-    // Copy the palette across to the background
-    memcpy(background_palette, temporal_palette, sizeof(background_palette));
+    SMS_loadBGPaletteafterColorSubtraction(palette, color_reduction_in[step]);
 }
+
+void fade_to_black(unsigned char palette[16], unsigned char step)
+{
+    SMS_loadBGPaletteafterColorSubtraction(palette, color_reduction_out[step]);
+}
+
+// unsigned char temporal_palette[16];
+
+// enum COLOR_COMPONENTS
+// {
+//     COLOR_R,
+//     COLOR_G,
+//     COLOR_B
+// };
+
+// unsigned char fade_fragment(unsigned char current_color, unsigned char target_color)
+// {
+//     // So this routine flattens colours from immediate, rather than from end.
+//     //
+//     // I wonder if there's a way to determine if say, the colour channel is a 1,
+//     // the target is 0 but it's only the first loop, don't flatten it until it
+//     // hits the third time?
+//     //
+//     // Perhaps have a bitwise counter, which is reset on iteration 0?
+//     if (current_color > target_color)
+//         return current_color - 1;
+//     else if (current_color < target_color)
+//         return current_color + 1;
+
+//     return current_color;
+// }
+
+// unsigned char fade_to_color(unsigned char temporal_color, unsigned char target_color, int color_type)
+// {
+//     unsigned char r, g, b;
+
+//     r = (color_type == COLOR_R)
+//             ? fade_fragment(getRFromRGB(temporal_color), getRFromRGB(target_color))
+//             : getRFromRGB(temporal_color);
+//     g = (color_type == COLOR_G)
+//             ? fade_fragment(getGFromRGB(temporal_color), getGFromRGB(target_color))
+//             : getGFromRGB(temporal_color);
+//     b = (color_type == COLOR_B)
+//             ? fade_fragment(getBFromRGB(temporal_color), getBFromRGB(target_color))
+//             : getBFromRGB(temporal_color);
+
+//     return RGB(r, g, b);
+// }
+
+// void fade_to_color_loop(unsigned char *target_palette, unsigned char color_type)
+// {
+//     char i = 0;
+
+//     do
+//     {
+//         temporal_palette[i++] = fade_to_color(temporal_palette[i], target_palette[i], color_type);
+//     } while (i++ < 16);
+// }
+
+// const unsigned char color_array_in[9] = {
+//     COLOR_B, COLOR_B, COLOR_R,
+//     COLOR_B, COLOR_R, COLOR_G,
+//     COLOR_R, COLOR_G, COLOR_G};
+
+// const unsigned char color_array_out[9] = {
+//     COLOR_G, COLOR_G, COLOR_R,
+//     COLOR_G, COLOR_R, COLOR_B,
+//     COLOR_R, COLOR_B, COLOR_B};
+
+// // To consider: palette offset / total change, instead of always being 0.
+// void fade_to_palette(unsigned char *target_palette, unsigned char color_array_step)
+// {
+//     fade_to_color_loop(target_palette, color_array_step);
+//     SMS_loadBGPalette(temporal_palette);
+// }
+
+// void set_background_to_temporal(void)
+// {
+//     // Copy the palette across to the background
+//     memcpy(background_palette, temporal_palette, sizeof(background_palette));
+// }
 
 // An alternative take... doesn't do between palettes yet
-void fade_from_black(unsigned char *target_palette)
+void fade_from_black_alt(unsigned char *target_palette)
 {
     uint8_t i, j, frame_delay = 4;
     uint16_t progress_ratio, r, g, b;
@@ -150,11 +183,17 @@ void fade_from_black(unsigned char *target_palette)
     }
 }
 
-void set_palette(unsigned char *palette, uint8_t palette_type)
+void load_palette(unsigned char *palette, uint8_t palette_type)
 {
     if (palette_type == PALETTE_BACKGROUND || palette_type == PALETTE_BOTH)
+    {
         SMS_loadBGPalette(palette);
+        // memcpy(background_palette, palette, sizeof(background_palette));
+    }
 
     if (palette_type == PALETTE_SPRITE || palette_type == PALETTE_BOTH)
+    {
         SMS_loadSpritePalette(palette);
+        // memcpy(sprite_palette, palette, sizeof(background_palette));
+    }
 }

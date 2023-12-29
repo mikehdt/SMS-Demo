@@ -1,6 +1,6 @@
 #include "scroller.h"
 #include "../assets2banks.h"
-#include "../engine/scenes.h"
+#include "../engine/global_helpers.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdbool.h>
@@ -11,7 +11,7 @@ unsigned char lineCnt;
 
 void scrollInterruptHandler(void)
 {
-    SMS_setBGScrollX(pic_scroll_x[++lineCnt] >> 2);
+    SMS_setBGScrollX(pic_scroll_x[lineCnt++] >> 2);
 }
 
 void init_scrolling(void)
@@ -43,20 +43,12 @@ void scroller_init(void)
     SMS_loadSTMcompressedTileMap(0, 0, sunset_tilemap_stmcompr);
     SMS_loadBGPalette(sunset_palette_bin);
 
-    SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK);
-    SMS_setLineInterruptHandler(&scrollInterruptHandler);
-    SMS_setLineCounter(24); // Every 25 scanlines
-    SMS_enableLineInterrupt();
-    SMS_setBGScrollX(0);
-
     SMS_displayOn();
 }
 
 void scroller_update(void)
 {
     wait_for_frame();
-
-    SMS_setBGScrollX(pic_scroll_x[0] >> 2);
 
     pic_scroll_x[0] -= 9;
     pic_scroll_x[1] -= 9;
@@ -79,10 +71,6 @@ void scroller_end(void)
     wait_for_frame();
 
     SMS_displayOff();
-
-    SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK);
-    SMS_disableLineInterrupt();
-    SMS_setBGScrollX(0);
 
     load_blank_tile(0);
     clear_tilemap(0);

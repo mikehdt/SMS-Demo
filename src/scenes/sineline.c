@@ -1,8 +1,8 @@
 #include "sineline.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
+#include "../engine/global_helpers.h"
 #include "../engine/global_variables.h"
-#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
@@ -74,9 +74,14 @@ void fill_line_tilemap(uint16_t row, uint16_t tile)
     SMS_VRAMmemsetW(XYtoADDR(0, row + 8), tile, SCREEN_COLUMNS * 2);
 }
 
+void fill_col_tilemap(uint16_t row, uint16_t tile)
+{
+    SMS_VRAMmemset(XYtoADDR(0, row + 8), tile, SCREEN_COLUMNS * 2);
+}
+
 void sineline_update(void)
 {
-    SMS_waitForVBlank();
+    wait_for_frame();
 
     if (frame_count % 2 == 0)
         return;
@@ -93,8 +98,13 @@ void sineline_update(void)
 
 void sineline_end(void)
 {
+    unsigned char i;
+
     SMS_waitForVBlank();
 
-    SMS_initSprites();
+    for (i = 0; i < 8; i++)
+        SMS_hideSprite(i);
+
+    SMS_copySpritestoSAT();
     SMS_setSpriteMode(SPRITEMODE_NORMAL);
 }

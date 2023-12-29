@@ -1,7 +1,5 @@
 #include "scenes.h"
 #include "../config_scenes.h"
-#include "../libs/SMSlib.h"
-#include "audio.h"
 #include "global_variables.h"
 #include <stdlib.h>
 
@@ -30,10 +28,4 @@ void jump_to_scene(uint8_t next_scene)
 
         scenes[current_scene].init();
     }
-}
-
-void wait_for_frame(void)
-{
-    update_audio();
-    SMS_waitForVBlank();
 }

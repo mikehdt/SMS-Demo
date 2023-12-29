@@ -54,6 +54,11 @@
         "audio.h": "c",
         "screen_buffer.h": "c",
         "global_constants.h": "c",
-        "plasma.h": "c"
+        "plasma.h": "c",
+        "city.h": "c",
+        "scroll_interrupt.h": "c",
+        "sprites.h": "c",
+        "psglib.h": "c",
+        "global_helpers.h": "c"
     }
 }

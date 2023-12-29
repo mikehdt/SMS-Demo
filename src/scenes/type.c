@@ -1,7 +1,7 @@
 #include "type.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
-#include "../engine/scenes.h"
+#include "../engine/global_helpers.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>

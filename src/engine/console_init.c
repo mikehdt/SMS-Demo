@@ -1,5 +1,6 @@
 #include "console_init.h"
 #include "../libs/SMSlib.h"
+#include "global_helpers.h"
 #include "global_variables.h"
 #include "palettes.h"
 #include "sprites.h"
@@ -15,9 +16,11 @@ void console_init(void)
 
     SMS_setSpriteMode(SPRITEMODE_NORMAL);
 
-    set_palette(palette_black, PALETTE_BOTH);
+    load_palette(palette_black, PALETTE_BOTH);
     load_blank_tile(0);
     clear_tilemap(0);
 
     SMS_displayOn();
+
+    wait_for_frame();
 }

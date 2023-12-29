@@ -1,9 +1,0 @@
-#ifndef _AUDIO_H
-#define _AUDIO_H
-
-#include <stdint.h>
-
-void update_audio(void);
-void play_song(void);
-
-#endif

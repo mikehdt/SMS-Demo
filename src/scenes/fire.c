@@ -1,7 +1,7 @@
 #include "fire.h"
 #include "../assets2banks.h"
+#include "../engine/global_helpers.h"
 #include "../engine/palettes.h"
-#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
@@ -45,7 +45,7 @@ void seed_fire_tiles(void)
 //     //   d   <- Second row below
 //     while (fire_arr < fire_end)
 //     {
-//         // For memory: fire_arr[VAL] same as *(fire_arr + VAL)
+//         // For remembering: fire_arr[VAL] same as *(fire_arr + VAL)
 //         fire_tile = fire_arr[FIRE_A] >> 2;
 //         fire_tile += fire_arr[FIRE_B] >> 2;
 //         fire_tile += fire_arr[FIRE_C] >> 2;

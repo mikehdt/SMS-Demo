@@ -6,6 +6,5 @@
 void update_scene(void);
 void next_scene(void);
 void jump_to_scene(uint8_t next_scene);
-void wait_for_frame(void);
 
 #endif

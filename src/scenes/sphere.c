@@ -1,7 +1,7 @@
 #include "sphere.h"
 #include "../assets2banks.h"
+#include "../engine/global_helpers.h"
 #include "../engine/palettes.h"
-#include "../engine/scenes.h"
 #include "../engine/sprites.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
@@ -135,34 +135,34 @@ void init_sphere_sprites(void)
 
     // Clipping sprites
     SMS_mapROMBank(sphere_clip_tiles_psgcompr_bank);
-    SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 255);
+    SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 256);
 
-    SMS_mapROMBank(palms_palette_bin_bank);
-    SMS_loadSpritePalette(palms_palette_bin);
+    SMS_mapROMBank(spheres_palette_bin_bank);
+    SMS_loadSpritePalette(spheres_palette_bin);
     SMS_setSpritePaletteColor(0, 0x10);
 
     // First row
-    SMS_addSprite(12 * 8, 5 * 8, 256);
-    SMS_addSprite(14 * 8, 5 * 8, 257);
-    SMS_addSprite(16 * 8, 5 * 8, 258);
-    SMS_addSprite(18 * 8, 5 * 8, 259);
+    SMS_addSprite(12 * 8, 5 * 8, 257);
+    SMS_addSprite(14 * 8, 5 * 8, 258);
+    SMS_addSprite(16 * 8, 5 * 8, 259);
+    SMS_addSprite(18 * 8, 5 * 8, 260);
     // Second Row
-    SMS_addSprite(10 * 8, 7 * 8, 260);
-    SMS_addSprite(20 * 8, 7 * 8, 261);
+    SMS_addSprite(10 * 8, 7 * 8, 261);
+    SMS_addSprite(20 * 8, 7 * 8, 262);
     // Third Row
-    SMS_addSprite(10 * 8, 9 * 8, 262);
-    SMS_addSprite(20 * 8, 9 * 8, 263);
+    SMS_addSprite(10 * 8, 9 * 8, 263);
+    SMS_addSprite(20 * 8, 9 * 8, 264);
     // Fourth Row
-    SMS_addSprite(10 * 8, 11 * 8, 264);
-    SMS_addSprite(20 * 8, 11 * 8, 265);
+    SMS_addSprite(10 * 8, 11 * 8, 265);
+    SMS_addSprite(20 * 8, 11 * 8, 266);
     // Fifth Row
-    SMS_addSprite(10 * 8, 13 * 8, 266);
-    SMS_addSprite(20 * 8, 13 * 8, 267);
+    SMS_addSprite(10 * 8, 13 * 8, 267);
+    SMS_addSprite(20 * 8, 13 * 8, 268);
     // Sixth Row
-    SMS_addSprite(12 * 8, 15 * 8, 268);
-    SMS_addSprite(14 * 8, 15 * 8, 269);
-    SMS_addSprite(16 * 8, 15 * 8, 270);
-    SMS_addSprite(18 * 8, 15 * 8, 271);
+    SMS_addSprite(12 * 8, 15 * 8, 269);
+    SMS_addSprite(14 * 8, 15 * 8, 270);
+    SMS_addSprite(16 * 8, 15 * 8, 271);
+    SMS_addSprite(18 * 8, 15 * 8, 272);
 
     SMS_copySpritestoSAT();
 }
@@ -180,8 +180,7 @@ void sphere_init(void)
 
 void sphere_update(void)
 {
-    unsigned char temporal_palette[16];
-    unsigned char i;
+    unsigned char temporal_palette[16], i;
 
     int subset_ptr = cur_pal >> 3;
 
@@ -212,7 +211,7 @@ void sphere_end(void)
 
     SMS_displayOff();
 
-    set_palette(palette_black, PALETTE_BACKGROUND);
+    load_palette(palette_black, PALETTE_BACKGROUND);
     load_blank_tile(0);
     clear_tilemap(0);
     clear_sprites();
