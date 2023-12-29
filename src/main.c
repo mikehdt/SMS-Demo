@@ -1,6 +1,5 @@
 #include "config_scenes.h"
 #include "engine/console_init.h"
-#include "engine/global_helpers.h"
 #include "engine/scenes.h"
 #include "libs/SMSlib.h"
 #include <stdbool.h>
@@ -8,14 +7,8 @@
 
 void check_keys(void)
 {
-    if (SMS_getKeysHeld() & PORT_A_KEY_1)
-    {
-        // "Debounce" the button press
-        while (SMS_getKeysHeld() != 0x0000)
-            wait_for_frame();
-
+    if (SMS_getKeysReleased() & PORT_A_KEY_1)
         next_scene();
-    }
 }
 
 void main(void)

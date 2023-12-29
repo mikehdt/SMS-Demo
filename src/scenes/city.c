@@ -21,10 +21,10 @@ void cityScrollHandler(void)
 {
     // clang-format off
     __asm
-        ld a,(_next_scroll_value)
-        out (#0xBF),a
-        ld a,#0x88           // write to hscroll VDP register
-        out (#0xBF),a
+        ld a, (_next_scroll_value)
+        out (#0xBF), a
+        ld a, #0x88      // Write to hscroll VDP register
+        out (#0xBF), a
     __endasm;
     // clang-format on
 
