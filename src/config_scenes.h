@@ -4,14 +4,15 @@
 enum SCENES
 {
     DEFAULT = 0,
+    EYE,
     CITY,
-    // SPHERE,
-    // SINELINE,
-    // SCROLLER,
-    // PLASMA,
-    // LOGO,
-    // FIRE,
-    // TYPE,
+    SPHERE,
+    SINELINE,
+    SCROLLER,
+    PLASMA,
+    LOGO,
+    FIRE,
+    TYPE,
     MAX_SCENES // This creates a max counter for us, so long as it's last :)
 };
 

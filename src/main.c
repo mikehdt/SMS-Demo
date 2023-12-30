@@ -7,6 +7,7 @@
 
 void check_keys(void)
 {
+    // This is fine if it's performant; less responsive if under CPU stress
     if (SMS_getKeysReleased() & PORT_A_KEY_1)
         next_scene();
 }

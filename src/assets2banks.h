@@ -34,18 +34,27 @@ extern const unsigned char	da_mini_tiles_psgcompr[79];
 extern const unsigned char	da_mini_tilemap_stmcompr[4];
 #define				da_mini_tilemap_stmcompr_size 4
 #define				da_mini_tilemap_stmcompr_bank 2
-extern const unsigned char	eye_big_palette_bin[16];
-#define				eye_big_palette_bin_size 16
-#define				eye_big_palette_bin_bank 2
 extern const unsigned char	sphere_palette_bin[16];
 #define				sphere_palette_bin_size 16
 #define				sphere_palette_bin_bank 2
+extern const unsigned char	fire_grade_tilemap_stmcompr[10];
+#define				fire_grade_tilemap_stmcompr_size 10
+#define				fire_grade_tilemap_stmcompr_bank 2
+extern const unsigned char	sphere_clip_palette_bin[6];
+#define				sphere_clip_palette_bin_size 6
+#define				sphere_clip_palette_bin_bank 2
 extern const unsigned char	blank_palette_bin[1];
 #define				blank_palette_bin_size 1
 #define				blank_palette_bin_bank 2
+extern const unsigned char	eye_big_palette_bin[16];
+#define				eye_big_palette_bin_size 16
+#define				eye_big_palette_bin_bank 3
 extern const unsigned char	eye_big_tiles_psgcompr[5467];
 #define				eye_big_tiles_psgcompr_size 5467
 #define				eye_big_tiles_psgcompr_bank 3
+extern const unsigned char	eye_big_tilemap_stmcompr[315];
+#define				eye_big_tilemap_stmcompr_size 315
+#define				eye_big_tilemap_stmcompr_bank 3
 extern const unsigned char	sphere_tiles_psgcompr[2260];
 #define				sphere_tiles_psgcompr_size 2260
 #define				sphere_tiles_psgcompr_bank 3
@@ -82,21 +91,12 @@ extern const unsigned char	small_sine_tiles_psgcompr[544];
 extern const unsigned char	small_sine_palette_bin[8];
 #define				small_sine_palette_bin_size 8
 #define				small_sine_palette_bin_bank 3
-extern const unsigned char	eye_big_tilemap_stmcompr[315];
-#define				eye_big_tilemap_stmcompr_size 315
-#define				eye_big_tilemap_stmcompr_bank 3
 extern const unsigned char	small_sine_tilemap_stmcompr[46];
 #define				small_sine_tilemap_stmcompr_size 46
 #define				small_sine_tilemap_stmcompr_bank 3
-extern const unsigned char	fire_grade_tilemap_stmcompr[10];
-#define				fire_grade_tilemap_stmcompr_size 10
-#define				fire_grade_tilemap_stmcompr_bank 3
 extern const unsigned char	plasma_grade_tilemap_stmcompr[10];
 #define				plasma_grade_tilemap_stmcompr_size 10
 #define				plasma_grade_tilemap_stmcompr_bank 3
-extern const unsigned char	sphere_clip_palette_bin[6];
-#define				sphere_clip_palette_bin_size 6
-#define				sphere_clip_palette_bin_bank 3
 extern const unsigned char	blank_tilemap_stmcompr[4];
 #define				blank_tilemap_stmcompr_size 4
 #define				blank_tilemap_stmcompr_bank 3
