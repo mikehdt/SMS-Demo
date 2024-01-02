@@ -1,5 +1,5 @@
 #include "city.h"
-#include "../assets2banks.h" // Generated with the assets task
+#include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/global_helpers.h"
 #include "../engine/global_variables.h"
@@ -19,14 +19,7 @@ uint16_t city_scroll_x[4];
 
 void cityScrollHandler(void)
 {
-    // clang-format off
-    __asm
-        ld a, (_next_scroll_value)
-        out (#0xBF), a
-        ld a, #0x88      // Write to hscroll VDP register
-        out (#0xBF), a
-    __endasm;
-    // clang-format on
+    INLINE_SMS_setBGScrollX(next_scroll_value);
 
     if (++cityLineCnt > 3)
         cityLineCnt = 3;

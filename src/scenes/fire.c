@@ -1,5 +1,6 @@
 #include "fire.h"
 #include "../assets2banks.h"
+#include "../engine/global_constants.h"
 #include "../engine/global_helpers.h"
 #include "../engine/palettes.h"
 #include "../engine/tilemap.h"
@@ -9,11 +10,9 @@
 #include "../libs/SMSlib.h"
 #include <stdlib.h>
 
-#define ROW_WIDTH 32 // max 32
-#define ROW_TOTAL 24 // max 24
 // #define EDGE_WIDTH 3
-#define FIRE_SIZE (ROW_TOTAL * ROW_WIDTH)
-#define SEED_SIZE (2 * ROW_WIDTH)
+#define FIRE_SIZE (SCREEN_COLUMNS * SCREEN_ROWS)
+#define SEED_SIZE (2 * SCREEN_COLUMNS)
 
 void seed_fire_tiles(void)
 {

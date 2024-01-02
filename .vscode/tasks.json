@@ -100,6 +100,18 @@
                 "revealProblems": "onProblem",
                 "clear": true
             }
+        },
+        {
+            "label": "Convert VGM Music to PSG Format",
+            "type": "shell",
+            "windows": {
+                "command": ".\\scripts\\convert-vgm.bat"
+            },
+            "presentation": {
+                "reveal": "never",
+                "revealProblems": "onProblem",
+                "clear": true
+            }
         }
     ]
 }

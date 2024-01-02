@@ -59,6 +59,8 @@
         "scroll_interrupt.h": "c",
         "sprites.h": "c",
         "psglib.h": "c",
-        "global_helpers.h": "c"
+        "global_helpers.h": "c",
+        "fire.h": "c",
+        "fade_test.h": "c"
     }
 }
