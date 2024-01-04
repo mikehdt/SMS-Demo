@@ -21,8 +21,8 @@ void cityScrollHandler(void)
 {
     INLINE_SMS_setBGScrollX(next_scroll_value);
 
-    if (++cityLineCnt > 3)
-        cityLineCnt = 3;
+    if (++cityLineCnt == 3)
+        SMS_setLineCounter(127); // Every n + 1 scanlines (0 indexed)
 
     next_scroll_value = city_scroll_x[cityLineCnt] >> 4;
 }
@@ -30,11 +30,11 @@ void cityScrollHandler(void)
 void update_scroll_pos(void)
 {
     cityLineCnt = 0;
-    city_scroll_x[0] += 4;
-    city_scroll_x[1] += 4;
+    // Position 0 is not used, it's sacrificial
+    city_scroll_x[1] += 3;
     city_scroll_x[2] += 2;
     city_scroll_x[3] += 1;
-    next_scroll_value = city_scroll_x[0] >> 4;
+    next_scroll_value = city_scroll_x[1] >> 4;
 }
 
 void city_init(void)
@@ -53,30 +53,26 @@ void city_init(void)
     SMS_mapROMBank(cityscape_palette_bin_bank);
     SMS_loadPSGaidencompressedTiles(cityscape_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, cityscape_tilemap_stmcompr);
-
-    set_scroll(15, &cityScrollHandler); // Seems to be off by 1px vertically?
-
     SMS_displayOn();
 
     wait_for_frame();
+    set_scroll(15, &cityScrollHandler);
     update_scroll_pos();
 
     for (unsigned char i = 0; i < 10; i++)
     {
         fade_from_white(cityscape_palette_bin, i);
 
-        wait_for_frame();
-        update_scroll_pos();
-        wait_for_frame();
-        update_scroll_pos();
-        wait_for_frame();
-        update_scroll_pos();
+        city_update();
+        city_update();
+        city_update();
     }
 }
 
 void city_update(void)
 {
     wait_for_frame();
+    SMS_setLineCounter(15); // Reset
     update_scroll_pos();
 }
 
@@ -86,12 +82,9 @@ void city_end(void)
     {
         fade_to_black(cityscape_palette_bin, i);
 
-        wait_for_frame();
-        update_scroll_pos();
-        wait_for_frame();
-        update_scroll_pos();
-        wait_for_frame();
-        update_scroll_pos();
+        city_update();
+        city_update();
+        city_update();
     }
 
     clear_scroll();

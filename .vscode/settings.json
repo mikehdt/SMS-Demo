@@ -1,7 +1,6 @@
 {
     "files.exclude": {
-        "**/*.adb": true,
-        "dist/": true
+        "**/*.adb": true
     },
     "files.associations": {
         "*.ejs": "html",
@@ -60,7 +59,6 @@
         "sprites.h": "c",
         "psglib.h": "c",
         "global_helpers.h": "c",
-        "fire.h": "c",
-        "fade_test.h": "c"
+        "fire.h": "c"
     }
 }

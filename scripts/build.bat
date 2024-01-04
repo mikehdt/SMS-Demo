@@ -27,11 +27,9 @@ smslib/crt0_sms.rel ^
 main.rel config_scenes.rel ^
 console_init.rel global_helpers.rel global_variables.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
 memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel scroll_interrupt.rel sintab.rel ^
-default.rel logo.rel ^
+default.rel city.rel eye.rel fire.rel lady.rel lady_dist.rel logo.rel plasma.rel sineline.rel sphere.rel ^
 SMSlib.lib psglib/PSGlib_MB.rel ^
 bank2.rel bank3.rel bank4.rel %DEBUG%
-
-:: city.rel eye.rel fire.rel lady.rel lady_dist.rel logo.rel plasma.rel sineline.rel sphere.rel ^
 
 :: Execute
 :: If `makesms` is used, banks must use 0xn4000 or 0xn8000 where n is the bank number
