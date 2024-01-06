@@ -2,58 +2,48 @@
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/global_helpers.h"
+#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 
 int8_t curXPos;
-uint8_t stage, curXCycle, palette[16];
+uint8_t curXCycle, paletteIn[16];
 
 #define X_OFFSET 11
 #define Y_OFFSET 10
 #define LOGO_TILES 10
-#define TRAIL 6
+#define TRAIL 9
 #define PALETTE_CYCLE 2
 
 void logo_init(void)
 {
-    stage = 1;
+    current_stage = 1;
     curXPos = 0;
     curXCycle = 0;
 
-    palette[0] = 0x00;
-    palette[1] = 0x00;
-    palette[2] = 0x10;
-    palette[3] = 0x20;
-    palette[4] = 0x34;
-    palette[5] = 0x38;
-    palette[6] = 0x3d;
-    palette[7] = 0x2d;
-    palette[8] = 0x2e;
-    palette[9] = 0x2f;
-    palette[10] = 0x3f;
-    palette[11] = 0x3f;
-    // palette[1] = 0x3f;
-    // palette[2] = 0x3f;
-    // palette[3] = 0x3f;
-    // palette[4] = 0x3f;
-    // palette[5] = 0x3f;
-    // palette[6] = 0x3f;
-    // palette[7] = 0x3f;
-    // palette[8] = 0x3f;
-    // palette[9] = 0x3f;
-    // palette[10] = 0x3f;
-    // palette[11] = 0x3f;
-    palette[12] = 0x3f;
-    palette[13] = 0x3f;
-    palette[14] = 0x3f;
-    palette[15] = 0x3f;
+    paletteIn[0] = 0x00;
+    paletteIn[1] = 0x00;
+    paletteIn[2] = 0x10;
+    paletteIn[3] = 0x11;
+    paletteIn[4] = 0x12;
+    paletteIn[5] = 0x13;
+    paletteIn[6] = 0x17;
+    paletteIn[7] = 0x1b;
+    paletteIn[8] = 0x1f;
+    paletteIn[9] = 0x3f;
+    paletteIn[10] = 0x3f;
+    paletteIn[11] = 0x3f;
+    paletteIn[12] = 0x3f;
+    paletteIn[13] = 0x3f;
+    paletteIn[14] = 0x3f;
+    paletteIn[15] = 0x3f;
 
     SMS_displayOff();
 
     wait_for_frame();
     clear_tilemap(0);
 
-    SMS_loadBGPalette(palette);
+    SMS_loadBGPalette(paletteIn);
 
     SMS_mapROMBank(da_mini_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(da_mini_tiles_psgcompr, 1);
@@ -66,22 +56,23 @@ void logo_update(void)
     wait_for_frame();
     wait_for_frame();
 
-    if (stage == 1)
+    if (current_stage == 1)
     {
         for (int i = 0; i <= 16 - PALETTE_CYCLE; i++)
         {
-            SMS_setBGPaletteColor(i + 1, palette[i + curXCycle]);
+            SMS_setBGPaletteColor(i + 1, paletteIn[i + curXCycle]);
+            SMS_debugPrintf("iter %d, color %d\n", i, paletteIn[i + PALETTE_CYCLE - curXCycle - 1]);
         }
     }
-    else if (stage == 3)
+    else if (current_stage == 3)
     {
         for (int i = 0; i <= 16 - PALETTE_CYCLE; i++)
         {
-            SMS_setBGPaletteColor(i + 1, palette[i + curXCycle + 1]);
+            SMS_setBGPaletteColor(i + 1, paletteIn[i + PALETTE_CYCLE - curXCycle - 1]);
         }
     }
 
-    if (stage == 1 && curXCycle == 0)
+    if (current_stage == 1 && curXCycle == 0)
     {
         int8_t startPos = curXPos - TRAIL + 1;
 
@@ -107,19 +98,22 @@ void logo_update(void)
         // Stage kick
         if (++curXPos > LOGO_TILES + TRAIL)
         {
-            stage = 2;
+            current_stage = 2;
             curXPos = 0;
         }
     }
 
     // Pause between fade in and out
-    if (stage == 2 && ++curXPos > 16)
+    if (current_stage == 2)
     {
-        stage = 3;
-        curXPos = 0;
+        if (++curXPos > 24)
+        {
+            current_stage = 3;
+            curXPos = 0;
+        }
     }
 
-    if (stage == 3 && curXCycle == 0)
+    if (current_stage == 3 && curXCycle == 0)
     {
         int8_t startPos = curXPos - TRAIL + 1;
 
@@ -153,19 +147,16 @@ void logo_update(void)
         // Stage kick
         if (++curXPos > LOGO_TILES + TRAIL)
         {
-            stage = 4;
+            current_stage = 4;
             curXPos = 0;
         }
     }
 
-    // TEMP KILL PAUSE
-    if (stage == 4)
+    if (current_stage == 4)
     {
-        SMS_debugPrintf("STAGE 4\n");
-        stage = 1;
-        curXPos = 0;
         SMS_VRAMmemsetW(XYtoADDR(11, 10), 0, (LOGO_TILES * 2));
-        // Probs next scene
+
+        next_scene();
     }
 
     // Pause cycle for palette cycling

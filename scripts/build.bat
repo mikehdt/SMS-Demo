@@ -25,7 +25,7 @@ echo === SDCC linking ===
 sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x28000 -Wl-b_BANK3=0x38000 -Wl-b_BANK4=0x48000 ^
 smslib/crt0_sms.rel ^
 main.rel config_scenes.rel ^
-console_init.rel global_helpers.rel global_variables.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
+console_init.rel global_helpers.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
 memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel scroll_interrupt.rel sintab.rel ^
 default.rel city.rel eye.rel fire.rel lady.rel lady_dist.rel logo.rel plasma.rel sineline.rel sphere.rel ^
 SMSlib.lib psglib/PSGlib_MB.rel ^

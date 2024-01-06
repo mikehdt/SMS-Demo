@@ -10,12 +10,10 @@
 
 void psgHandler(void)
 {
-    // if (PSGGetStatus() == PSG_PLAYING)
-    // {
+    // if (PSGGetStatus() == PSG_PLAYING) { }
     SMS_saveROMBank();
     PSGFrame();
     SMS_restoreROMBank();
-    // }
 }
 
 void default_update(void)

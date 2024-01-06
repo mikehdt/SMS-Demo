@@ -46,7 +46,6 @@
         "scenes_update.h": "c",
         "fast_rand.h": "c",
         "_scenes.h": "c",
-        "global_variables.h": "c",
         "keys.h": "c",
         "config_scenes.h": "c",
         "logo.h": "c",

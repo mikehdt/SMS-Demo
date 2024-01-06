@@ -2,7 +2,6 @@
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/global_helpers.h"
-#include "../engine/global_variables.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
@@ -82,9 +81,7 @@ void fill_col_tilemap(uint16_t row, uint16_t tile)
 void sineline_update(void)
 {
     wait_for_frame();
-
-    if (frame_count % 2 == 0)
-        return;
+    wait_for_frame();
 
     uint8_t i;
     uint16_t priority = (sineline_ptr > 3 && sineline_ptr < 15) ? 0 : TILE_PRIORITY;

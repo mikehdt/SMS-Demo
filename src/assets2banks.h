@@ -4,15 +4,15 @@ extern const unsigned char	blank_tiles_psgcompr[3];
 extern const unsigned char	test_ct2_psg[14353];
 #define				test_ct2_psg_size 14353
 #define				test_ct2_psg_bank 2
-extern const unsigned char	da_mini_tiles_psgcompr[1001];
-#define				da_mini_tiles_psgcompr_size 1001
+extern const unsigned char	da_mini_tiles_psgcompr[1382];
+#define				da_mini_tiles_psgcompr_size 1382
 #define				da_mini_tiles_psgcompr_bank 2
-extern const unsigned char	font_alpha_palette_bin[6];
-#define				font_alpha_palette_bin_size 6
-#define				font_alpha_palette_bin_bank 2
-extern const unsigned char	font_alpha_tiles_psgcompr[809];
-#define				font_alpha_tiles_psgcompr_size 809
-#define				font_alpha_tiles_psgcompr_bank 2
+extern const unsigned char	small_sine_tiles_psgcompr[544];
+#define				small_sine_tiles_psgcompr_size 544
+#define				small_sine_tiles_psgcompr_bank 2
+extern const unsigned char	small_sine_palette_bin[8];
+#define				small_sine_palette_bin_size 8
+#define				small_sine_palette_bin_bank 2
 extern const unsigned char	small_sine_tilemap_stmcompr[46];
 #define				small_sine_tilemap_stmcompr_size 46
 #define				small_sine_tilemap_stmcompr_bank 2
@@ -58,12 +58,12 @@ extern const unsigned char	plasma_grade_palette_bin[16];
 extern const unsigned char	plasma_grade_tiles_psgcompr[3527];
 #define				plasma_grade_tiles_psgcompr_size 3527
 #define				plasma_grade_tiles_psgcompr_bank 3
-extern const unsigned char	small_sine_tiles_psgcompr[544];
-#define				small_sine_tiles_psgcompr_size 544
-#define				small_sine_tiles_psgcompr_bank 3
-extern const unsigned char	small_sine_palette_bin[8];
-#define				small_sine_palette_bin_size 8
-#define				small_sine_palette_bin_bank 3
+extern const unsigned char	font_alpha_palette_bin[6];
+#define				font_alpha_palette_bin_size 6
+#define				font_alpha_palette_bin_bank 3
+extern const unsigned char	font_alpha_tiles_psgcompr[809];
+#define				font_alpha_tiles_psgcompr_size 809
+#define				font_alpha_tiles_psgcompr_bank 3
 extern const unsigned char	eye_big_palette_bin[16];
 #define				eye_big_palette_bin_size 16
 #define				eye_big_palette_bin_bank 4
