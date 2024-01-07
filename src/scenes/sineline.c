@@ -1,7 +1,6 @@
 #include "sineline.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
-#include "../engine/global_helpers.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
@@ -42,7 +41,7 @@ void sineline_init(void)
 
     SMS_displayOff();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     SMS_mapROMBank(small_sine_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(small_sine_tiles_psgcompr, 0);
@@ -63,7 +62,7 @@ void sineline_init(void)
 
     SMS_copySpritestoSAT();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     SMS_displayOn();
 }
@@ -80,8 +79,8 @@ void fill_col_tilemap(uint16_t row, uint16_t tile)
 
 void sineline_update(void)
 {
-    wait_for_frame();
-    wait_for_frame();
+    SMS_waitForVBlank();
+    SMS_waitForVBlank();
 
     uint8_t i;
     uint16_t priority = (sineline_ptr > 3 && sineline_ptr < 15) ? 0 : TILE_PRIORITY;

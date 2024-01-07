@@ -1,7 +1,6 @@
 #include "fire.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
-#include "../engine/global_helpers.h"
 #include "../engine/palettes.h"
 #include "../engine/tilemap.h"
 #include "../helpers/memcpy_expand_byte.h"
@@ -126,7 +125,7 @@ void fire_init(void)
 {
     SMS_displayOff();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     SMS_mapROMBank(fire_grade_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(fire_grade_tiles_psgcompr, 0);
@@ -144,7 +143,7 @@ void fire_update(void)
     // calc_fire_tiles();
     calc_fire_tiles_asm();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     // Splat the tilemap to the VDP
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE); // + SEED_SIZE for visual seed debug
@@ -156,7 +155,7 @@ void fire_end(void)
 {
     SMS_displayOff();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     clear_screen_buffer();
     clear_tilemap(0);

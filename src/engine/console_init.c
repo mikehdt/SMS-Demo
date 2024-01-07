@@ -1,6 +1,5 @@
 #include "console_init.h"
 #include "../libs/SMSlib.h"
-#include "global_helpers.h"
 #include "palettes.h"
 #include "sprites.h"
 #include "tilemap.h"
@@ -19,5 +18,5 @@ void console_init(void)
 
     SMS_displayOn();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
 }

@@ -11,19 +11,23 @@ cd assets
 :: Music
 copy .\music\*.psg .\
 
-:: Backgrounds
+:: Backgrounds with tilemap and palette
 for %%f in (.\backgrounds\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -mirror -removedupes -palsms -savetiles "%%~nf.tiles.psgcompr" -savetilemap "%%~nf.tilemap.stmcompr" -savepalette "%%~nf.palette.bin"
 
-:: Sprites (SMS can't flip sprites, so don't dedupe via mirroring)
+:: Backgrounds without tilemap
+for %%f in (.\backgrounds_nomap\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -mirror -removedupes -palsms -savetiles "%%~nf.tiles.psgcompr" -savepalette "%%~nf.palette.bin"
+
+:: Backgrounds without palette
+for %%f in (.\backgrounds_nopal\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -mirror -removedupes -palsms -savetiles "%%~nf.tiles.psgcompr" -savetilemap "%%~nf.tilemap.stmcompr"
+
+:: Sprites (SMS can't flip sprites, so don't dedupe mirrored)
 for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -removedupes -nomirror -palsms -savetiles "%%~nf.tiles.psgcompr" -savepalette "%%~nf.palette.bin"
 
-:: Custom stuff for fussy images
+:: DA Logo (offset 1)
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\da_mini.png -noremovedupes -palsms -savetiles "da_mini.tiles.psgcompr" -tileoffset 1
 
-..\utils\bmp2tile\BMP2Tile.exe .\custom\font_alpha.png -palsms -savetiles "font_alpha.tiles.psgcompr" -savepalette "font_alpha.palette.bin"
-
-..\utils\bmp2tile\BMP2Tile.exe .\custom\fire_grade.png -noremovedupes -palsms -savetiles "fire_grade.tiles.psgcompr" -savepalette "fire_grade.palette.bin"
-..\utils\bmp2tile\BMP2Tile.exe .\custom\plasma_grade.png -noremovedupes -palsms -savetiles "plasma_grade.tiles.psgcompr" -savepalette "plasma_grade.palette.bin"
+:: Credits (palette only; tiles generated above)
+..\utils\bmp2tile\BMP2Tile.exe .\backgrounds_nopal\credit_bananaboy.png -palsms -savepalette "credits.palette.bin"
 
 :: Convert to ROM banks and move them to the compile folder for use
 assets2banks . --firstbank=2 --singleheader --compile

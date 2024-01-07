@@ -1,6 +1,5 @@
 #include "sphere.h"
 #include "../assets2banks.h"
-#include "../engine/global_helpers.h"
 #include "../engine/palettes.h"
 #include "../engine/sprites.h"
 #include "../engine/tilemap.h"
@@ -171,7 +170,7 @@ void sphere_init(void)
 {
     SMS_displayOff();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
     init_background();
     init_sphere_sprites();
 
@@ -190,7 +189,7 @@ void sphere_update(void)
     }
 
     // Wait here so as if the pointers match, it'll run too quickly
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     if (last_subset_ptr == subset_ptr)
         return; // Don't update the palette, it hasn't changed
@@ -207,7 +206,7 @@ void sphere_update(void)
 
 void sphere_end(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     SMS_displayOff();
 
@@ -216,7 +215,7 @@ void sphere_end(void)
     clear_tilemap(0);
     clear_sprites();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     SMS_displayOn();
 }

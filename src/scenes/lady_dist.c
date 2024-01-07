@@ -1,13 +1,12 @@
 #include "lady_dist.h"
 #include "../assets2banks.h"
-#include "../engine/global_helpers.h"
 #include "../engine/palettes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 
 void lady_dist_init(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
     load_palette(palette_black, PALETTE_BACKGROUND);
     clear_tilemap(0);
 
@@ -19,12 +18,12 @@ void lady_dist_init(void)
 
 void lady_dist_update(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
 }
 
 void lady_dist_end(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
     load_blank_tile(0);
     clear_tilemap(0);
 }

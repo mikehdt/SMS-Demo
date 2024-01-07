@@ -1,7 +1,6 @@
 #include "default.h"
 #include "../assets2banks.h"
 #include "../config_scenes.h"
-#include "../engine/global_helpers.h"
 #include "../engine/scenes.h"
 
 #define PSGLIB_MULTIBANK 1
@@ -10,7 +9,6 @@
 
 void psgHandler(void)
 {
-    // if (PSGGetStatus() == PSG_PLAYING) { }
     SMS_saveROMBank();
     PSGFrame();
     SMS_restoreROMBank();
@@ -18,9 +16,9 @@ void psgHandler(void)
 
 void default_update(void)
 {
+    // Hook to play the PSG frame even if the CPU is held up doing other stuff
     SMS_setFrameInterruptHandler(&psgHandler);
-
-    PSGPlay(test_ct2_psg, test_ct2_psg_bank);
+    PSGPlayNoRepeat(test_ct2_psg, test_ct2_psg_bank);
 
     next_scene();
 }

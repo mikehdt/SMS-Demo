@@ -1,13 +1,13 @@
 #include "lady.h"
 #include "../assets2banks.h"
-#include "../engine/global_helpers.h"
 #include "../engine/palettes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 
 void lady_init(void)
 {
-    wait_for_frame();
+    SMS_displayOff();
+    SMS_waitForVBlank();
     load_palette(palette_black, PALETTE_BACKGROUND);
 
     // TODO: clear the tilemap first
@@ -15,16 +15,17 @@ void lady_init(void)
     SMS_loadBGPalette(lady_palette_bin);
     SMS_loadPSGaidencompressedTiles(lady_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(6, 0, lady_tilemap_stmcompr);
+    SMS_displayOn();
 }
 
 void lady_update(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
 }
 
 void lady_end(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
     load_blank_tile(0);
     clear_tilemap(0);
 }

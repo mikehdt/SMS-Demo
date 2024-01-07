@@ -1,13 +1,12 @@
 #include "eye.h"
 #include "../assets2banks.h"
-#include "../engine/global_helpers.h"
 #include "../engine/palettes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 
 void eye_init(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
     load_palette(palette_black, PALETTE_BACKGROUND);
     clear_tilemap(0);
 
@@ -19,12 +18,12 @@ void eye_init(void)
 
 void eye_update(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
 }
 
 void eye_end(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
     load_blank_tile(0);
     clear_tilemap(0);
 }

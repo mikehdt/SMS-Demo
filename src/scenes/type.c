@@ -1,7 +1,6 @@
 #include "type.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
-#include "../engine/global_helpers.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 #include <stdint.h>
@@ -67,7 +66,7 @@ void type_init(void)
 
     SMS_displayOff();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     SMS_setBGScrollX(0);
     SMS_VDPturnOnFeature(VDPFEATURE_LEFTCOLBLANK);
@@ -87,7 +86,7 @@ void type_init(void)
 
 void type_update(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     if (type_scroll_tick++ != 1)
         return;
@@ -114,7 +113,7 @@ void type_update(void)
 
 void type_end(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
     clear_tilemap(0);
 
     SMS_VDPturnOffFeature(VDPFEATURE_LEFTCOLBLANK);

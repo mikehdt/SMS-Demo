@@ -1,6 +1,5 @@
 #include "palettes.h"
 #include "../libs/SMSlib.h"
-#include "global_helpers.h"
 
 // Palette reference: https://www.smspower.org/maxim/HowToProgram/Palette
 
@@ -179,7 +178,7 @@ void fade_from_black_alt(unsigned char *target_palette)
 
         // Need to decouple this delay somehow...
         for (j = 0; j < frame_delay; j++)
-            wait_for_frame();
+            SMS_waitForVBlank();
     }
 }
 

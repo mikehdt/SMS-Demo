@@ -22,10 +22,11 @@ for %%f in (..\src\scenes\*.c) do sdcc --std-sdcc23 -c -mz80 --opt-code-speed ^
 echo === SDCC linking ===
 :: On bank numbering: https://www.smspower.org/forums/19430-DevkitSMSBankingCodeQuestions#124958
 :: add -Wl-b_BANK1=0x14000 or -Wl-b_BANK3=0x38000 etc. as needed
-sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 -Wl-b_BANK2=0x28000 -Wl-b_BANK3=0x38000 -Wl-b_BANK4=0x48000 ^
+sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 ^
+-Wl-b_BANK2=0x28000 -Wl-b_BANK3=0x38000 -Wl-b_BANK4=0x48000 ^
 smslib/crt0_sms.rel ^
 main.rel config_scenes.rel ^
-console_init.rel global_helpers.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
+console_init.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
 memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel scroll_interrupt.rel sintab.rel ^
 default.rel city.rel eye.rel fire.rel lady.rel lady_dist.rel logo.rel plasma.rel sineline.rel sphere.rel ^
 SMSlib.lib psglib/PSGlib_MB.rel ^

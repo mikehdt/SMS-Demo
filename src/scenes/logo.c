@@ -1,7 +1,6 @@
 #include "logo.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
-#include "../engine/global_helpers.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
@@ -17,7 +16,7 @@ uint8_t curXCycle, paletteIn[16];
 
 void logo_init(void)
 {
-    current_stage = 1;
+    cur_stage = 1;
     curXPos = 0;
     curXCycle = 0;
 
@@ -40,7 +39,7 @@ void logo_init(void)
 
     SMS_displayOff();
 
-    wait_for_frame();
+    SMS_waitForVBlank();
     clear_tilemap(0);
 
     SMS_loadBGPalette(paletteIn);
@@ -53,10 +52,10 @@ void logo_init(void)
 
 void logo_update(void)
 {
-    wait_for_frame();
-    wait_for_frame();
+    SMS_waitForVBlank();
+    SMS_waitForVBlank();
 
-    if (current_stage == 1)
+    if (cur_stage == 1)
     {
         for (int i = 0; i <= 16 - PALETTE_CYCLE; i++)
         {
@@ -64,7 +63,7 @@ void logo_update(void)
             SMS_debugPrintf("iter %d, color %d\n", i, paletteIn[i + PALETTE_CYCLE - curXCycle - 1]);
         }
     }
-    else if (current_stage == 3)
+    else if (cur_stage == 3)
     {
         for (int i = 0; i <= 16 - PALETTE_CYCLE; i++)
         {
@@ -72,7 +71,7 @@ void logo_update(void)
         }
     }
 
-    if (current_stage == 1 && curXCycle == 0)
+    if (cur_stage == 1 && curXCycle == 0)
     {
         int8_t startPos = curXPos - TRAIL + 1;
 
@@ -98,22 +97,22 @@ void logo_update(void)
         // Stage kick
         if (++curXPos > LOGO_TILES + TRAIL)
         {
-            current_stage = 2;
+            cur_stage = 2;
             curXPos = 0;
         }
     }
 
     // Pause between fade in and out
-    if (current_stage == 2)
+    if (cur_stage == 2)
     {
         if (++curXPos > 24)
         {
-            current_stage = 3;
+            cur_stage = 3;
             curXPos = 0;
         }
     }
 
-    if (current_stage == 3 && curXCycle == 0)
+    if (cur_stage == 3 && curXCycle == 0)
     {
         int8_t startPos = curXPos - TRAIL + 1;
 
@@ -147,12 +146,12 @@ void logo_update(void)
         // Stage kick
         if (++curXPos > LOGO_TILES + TRAIL)
         {
-            current_stage = 4;
+            cur_stage = 4;
             curXPos = 0;
         }
     }
 
-    if (current_stage == 4)
+    if (cur_stage == 4)
     {
         SMS_VRAMmemsetW(XYtoADDR(11, 10), 0, (LOGO_TILES * 2));
 
@@ -166,7 +165,7 @@ void logo_update(void)
 
 void logo_end(void)
 {
-    wait_for_frame();
+    SMS_waitForVBlank();
 
     load_blank_tile(0);
     clear_tilemap(0);
