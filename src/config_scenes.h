@@ -4,8 +4,9 @@
 enum SCENES
 {
     DEFAULT = 0, // Scene counter; must be first
-    LOGO,        // DA logo, plus credits
-    CITY_A,      // Fade in art, pan, stop, 'arrival' fade white+back, sine-LUT eyes
+    LOGO_A,      // DA logo, plus credits
+    CITY_A,      // Fade in art, pan
+    LOGO_B,      // DA logo, plus credits
     LADY_A,      // Distant and then closeup of the lady
     CITY_B,      // Back to the city, sine-LUT eyes scatter, pan up to the sky
     EYE,         // Big spooky eye slides in time with prev scene; its iris fades out, sphere from next scene fades in place

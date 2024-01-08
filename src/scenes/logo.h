@@ -3,6 +3,5 @@
 
 void logo_init(void);
 void logo_update(void);
-void logo_end(void);
 
 #endif

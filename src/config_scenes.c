@@ -55,9 +55,13 @@ void scenes_init(void)
     scenes[LADY_C].update = lady_update;
     scenes[LADY_C].end = lady_end;
 
-    scenes[LOGO].init = logo_init;
-    scenes[LOGO].update = logo_update;
-    scenes[LOGO].end = logo_end;
+    scenes[LOGO_A].init = logo_init;
+    scenes[LOGO_A].update = logo_update;
+    scenes[LOGO_A].end = empty_fn;
+
+    scenes[LOGO_B].init = logo_init;
+    scenes[LOGO_B].update = logo_update;
+    scenes[LOGO_B].end = empty_fn;
 
     scenes[PLASMA].init = plasma_init;
     scenes[PLASMA].update = plasma_update;

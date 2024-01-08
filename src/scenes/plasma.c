@@ -27,6 +27,7 @@
 uint8_t sin_starts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
         sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
         sin_adds_y[PLASMA_PTS] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02};
+
 uint8_t sin_speeds_1 = 0xfe,
         sin_speeds_2 = 0xfc,
         plasma_freqs_1 = 0x06,
@@ -36,9 +37,8 @@ uint8_t sin_speeds_1 = 0xfe,
 // Stores the state of the x component of the sine values. The y complement is
 // initialised to some values above. Both array values get heavily mutated.
 uint8_t sin_pts_x[PLASMA_PTS] = {0x00},
-        sin_pts_y[PLASMA_PTS] = {0x00};
-
-uint8_t plasma_starts[SCREEN_SIZE] = {0x00};
+        sin_pts_y[PLASMA_PTS] = {0x00},
+        plasma_starts[SCREEN_SIZE] = {0x00};
 
 // Init
 // I(x,y) = 8/Σ/n=1 sin(Sn + Xn * x + Yn + y)

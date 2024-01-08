@@ -18,7 +18,7 @@ for %%f in (.\backgrounds\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -mirror
 for %%f in (.\backgrounds_nomap\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -mirror -removedupes -palsms -savetiles "%%~nf.tiles.psgcompr" -savepalette "%%~nf.palette.bin"
 
 :: Backgrounds without palette
-for %%f in (.\backgrounds_nopal\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -mirror -removedupes -palsms -savetiles "%%~nf.tiles.psgcompr" -savetilemap "%%~nf.tilemap.stmcompr"
+for %%f in (.\backgrounds_nomap_nopal\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -mirror -removedupes -palsms -savetiles "%%~nf.tiles.psgcompr"
 
 :: Sprites (SMS can't flip sprites, so don't dedupe mirrored)
 for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -removedupes -nomirror -palsms -savetiles "%%~nf.tiles.psgcompr" -savepalette "%%~nf.palette.bin"
@@ -27,7 +27,7 @@ for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -removedupe
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\da_mini.png -noremovedupes -palsms -savetiles "da_mini.tiles.psgcompr" -tileoffset 1
 
 :: Credits (palette only; tiles generated above)
-..\utils\bmp2tile\BMP2Tile.exe .\backgrounds_nopal\credit_bananaboy.png -palsms -savepalette "credits.palette.bin"
+..\utils\bmp2tile\BMP2Tile.exe .\backgrounds_nomap_nopal\credit_bananaboy.png -palsms -savepalette "credits.palette.bin"
 
 :: Convert to ROM banks and move them to the compile folder for use
 assets2banks . --firstbank=2 --singleheader --compile
