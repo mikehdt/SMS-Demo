@@ -4,10 +4,12 @@
 enum SCENES
 {
     DEFAULT = 0, // Scene counter; must be first
-    LOGO_A,      // DA logo, plus credits
+    LOGO,        // DA logo, plus credits
+    CREDITS_A,   // Coding credit
     CITY_A,      // Fade in art, pan
-    LOGO_B,      // DA logo, plus credits
+    CREDITS_B,   // Graphics credit
     LADY_A,      // Distant and then closeup of the lady
+    CREDITS_C,   // Music credit
     CITY_B,      // Back to the city, sine-LUT eyes scatter, pan up to the sky
     EYE,         // Big spooky eye slides in time with prev scene; its iris fades out, sphere from next scene fades in place
     SPHERE,      // The sphere 'pops' from the eye, bounces around the screen for a bit with 8-way palette animation in sync with the movement, sphere slides or bounces off somewhere

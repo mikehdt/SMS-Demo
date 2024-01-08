@@ -1,5 +1,6 @@
 #include "config_scenes.h"
 #include "scenes/city.h"
+#include "scenes/credits.h"
 #include "scenes/default.h"
 #include "scenes/eye.h"
 #include "scenes/fire.h"
@@ -35,6 +36,18 @@ void scenes_init(void)
     scenes[CITY_C].update = city_update;
     scenes[CITY_C].end = city_end;
 
+    scenes[CREDITS_A].init = credits_init;
+    scenes[CREDITS_A].update = credits_update;
+    scenes[CREDITS_A].end = empty_fn;
+
+    scenes[CREDITS_B].init = credits_init;
+    scenes[CREDITS_B].update = credits_update;
+    scenes[CREDITS_B].end = empty_fn;
+
+    scenes[CREDITS_C].init = credits_init;
+    scenes[CREDITS_C].update = credits_update;
+    scenes[CREDITS_C].end = empty_fn;
+
     scenes[EYE].init = eye_init;
     scenes[EYE].update = eye_update;
     scenes[EYE].end = eye_end;
@@ -55,13 +68,13 @@ void scenes_init(void)
     scenes[LADY_C].update = lady_update;
     scenes[LADY_C].end = lady_end;
 
-    scenes[LOGO_A].init = logo_init;
-    scenes[LOGO_A].update = logo_update;
-    scenes[LOGO_A].end = empty_fn;
+    scenes[LOGO].init = logo_init;
+    scenes[LOGO].update = logo_update;
+    scenes[LOGO].end = empty_fn;
 
-    scenes[LOGO_B].init = logo_init;
-    scenes[LOGO_B].update = logo_update;
-    scenes[LOGO_B].end = empty_fn;
+    scenes[CREDITS_A].init = credits_init;
+    scenes[CREDITS_A].update = credits_update;
+    scenes[CREDITS_A].end = empty_fn;
 
     scenes[PLASMA].init = plasma_init;
     scenes[PLASMA].update = plasma_update;

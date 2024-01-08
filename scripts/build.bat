@@ -28,7 +28,7 @@ smslib/crt0_sms.rel ^
 main.rel config_scenes.rel ^
 console_init.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
 memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel scroll_interrupt.rel sintab.rel ^
-default.rel city.rel eye.rel fire.rel lady.rel lady_dist.rel logo.rel plasma.rel sineline.rel sphere.rel ^
+default.rel city.rel credits.rel eye.rel fire.rel lady.rel lady_dist.rel logo.rel plasma.rel sineline.rel sphere.rel ^
 SMSlib.lib psglib/PSGlib_MB.rel ^
 bank2.rel bank3.rel bank4.rel %DEBUG%
 

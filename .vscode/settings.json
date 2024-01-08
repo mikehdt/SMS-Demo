@@ -58,6 +58,7 @@
         "sprites.h": "c",
         "psglib.h": "c",
         "global_helpers.h": "c",
-        "fire.h": "c"
+        "fire.h": "c",
+        "credits.h": "c"
     }
 }
