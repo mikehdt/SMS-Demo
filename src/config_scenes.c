@@ -40,14 +40,6 @@ void scenes_init(void)
     scenes[CREDITS_A].update = credits_update;
     scenes[CREDITS_A].end = empty_fn;
 
-    scenes[CREDITS_B].init = credits_init;
-    scenes[CREDITS_B].update = credits_update;
-    scenes[CREDITS_B].end = empty_fn;
-
-    scenes[CREDITS_C].init = credits_init;
-    scenes[CREDITS_C].update = credits_update;
-    scenes[CREDITS_C].end = empty_fn;
-
     scenes[EYE].init = eye_init;
     scenes[EYE].update = eye_update;
     scenes[EYE].end = eye_end;

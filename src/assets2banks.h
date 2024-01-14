@@ -34,12 +34,12 @@ extern const unsigned char	small_sine_tilemap_stmcompr[46];
 extern const unsigned char	sphere_palette_bin[16];
 #define				sphere_palette_bin_size 16
 #define				sphere_palette_bin_bank 2
-extern const unsigned char	sphere_clip_palette_bin[6];
-#define				sphere_clip_palette_bin_size 6
-#define				sphere_clip_palette_bin_bank 2
 extern const unsigned char	blank_tilemap_stmcompr[4];
 #define				blank_tilemap_stmcompr_size 4
 #define				blank_tilemap_stmcompr_bank 2
+extern const unsigned char	sphere_clip_palette_bin[2];
+#define				sphere_clip_palette_bin_size 2
+#define				sphere_clip_palette_bin_bank 2
 extern const unsigned char	blank_palette_bin[1];
 #define				blank_palette_bin_size 1
 #define				blank_palette_bin_bank 2
@@ -94,8 +94,8 @@ extern const unsigned char	sphere_tiles_psgcompr[2260];
 extern const unsigned char	sphere_tilemap_stmcompr[29];
 #define				sphere_tilemap_stmcompr_size 29
 #define				sphere_tilemap_stmcompr_bank 4
-extern const unsigned char	sphere_clip_tiles_psgcompr[139];
-#define				sphere_clip_tiles_psgcompr_size 139
+extern const unsigned char	sphere_clip_tiles_psgcompr[123];
+#define				sphere_clip_tiles_psgcompr_size 123
 #define				sphere_clip_tiles_psgcompr_bank 4
 extern const unsigned char	da_mini_tiles_psgcompr[2380];
 #define				da_mini_tiles_psgcompr_size 2380

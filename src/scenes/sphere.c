@@ -136,9 +136,8 @@ void init_sphere_sprites(void)
     SMS_mapROMBank(sphere_clip_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(sphere_clip_tiles_psgcompr, 256);
 
-    SMS_mapROMBank(spheres_palette_bin_bank);
-    SMS_loadSpritePalette(spheres_palette_bin);
     SMS_setSpritePaletteColor(0, 0x10);
+    SMS_setSpritePaletteColor(1, 0x10);
 
     // First row
     SMS_addSprite(12 * 8, 5 * 8, 257);

@@ -44,25 +44,14 @@ const unsigned char color_reduction_in[10] = {RGB(3, 3, 3), RGB(3, 3, 2), RGB(3,
                                               RGB(1, 2, 0), RGB(0, 2, 0), RGB(0, 1, 0),
                                               RGB(0, 0, 0)};
 
-// Adapted from devkitSMS' subtractive version
-#define COLOR_ADD(c, r) (((c & 0x03) + (r & 0x03) >= 0x03 ? 0x03 : (c & 0x03) + (r & 0x03)) | ((c & 0x0c) + (r & 0x0c) >= 0x0c ? 0x0c : (c & 0x0c) + (r & 0x0c)) | ((c & 0x30) + (r & 0x30) >= 0x30 ? 0x30 : (c & 0x30) + (r & 0x30)))
-
-void loadBGPaletteafterColorAddition(const void *palette, const unsigned char addition_color)
-{
-    unsigned char i;
-    SMS_setNextBGColoratIndex(0);
-    for (i = 0; i < 16; i++)
-        SMS_setColor(COLOR_ADD(((unsigned char *)(palette))[i], addition_color));
-}
-
 void fade_from_white(unsigned char palette[16], unsigned char step)
 {
-    loadBGPaletteafterColorAddition(palette, color_increase_out[step]);
+    SMS_loadBGPaletteafterColorAddition(palette, color_increase_out[step]);
 }
 
 void fade_to_white(unsigned char palette[16], unsigned char step)
 {
-    loadBGPaletteafterColorAddition(palette, color_increase_in[step]);
+    SMS_loadBGPaletteafterColorAddition(palette, color_increase_in[step]);
 }
 
 void fade_from_black(unsigned char palette[16], unsigned char step)

@@ -4,6 +4,15 @@
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
 
+#define TITLE_CODE 1
+#define TITLE_GRAPHICS 13
+#define TITLE_MUSIC 33
+// TBC
+#define TITLE_BANANABOY 1
+#define TITLE_DARKOWL 1
+#define TITLE_SHOCK 1
+#define TITLE_CTRIX 1
+
 void credits_init(void)
 {
     cur_stage = 1;
@@ -25,10 +34,10 @@ void credits_update(void)
             // CODE
             SMS_loadPSGaidencompressedTiles(credit_title_code_tiles_psgcompr, 1);
 
-            for (int i = 1; i <= 6; i++)
-                SMS_setTileatXY(13 + (i - 1), 7, i);
-            for (int i = 7; i <= 12; i++)
-                SMS_setTileatXY(13 + (i - 7), 8, i);
+            for (int i = TITLE_CODE; i < TITLE_CODE + 6; i++)
+                SMS_setTileatXY(13 + (i - TITLE_CODE), 7, i);
+            for (int i = TITLE_CODE + 6; i < TITLE_CODE + 12; i++)
+                SMS_setTileatXY(13 + (i - TITLE_CODE - 6), 8, i);
         }
 
         if (cur_frame == 20)
@@ -81,12 +90,12 @@ void credits_update(void)
         if (cur_frame == 20)
         {
             // GRAPHICS
-            SMS_loadPSGaidencompressedTiles(credit_title_graphics_tiles_psgcompr, 201);
+            SMS_loadPSGaidencompressedTiles(credit_title_graphics_tiles_psgcompr, TITLE_GRAPHICS);
 
-            for (int i = 201; i <= 210; i++)
-                SMS_setTileatXY(11 + (i - 201), 7, i);
-            for (int i = 211; i <= 220; i++)
-                SMS_setTileatXY(11 + (i - 211), 8, i);
+            for (int i = TITLE_GRAPHICS; i < TITLE_GRAPHICS + 10; i++)
+                SMS_setTileatXY(11 + (i - TITLE_GRAPHICS), 7, i);
+            for (int i = TITLE_GRAPHICS + 10; i < TITLE_GRAPHICS + 20; i++)
+                SMS_setTileatXY(11 + (i - TITLE_GRAPHICS - 10), 8, i);
         }
 
         if (cur_frame == 30)
@@ -112,12 +121,12 @@ void credits_update(void)
         if (cur_frame == 20)
         {
             // MUSIC
-            SMS_loadPSGaidencompressedTiles(credit_title_music_tiles_psgcompr, 221);
+            SMS_loadPSGaidencompressedTiles(credit_title_music_tiles_psgcompr, TITLE_MUSIC);
 
-            for (int i = 221; i <= 228; i++)
-                SMS_setTileatXY(12 + (i - 221), 7, i);
-            for (int i = 229; i <= 236; i++)
-                SMS_setTileatXY(12 + (i - 229), 8, i);
+            for (int i = TITLE_MUSIC; i < TITLE_MUSIC + 8; i++)
+                SMS_setTileatXY(12 + (i - TITLE_MUSIC), 7, i);
+            for (int i = TITLE_MUSIC + 8; i < TITLE_MUSIC + 16; i++)
+                SMS_setTileatXY(12 + (i - TITLE_MUSIC - 8), 8, i);
         }
 
         if (cur_frame == 30)
@@ -135,6 +144,8 @@ void credits_update(void)
         if (++cur_frame > 60)
         {
             clear_tilemap(0);
+            // cur_frame = 0;
+            // cur_stage = 1;
             next_scene();
         }
     }
