@@ -1,5 +1,5 @@
-#include "palettes.h"
 #include "../libs/SMSlib.h"
+#include "palettes.h"
 
 // Palette reference: https://www.smspower.org/maxim/HowToProgram/Palette
 

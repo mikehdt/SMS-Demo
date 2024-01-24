@@ -59,6 +59,8 @@
         "psglib.h": "c",
         "global_helpers.h": "c",
         "fire.h": "c",
-        "credits.h": "c"
+        "credits.h": "c",
+        "lady_dist.h": "c",
+        "lady.h": "c"
     }
 }

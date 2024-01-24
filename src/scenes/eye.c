@@ -1,9 +1,9 @@
-#include "eye.h"
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
+#include "eye.h"
 
 void eye_init(void)
 {

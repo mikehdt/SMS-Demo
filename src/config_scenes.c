@@ -21,7 +21,7 @@ void scenes_init(void)
 {
     // Default
     scenes[DEFAULT].init = empty_fn;
-    scenes[DEFAULT].update = default_update;
+    scenes[DEFAULT].update = default_init; // Technically init, but kicks over in update
     scenes[DEFAULT].end = empty_fn;
 
     scenes[CITY_A].init = city_init;
@@ -40,9 +40,21 @@ void scenes_init(void)
     scenes[CREDITS_A].update = credits_update;
     scenes[CREDITS_A].end = empty_fn;
 
-    scenes[EYE].init = eye_init;
-    scenes[EYE].update = eye_update;
-    scenes[EYE].end = eye_end;
+    scenes[CREDITS_B].init = credits_init;
+    scenes[CREDITS_B].update = credits_update;
+    scenes[CREDITS_B].end = empty_fn;
+
+    scenes[CREDITS_C].init = credits_init;
+    scenes[CREDITS_C].update = credits_update;
+    scenes[CREDITS_C].end = empty_fn;
+
+    scenes[EYE_A].init = eye_init;
+    scenes[EYE_A].update = eye_update;
+    scenes[EYE_A].end = eye_end;
+
+    scenes[EYE_B].init = eye_init;
+    scenes[EYE_B].update = eye_update;
+    scenes[EYE_B].end = eye_end;
 
     scenes[FIRE].init = fire_init;
     scenes[FIRE].update = fire_update;
@@ -63,10 +75,6 @@ void scenes_init(void)
     scenes[LOGO].init = logo_init;
     scenes[LOGO].update = logo_update;
     scenes[LOGO].end = empty_fn;
-
-    scenes[CREDITS_A].init = credits_init;
-    scenes[CREDITS_A].update = credits_update;
-    scenes[CREDITS_A].end = empty_fn;
 
     scenes[PLASMA].init = plasma_init;
     scenes[PLASMA].update = plasma_update;

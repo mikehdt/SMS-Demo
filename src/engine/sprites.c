@@ -1,5 +1,5 @@
-#include "sprites.h"
 #include "../libs/SMSlib.h"
+#include "sprites.h"
 
 void clear_sprites(void)
 {

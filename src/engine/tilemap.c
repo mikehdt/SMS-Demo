@@ -1,7 +1,7 @@
-#include "tilemap.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../libs/SMSlib.h"
+#include "tilemap.h"
 
 void load_blank_tile(uint16_t tilePos)
 {

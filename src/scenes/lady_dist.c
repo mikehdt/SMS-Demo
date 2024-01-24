@@ -1,22 +1,25 @@
-#include "lady_dist.h"
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
+#include "../helpers/scroll_interrupt.h"
 #include "../libs/SMSlib.h"
+#include "lady_dist.h"
 
 void lady_dist_init(void)
 {
-    cur_frame = 0;
-
+    SMS_displayOff();
     SMS_waitForVBlank();
-    load_palette(palette_black, PALETTE_BACKGROUND);
+    SMS_mapROMBank(lady_palette_bin_bank);
+    SMS_loadBGPalette(lady_palette_bin);
+    SMS_loadSpritePalette(lady_palette_bin);
+    SMS_loadPSGaidencompressedTiles(lady_tiles_psgcompr, 0);
+    SMS_loadPSGaidencompressedTiles(lady_dist_tiles_psgcompr, 256);
+
     clear_tilemap(0);
 
-    SMS_mapROMBank(lady_dist_palette_bin_bank);
-    SMS_loadBGPalette(lady_dist_palette_bin);
-    SMS_loadPSGaidencompressedTiles(lady_dist_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(7, 0, lady_dist_tilemap_stmcompr);
+    SMS_displayOn();
 }
 
 void lady_dist_update(void)
@@ -29,17 +32,28 @@ void lady_dist_update(void)
     if (cur_frame < 60)
     {
         SMS_setBGScrollX(cur_frame);
-        cur_frame++;
     }
-    else
+    else if (cur_frame == 60)
     {
+        SMS_setBGScrollX(cur_frame - 60);
+        SMS_loadSTMcompressedTileMap(6, 0, lady_tilemap_stmcompr);
+    }
+    else if (cur_frame < 120)
+    {
+        SMS_setBGScrollX(cur_frame - 90);
+    }
+    else if (cur_frame == 120)
+    {
+        cur_stage = 3;
         next_scene();
     }
+
+    cur_frame++;
 }
 
 void lady_dist_end(void)
 {
     SMS_waitForVBlank();
-    load_blank_tile(0);
-    clear_tilemap(0);
+
+    clear_scroll();
 }

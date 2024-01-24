@@ -1,15 +1,15 @@
-#include "fire.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/palettes.h"
+#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../helpers/memcpy_expand_byte.h"
 #include "../helpers/ps_rand.h"
 #include "../helpers/screen_buffer.h"
 #include "../libs/SMSlib.h"
+#include "fire.h"
 #include <stdlib.h>
 
-// #define EDGE_WIDTH 3
 #define FIRE_SIZE (SCREEN_COLUMNS * SCREEN_ROWS)
 #define SEED_SIZE (2 * SCREEN_COLUMNS)
 
@@ -27,10 +27,10 @@ void seed_fire_tiles(void)
 }
 
 // ----- FOR REFERENCE -----
-// #define FIRE_A ROW_WIDTH - 1
-// #define FIRE_B ROW_WIDTH
-// #define FIRE_C ROW_WIDTH + 1
-// #define FIRE_D ROW_WIDTH * 2
+// #define FIRE_A SCREEN_COLUMNS - 1
+// #define FIRE_B SCREEN_COLUMNS
+// #define FIRE_C SCREEN_COLUMNS + 1
+// #define FIRE_D SCREEN_COLUMNS * 2
 // #define FIRE_DAMPEN 3 // lower = taller flames
 
 // void calc_fire_tiles(void)
@@ -124,10 +124,9 @@ void calc_fire_tiles_asm(void) __naked
 void fire_init(void)
 {
     SMS_displayOff();
-
     SMS_waitForVBlank();
-
     SMS_mapROMBank(fire_grade_tiles_psgcompr_bank);
+    // Can I generate these tiles dynamically?
     SMS_loadPSGaidencompressedTiles(fire_grade_tiles_psgcompr, 0);
     SMS_loadBGPalette(fire_grade_palette_bin);
     SMS_loadSpritePalette(palette_black);
@@ -139,22 +138,24 @@ void fire_init(void)
 
 void fire_update(void)
 {
+    SMS_waitForVBlank();
+
     seed_fire_tiles();
     // calc_fire_tiles();
     calc_fire_tiles_asm();
-
-    SMS_waitForVBlank();
 
     // Splat the tilemap to the VDP
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, FIRE_SIZE); // + SEED_SIZE for visual seed debug
     // Slower sectional copy; more efficient with smaller fire sizes
     // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &screen_buffer, ROW_WIDTH, ROW_TOTAL);
+
+    if (cur_frame++ > 100)
+        next_scene();
 }
 
 void fire_end(void)
 {
     SMS_displayOff();
-
     SMS_waitForVBlank();
 
     clear_screen_buffer();

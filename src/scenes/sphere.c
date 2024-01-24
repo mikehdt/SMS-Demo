@@ -1,9 +1,10 @@
-#include "sphere.h"
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
+#include "../engine/scenes.h"
 #include "../engine/sprites.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
+#include "sphere.h"
 
 int cur_pal = 0;
 
@@ -168,8 +169,8 @@ void init_sphere_sprites(void)
 void sphere_init(void)
 {
     SMS_displayOff();
-
     SMS_waitForVBlank();
+
     init_background();
     init_sphere_sprites();
 
@@ -178,8 +179,14 @@ void sphere_init(void)
 
 void sphere_update(void)
 {
-    unsigned char temporal_palette[16], i;
+    cur_frame++;
 
+    if (cur_frame >= 200)
+    {
+        next_scene();
+    }
+
+    unsigned char temporal_palette[16], i;
     int subset_ptr = cur_pal >> 3;
 
     if (++cur_pal >= 16 * 8)
@@ -206,15 +213,12 @@ void sphere_update(void)
 void sphere_end(void)
 {
     SMS_waitForVBlank();
-
     SMS_displayOff();
 
     load_palette(palette_black, PALETTE_BACKGROUND);
     load_blank_tile(0);
     clear_tilemap(0);
     clear_sprites();
-
-    SMS_waitForVBlank();
 
     SMS_displayOn();
 }

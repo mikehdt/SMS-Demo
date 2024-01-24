@@ -1,4 +1,3 @@
-#include "plasma.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/palettes.h"
@@ -9,6 +8,7 @@
 #include "../helpers/screen_buffer.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
+#include "plasma.h"
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -250,22 +250,15 @@ void animate_buffer(void)
 
 void plasma_init(void)
 {
-    cur_frame = 0;
-
     // init_buffer();
     init_buffer_asm();
 
     SMS_displayOff();
-
     SMS_waitForVBlank();
-
     SMS_mapROMBank(plasma_grade_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(plasma_grade_tiles_psgcompr, 0);
     SMS_loadBGPalette(plasma_grade_palette_bin);
     SMS_loadSpritePalette(palette_black);
-
-    SMS_waitForVBlank();
-
     SMS_displayOn();
 }
 
@@ -277,7 +270,8 @@ void plasma_update(void)
     SMS_waitForVBlank();
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, SCREEN_SIZE);
 
-    cur_frame++;
+    if (cur_frame++ > 100)
+        next_scene();
 }
 
 void plasma_end(void)

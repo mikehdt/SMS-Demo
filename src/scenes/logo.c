@@ -1,8 +1,8 @@
-#include "logo.h"
 #include "../assets2banks.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
+#include "logo.h"
 
 uint8_t curXCycle, paletteIn[10];
 
@@ -15,7 +15,6 @@ uint8_t curXCycle, paletteIn[10];
 void logo_init(void)
 {
     cur_stage = 1;
-    cur_frame = 0;
     curXCycle = 0;
 
     paletteIn[0] = 0x00;
@@ -134,6 +133,7 @@ void logo_update(void)
         if (++cur_frame > LOGO_TILES + TRAIL)
         {
             SMS_VRAMmemsetW(XYtoADDR(11, 10), 0, (LOGO_TILES * 2));
+            cur_stage = 1;
             next_scene();
         }
     }

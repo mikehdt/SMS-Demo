@@ -1,8 +1,8 @@
-#include "type.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
+#include "type.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>

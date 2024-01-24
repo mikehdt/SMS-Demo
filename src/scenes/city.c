@@ -1,4 +1,3 @@
-#include "city.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/palettes.h"
@@ -7,14 +6,15 @@
 #include "../helpers/scroll_interrupt.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
+#include "city.h"
 #include <stdint.h>
 
 // Scroller defs
 #define CITY_TILE_COUNT 256 // So the sprites can be placed from this point on
 
-unsigned char cityLineCnt = 0;
+unsigned char city_line_count = 0;
 uint8_t fade_count;
-uint16_t next_scroll_value, city_scroll_x[3];
+uint16_t next_city_scroll_value, city_scroll_x[3];
 
 // Particle defs
 #define NUM_SPHERES 24
@@ -70,7 +70,7 @@ void calc_sphere_sin(void)
 void animate_spheres(void)
 {
     // This code is a bit of a mess, but I'm just playing around with it :)
-    if (cur_stage == 2)
+    if (cur_stage == 3)
     {
         if (sphere_count < NUM_SPHERES && cur_frame == 2)
         {
@@ -87,7 +87,7 @@ void animate_spheres(void)
             cur_stage = 3;
     }
 
-    if (cur_stage >= 2)
+    if (cur_stage >= 3)
     {
         uint8_t i, sang, cang;
 
@@ -116,50 +116,54 @@ void animate_spheres(void)
 // Background mover
 void cityScrollHandler(void)
 {
-    INLINE_SMS_setBGScrollX(next_scroll_value);
+    INLINE_SMS_setBGScrollX(next_city_scroll_value);
 
-    next_scroll_value = city_scroll_x[cityLineCnt] >> 5;
+    next_city_scroll_value = city_scroll_x[city_line_count] >> 5;
 
-    if (++cityLineCnt == 3)
+    if (++city_line_count == 3)
         SMS_setLineCounter(127); // Every n + 1 scanlines (0 indexed)
 }
 
 void update_scroll_pos(void)
 {
-    cityLineCnt = 0;
+    city_line_count = 0;
     city_scroll_x[0] += 3;
     city_scroll_x[1] += 2;
     city_scroll_x[2] += 1;
-    next_scroll_value = city_scroll_x[0] >> 5;
+    next_city_scroll_value = city_scroll_x[0] >> 5;
 }
 
 void city_init(void)
 {
-    cur_stage = 1;
-    cur_frame = 0;
-    fade_count = 0;
-
-    // Sprites
-    ang_x = 0;
-    ang_y = 0;
-
-    calc_sphere_sin();
-
-    SMS_initSprites();
-    SMS_mapROMBank(spheres_tiles_psgcompr_bank);
-    SMS_loadPSGaidencompressedTiles(spheres_tiles_psgcompr, CITY_TILE_COUNT);
-    load_palette(spheres_palette_bin, PALETTE_SPRITE);
-
-    // Scroller and background
-    city_scroll_x[0] = 0xFFFF;
-    city_scroll_x[1] = 0xFFFF;
-    city_scroll_x[2] = 0xFFFF;
-    next_scroll_value = 0xFFFF;
-
     SMS_waitForVBlank();
-    load_palette(palette_black, PALETTE_BACKGROUND);
+    SMS_mapROMBank(cityscape_palette_bin_bank);
 
-    SMS_mapROMBank(cityscape_tiles_psgcompr_bank);
+    if (cur_stage == 1)
+    {
+        // Sprites
+        ang_x = 0;
+        ang_y = 0;
+
+        calc_sphere_sin();
+
+        // Scroller and background
+        fade_count = 0;
+
+        city_scroll_x[0] = 0xFFFF;
+        city_scroll_x[1] = 0xFFFF;
+        city_scroll_x[2] = 0xFFFF;
+        next_city_scroll_value = 0xFFFF;
+
+        load_palette(palette_black, PALETTE_BACKGROUND);
+    }
+    else
+    {
+        SMS_initSprites();
+        SMS_loadPSGaidencompressedTiles(spheres_tiles_psgcompr, CITY_TILE_COUNT);
+        load_palette(spheres_palette_bin, PALETTE_SPRITE);
+        load_palette(cityscape_palette_bin, PALETTE_BACKGROUND);
+    }
+
     SMS_loadPSGaidencompressedTiles(cityscape_tiles_psgcompr, 0);
     SMS_loadSTMcompressedTileMap(0, 0, cityscape_tilemap_stmcompr);
 
@@ -178,19 +182,29 @@ void city_scroll(void)
 
 void city_update(void)
 {
-    if (cur_stage == 1 && cur_frame == 30)
+    switch (cur_stage)
     {
-        fade_from_black(cityscape_palette_bin, fade_count);
-        fade_count++;
-        cur_frame = 0;
+        case 1:
+            if (cur_frame == 30)
+            {
+                fade_from_black(cityscape_palette_bin, fade_count);
+                fade_count++;
+                cur_frame = 0;
 
-        if (fade_count >= 10)
-            cur_stage = 2;
-    }
+                if (fade_count > 9)
+                    cur_stage = 2;
+            }
+            break;
 
-    if (cur_stage == 3 && cur_frame == 300)
-    {
-        next_scene();
+        case 2:
+            if (cur_frame == 90)
+                next_scene();
+            break;
+
+        case 3:
+            if (cur_frame == 100)
+                next_scene();
+            break;
     }
 
     SMS_waitForVBlank();
@@ -202,25 +216,30 @@ void city_update(void)
 
 void city_end(void)
 {
-    for (int i = sphere_count; i >= 0; i--)
+    if (cur_stage == 3)
     {
-        SMS_waitForVBlank();
-        SMS_hideSprite(i);
+        for (int i = sphere_count; i >= 0; i--)
+        {
+            SMS_waitForVBlank();
+            SMS_hideSprite(i);
 
-        city_scroll();
+            city_scroll();
+        }
     }
+    // else if (cur_stage == 4)
+    // {
+    //     for (int i = 0; i < 10; i++)
+    //     {
+    //         fade_to_black(cityscape_palette_bin, i);
 
-    for (int i = 0; i < 10; i++)
-    {
-        fade_to_black(cityscape_palette_bin, i);
-
-        SMS_waitForVBlank();
-        city_scroll();
-        SMS_waitForVBlank();
-        city_scroll();
-        SMS_waitForVBlank();
-        city_scroll();
-    }
+    //         SMS_waitForVBlank();
+    //         city_scroll();
+    //         SMS_waitForVBlank();
+    //         city_scroll();
+    //         SMS_waitForVBlank();
+    //         city_scroll();
+    //     }
+    // }
 
     SMS_waitForVBlank();
 

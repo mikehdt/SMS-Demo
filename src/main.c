@@ -5,8 +5,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define DEBUG 1
-
 void main(void)
 {
     // The pause and reset buttons are given over to our code to handle however
@@ -23,8 +21,8 @@ void main(void)
             update_scene();
 
             // This is fine if it's performant; less responsive if under CPU stress
-            if (DEBUG && (SMS_getKeysReleased() & PORT_A_KEY_1))
-                next_scene();
+            // if (SMS_getKeysReleased() & PORT_A_KEY_1)
+            //     next_scene();
         } while (~(SMS_getKeysPressed() & RESET_KEY));
     }
 }

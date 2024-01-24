@@ -1,8 +1,9 @@
-#include "lady.h"
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
+#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
+#include "lady.h"
 
 void lady_init(void)
 {
@@ -21,6 +22,9 @@ void lady_init(void)
 void lady_update(void)
 {
     SMS_waitForVBlank();
+
+    if (cur_frame++ > 50)
+        next_scene();
 }
 
 void lady_end(void)

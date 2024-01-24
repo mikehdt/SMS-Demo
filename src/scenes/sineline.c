@@ -1,8 +1,9 @@
-#include "sineline.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
+#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
+#include "sineline.h"
 #include <stdint.h>
 
 uint16_t sineline[] = {
@@ -40,9 +41,7 @@ void sineline_init(void)
     sineline_ptr = 0;
 
     SMS_displayOff();
-
     SMS_waitForVBlank();
-
     SMS_mapROMBank(small_sine_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(small_sine_tiles_psgcompr, 0);
     SMS_loadBGPalette(small_sine_palette_bin);
@@ -61,9 +60,7 @@ void sineline_init(void)
         SMS_addSprite(8 + (i * 32), 72, 259);
 
     SMS_copySpritestoSAT();
-
     SMS_waitForVBlank();
-
     SMS_displayOn();
 }
 
@@ -90,6 +87,11 @@ void sineline_update(void)
 
     if (sineline_ptr++ > 24)
         sineline_ptr = 0;
+
+    if (cur_frame++ > 120)
+    {
+        next_scene();
+    }
 }
 
 void sineline_end(void)
