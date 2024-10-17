@@ -4,6 +4,7 @@
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
 #include "../engine/sprites.h"
+#include "../helpers/ps_rand.h"
 #include "../helpers/scroll_interrupt.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
@@ -84,21 +85,24 @@ void animate_spheres(void)
         }
 
         if (sphere_count == NUM_SPHERES)
+        {
+            cur_frame = 0;
             cur_stage = 5;
+        }
     }
 
-    if (cur_stage >= 4)
+    if (cur_stage == 4 || cur_stage == 5)
     {
-        uint8_t i, sang, cang;
+        uint8_t i, s_ang, c_ang;
 
         for (i = 0; i < sphere_count; i++)
         {
-            sang = ang_y + sphere_offset_lut[i];
-            cang = ang_x + sang;
+            s_ang = ang_y + sphere_offset_lut[i];
+            c_ang = ang_x + s_ang;
 
             // Chase
-            spheres[i].tx = cos_lut[cang] - 63;
-            spheres[i].ty = sin_lut[sang] - 63;
+            spheres[i].tx = cos_lut[c_ang] - 63;
+            spheres[i].ty = sin_lut[s_ang] - 63;
 
             spheres[i].x += (spheres[i].tx - spheres[i].x) >> 3 - 1;
             spheres[i].y += (spheres[i].ty - spheres[i].y) >> 3 - 1;
@@ -110,6 +114,47 @@ void animate_spheres(void)
 
         ang_x++;
         ang_y++;
+
+        if (cur_stage == 5 && cur_frame > 60)
+        {
+            cur_stage = 6;
+        }
+    }
+
+    if (cur_stage == 6)
+    {
+        uint8_t i;
+
+        for (i = 0; i < sphere_count; i++)
+        {
+            // Chase
+            spheres[i].tx = ps_rand() * 2;
+            spheres[i].ty = ps_rand() * 2;
+        }
+
+        cur_frame = 0;
+        cur_stage = 7;
+    }
+
+    if (cur_stage == 7)
+    {
+        uint8_t i;
+
+        for (i = 0; i < sphere_count; i++)
+        {
+            spheres[i].x += (spheres[i].tx - spheres[i].x) >> 7;
+            spheres[i].y += (spheres[i].ty - spheres[i].y) >> 7;
+            spheres[i].tile = sphere_lut[spheres[i].y - Y_OFFSET + Y_RANGE_HALF];
+
+            SMS_updateSpritePosition(i, spheres[i].x, spheres[i].y);
+            SMS_updateSpriteImage(i, spheres[i].tile);
+        }
+
+        if (cur_frame == 45)
+        {
+            cur_stage = 1;
+            next_scene();
+        }
     }
 }
 
@@ -160,7 +205,7 @@ void city_init(void)
 
         SMS_loadPSGaidencompressedTiles(cityscape_tiles_psgcompr, 0);
     }
-    else
+    else if (cur_stage == 3)
     {
         SMS_initSprites();
         SMS_loadPSGaidencompressedTiles(spheres_tiles_psgcompr, CITY_TILE_COUNT);
@@ -236,19 +281,11 @@ void city_update(void)
 
 void city_end(void)
 {
-    // if (cur_stage == 3)
-    // {
-    //     for (int i = sphere_count; i >= 0; i--)
-    //     {
-    //         SMS_waitForVBlank();
-    //         SMS_hideSprite(i);
-
-    //         city_scroll();
-    //     }
-    // }
-
+    SMS_displayOff();
     SMS_waitForVBlank();
 
     clear_scroll();
     clear_sprites();
+    SMS_waitForVBlank();
+    SMS_displayOn();
 }

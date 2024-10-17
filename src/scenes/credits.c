@@ -15,10 +15,19 @@
 
 void credits_init(void)
 {
-    SMS_mapROMBank(credits_palette_bin_bank);
-    SMS_loadSpritePalette(credits_palette_bin);
+    if (cur_stage == 1)
+    {
+        SMS_mapROMBank(blank_tiles_psgcompr_bank);
+        SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, 256);
+        SMS_mapROMBank(credits_palette_bin_bank);
+        SMS_loadSpritePalette(credits_palette_bin);
+    }
+    else
+    {
+        SMS_mapROMBank(credits_palette_bin_bank);
+    }
 
-    clear_tilemap(0 | TILE_USE_SPRITE_PALETTE);
+    clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
 }
 
 void credits_update(void)
@@ -105,7 +114,7 @@ void credits_update(void)
         }
         else if (cur_frame == 60)
         {
-            clear_tilemap(0 | TILE_USE_SPRITE_PALETTE);
+            clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
         }
 
         if (++cur_frame == 90)
@@ -138,7 +147,7 @@ void credits_update(void)
         }
         else if (cur_frame == 60)
         {
-            clear_tilemap(0 | TILE_USE_SPRITE_PALETTE);
+            clear_tilemap(256 | TILE_USE_SPRITE_PALETTE);
         }
 
         if (++cur_frame == 90)

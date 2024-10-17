@@ -5,11 +5,9 @@
 #include "scenes/eye.h"
 #include "scenes/fire.h"
 #include "scenes/lady.h"
-#include "scenes/lady_dist.h"
 #include "scenes/logo.h"
 #include "scenes/plasma.h"
 #include "scenes/sineline.h"
-#include "scenes/sphere.h"
 
 Scenes scenes[MAX_SCENES];
 
@@ -48,17 +46,17 @@ void scenes_init(void)
     scenes[CREDITS_C].update = credits_update;
     scenes[CREDITS_C].end = empty_fn;
 
-    // scenes[EYE].init = eye_init;
-    // scenes[EYE].update = eye_update;
-    // scenes[EYE].end = eye_end;
+    scenes[EYE].init = eye_init;
+    scenes[EYE].update = eye_update;
+    scenes[EYE].end = eye_end;
 
     // scenes[FIRE].init = fire_init;
     // scenes[FIRE].update = fire_update;
     // scenes[FIRE].end = fire_end;
 
-    // scenes[LADY].init = lady_dist_init;
-    // scenes[LADY].update = lady_dist_update;
-    // scenes[LADY].end = lady_dist_end;
+    // scenes[LADY].init = lady_init;
+    // scenes[LADY].update = lady_update;
+    // scenes[LADY].end = lady_end;
 
     scenes[LOGO].init = logo_init;
     scenes[LOGO].update = logo_update;
@@ -68,11 +66,7 @@ void scenes_init(void)
     // scenes[PLASMA].update = plasma_update;
     // scenes[PLASMA].end = plasma_end;
 
-    // scenes[SINELINE].init = sineline_init;
-    // scenes[SINELINE].update = sineline_update;
-    // scenes[SINELINE].end = sineline_end;
-
-    // scenes[SPHERE].init = sphere_init;
-    // scenes[SPHERE].update = sphere_update;
-    // scenes[SPHERE].end = sphere_end;
+    scenes[SINELINE].init = sineline_init;
+    scenes[SINELINE].update = sineline_update;
+    scenes[SINELINE].end = sineline_end;
 }

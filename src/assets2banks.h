@@ -31,35 +31,14 @@ extern const unsigned char	credit_title_music_tiles_psgcompr[277];
 extern const unsigned char	small_sine_tilemap_stmcompr[46];
 #define				small_sine_tilemap_stmcompr_size 46
 #define				small_sine_tilemap_stmcompr_bank 2
-extern const unsigned char	sphere_palette_bin[16];
-#define				sphere_palette_bin_size 16
-#define				sphere_palette_bin_bank 2
 extern const unsigned char	blank_tilemap_stmcompr[4];
 #define				blank_tilemap_stmcompr_size 4
 #define				blank_tilemap_stmcompr_bank 2
-extern const unsigned char	sphere_clip_palette_bin[2];
-#define				sphere_clip_palette_bin_size 2
-#define				sphere_clip_palette_bin_bank 2
 extern const unsigned char	blank_palette_bin[1];
 #define				blank_palette_bin_size 1
 #define				blank_palette_bin_bank 2
-extern const unsigned char	lady_palette_bin[16];
-#define				lady_palette_bin_size 16
-#define				lady_palette_bin_bank 3
-extern const unsigned char	lady_tiles_psgcompr[5325];
-#define				lady_tiles_psgcompr_size 5325
-#define				lady_tiles_psgcompr_bank 3
-extern const unsigned char	lady_tilemap_stmcompr[364];
-#define				lady_tilemap_stmcompr_size 364
-#define				lady_tilemap_stmcompr_bank 3
-extern const unsigned char	lady_dist_tiles_psgcompr[1957];
-#define				lady_dist_tiles_psgcompr_size 1957
-#define				lady_dist_tiles_psgcompr_bank 3
-extern const unsigned char	lady_dist_tilemap_stmcompr[176];
-#define				lady_dist_tilemap_stmcompr_size 176
-#define				lady_dist_tilemap_stmcompr_bank 3
-extern const unsigned char	cityscape_tiles_psgcompr[5166];
-#define				cityscape_tiles_psgcompr_size 5166
+extern const unsigned char	cityscape_tiles_psgcompr[4990];
+#define				cityscape_tiles_psgcompr_size 4990
 #define				cityscape_tiles_psgcompr_bank 3
 extern const unsigned char	cityscape_tilemap_stmcompr[448];
 #define				cityscape_tilemap_stmcompr_size 448
@@ -73,15 +52,33 @@ extern const unsigned char	spheres_tiles_psgcompr[248];
 extern const unsigned char	spheres_palette_bin[10];
 #define				spheres_palette_bin_size 10
 #define				spheres_palette_bin_bank 3
-extern const unsigned char	sphere_tiles_psgcompr[2260];
-#define				sphere_tiles_psgcompr_size 2260
-#define				sphere_tiles_psgcompr_bank 3
-extern const unsigned char	sphere_tilemap_stmcompr[29];
-#define				sphere_tilemap_stmcompr_size 29
-#define				sphere_tilemap_stmcompr_bank 3
-extern const unsigned char	sphere_clip_tiles_psgcompr[123];
-#define				sphere_clip_tiles_psgcompr_size 123
-#define				sphere_clip_tiles_psgcompr_bank 3
+extern const unsigned char	lady_palette_bin[16];
+#define				lady_palette_bin_size 16
+#define				lady_palette_bin_bank 3
+extern const unsigned char	lady_tiles_psgcompr[5325];
+#define				lady_tiles_psgcompr_size 5325
+#define				lady_tiles_psgcompr_bank 3
+extern const unsigned char	lady_tilemap_stmcompr[364];
+#define				lady_tilemap_stmcompr_size 364
+#define				lady_tilemap_stmcompr_bank 3
+extern const unsigned char	plasma_grade_palette_bin[16];
+#define				plasma_grade_palette_bin_size 16
+#define				plasma_grade_palette_bin_bank 3
+extern const unsigned char	plasma_grade_tiles_psgcompr[3376];
+#define				plasma_grade_tiles_psgcompr_size 3376
+#define				plasma_grade_tiles_psgcompr_bank 3
+extern const unsigned char	font_alpha_palette_bin[6];
+#define				font_alpha_palette_bin_size 6
+#define				font_alpha_palette_bin_bank 3
+extern const unsigned char	font_alpha_tiles_psgcompr[809];
+#define				font_alpha_tiles_psgcompr_size 809
+#define				font_alpha_tiles_psgcompr_bank 3
+extern const unsigned char	small_sine_tiles_psgcompr[544];
+#define				small_sine_tiles_psgcompr_size 544
+#define				small_sine_tiles_psgcompr_bank 3
+extern const unsigned char	small_sine_palette_bin[8];
+#define				small_sine_palette_bin_size 8
+#define				small_sine_palette_bin_bank 3
 extern const unsigned char	eye_big_palette_bin[16];
 #define				eye_big_palette_bin_size 16
 #define				eye_big_palette_bin_bank 4
@@ -91,12 +88,6 @@ extern const unsigned char	eye_big_tiles_psgcompr[5225];
 extern const unsigned char	eye_big_tilemap_stmcompr[337];
 #define				eye_big_tilemap_stmcompr_size 337
 #define				eye_big_tilemap_stmcompr_bank 4
-extern const unsigned char	plasma_grade_palette_bin[16];
-#define				plasma_grade_palette_bin_size 16
-#define				plasma_grade_palette_bin_bank 4
-extern const unsigned char	plasma_grade_tiles_psgcompr[3376];
-#define				plasma_grade_tiles_psgcompr_size 3376
-#define				plasma_grade_tiles_psgcompr_bank 4
 extern const unsigned char	da_mini_tiles_psgcompr[2380];
 #define				da_mini_tiles_psgcompr_size 2380
 #define				da_mini_tiles_psgcompr_bank 4
@@ -106,15 +97,3 @@ extern const unsigned char	fire_grade_palette_bin[16];
 extern const unsigned char	fire_grade_tiles_psgcompr[2075];
 #define				fire_grade_tiles_psgcompr_size 2075
 #define				fire_grade_tiles_psgcompr_bank 4
-extern const unsigned char	font_alpha_palette_bin[6];
-#define				font_alpha_palette_bin_size 6
-#define				font_alpha_palette_bin_bank 4
-extern const unsigned char	font_alpha_tiles_psgcompr[809];
-#define				font_alpha_tiles_psgcompr_size 809
-#define				font_alpha_tiles_psgcompr_bank 4
-extern const unsigned char	small_sine_tiles_psgcompr[544];
-#define				small_sine_tiles_psgcompr_size 544
-#define				small_sine_tiles_psgcompr_bank 4
-extern const unsigned char	small_sine_palette_bin[8];
-#define				small_sine_palette_bin_size 8
-#define				small_sine_palette_bin_bank 4

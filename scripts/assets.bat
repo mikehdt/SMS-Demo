@@ -28,8 +28,6 @@ for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -removedupe
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\da_mini.png -noremovedupes -palsms -savetiles "da_mini.tiles.psgcompr" -tileoffset 1
 :: Credits (palette only; tiles generated above)
 ..\utils\bmp2tile\BMP2Tile.exe .\backgrounds_nomap_nopal\credit_bananaboy.png -palsms -savepalette "credits.palette.bin"
-:: Lady (distant; tile offset 256)
-..\utils\bmp2tile\BMP2Tile.exe .\custom\lady_dist.png -mirror -removedupes -palsms -tileoffset 256 -savetiles "lady_dist.tiles.psgcompr" -savetilemap "lady_dist.tilemap.stmcompr"
 
 :: Convert to ROM banks and move them to the compile folder for use
 assets2banks . --firstbank=2 --singleheader --compile

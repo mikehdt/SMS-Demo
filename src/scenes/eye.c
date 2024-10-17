@@ -1,9 +1,9 @@
+#include "eye.h"
 #include "../assets2banks.h"
 #include "../engine/palettes.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
-#include "eye.h"
 
 void eye_init(void)
 {
@@ -36,10 +36,65 @@ void eye_update(void)
 
     SMS_loadTileMap(0, cur_row, scr_row, 32 * 2);
 
+    if (cur_frame < 36)
+    {
+        // Crappy slow-down I
+        SMS_waitForVBlank();
+    }
+
+    if (cur_frame < 24)
+    {
+        // Crappy slow-down II
+        SMS_waitForVBlank();
+    }
+
+    if (cur_frame < 18)
+    {
+        // Crappy slow-down III
+        SMS_waitForVBlank();
+    }
+
+    if (cur_frame < 14)
+    {
+        // Crappy slow-down IV
+        SMS_waitForVBlank();
+    }
+
     if (cur_frame > 12)
+    {
         cur_frame--;
+    }
     else
+    {
+        uint8_t i;
+
+        for (i = 0; i < 45; i++)
+        {
+            SMS_waitForVBlank();
+        }
+
+        for (i = 0; i < 10; i++)
+        {
+            fade_sprite_to_black(eye_big_palette_bin, i);
+
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+            SMS_waitForVBlank();
+        }
+
+        // A little extra delay
+        for (i = 0; i < 10; i++)
+            SMS_waitForVBlank();
+
         next_scene();
+    }
 }
 
 void eye_end(void)

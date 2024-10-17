@@ -31,11 +31,12 @@ void logo_init(void)
     SMS_displayOff();
     SMS_waitForVBlank();
 
-    clear_tilemap(0);
-
     SMS_loadBGPalette(paletteIn);
     SMS_mapROMBank(da_mini_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(da_mini_tiles_psgcompr, 1);
+
+    clear_tilemap(0);
+
     SMS_displayOn();
 }
 

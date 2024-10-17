@@ -4,18 +4,21 @@
 enum SCENES
 {
     DEFAULT = 0, // Scene counter; must be first
-    LOGO,        // DA logo
-    CREDITS_A,   // Coding credit
-    CITY_A,
-    CREDITS_B, // Graphics credit
-    CITY_B,
-    CREDITS_C, // Music credit
-    CITY_C,
-    // EYE, // Big spooky eye slides in time with prev scene; its iris fades out, sphere from next scene fades in place
-    // SPHERE, // The sphere 'pops' from the eye, bounces around the screen for a bit with 8-way palette animation in sync with the movement, sphere slides or bounces off somewhere
-    // SINELINE, // Line draws across the screen, eyes march across while lines spin around them in a sine wave-esque style
-    // FIRE,        // Last scene line comes to a rest, then fire bursts up (half screen or so for perf? Maybe scroll V to make it feel better)
-    // PLASMA,      // Eye from before has plasma in it now, then cut to full screen plasma if we want to tank performance lul
+    SINELINE,
+
+    // ---
+    LOGO,
+    CREDITS_A, // Credits I: Coding
+    CITY_A,    // Fade I
+    CREDITS_B, // Credits II: Graphics
+    CITY_B,    // Fade II
+    CREDITS_C, // Credits III: Music
+    CITY_C,    // Fade III + eye particles
+    EYE,
+    // SINELINE,
+    // FIRE,
+    // LADY,
+    // PLASMA,
     MAX_SCENES // Scene counter; must be last
 };
 
