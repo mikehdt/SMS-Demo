@@ -4,5 +4,6 @@
 
 void load_blank_tile(uint16_t tilePos);
 void clear_tilemap(uint16_t tilePos);
+void clear_extra_tilemap(uint16_t tilePos);
 
 #endif

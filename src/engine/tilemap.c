@@ -1,7 +1,7 @@
+#include "tilemap.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../libs/SMSlib.h"
-#include "tilemap.h"
 
 void load_blank_tile(uint16_t tilePos)
 {
@@ -14,4 +14,10 @@ void clear_tilemap(uint16_t tilePos) // Must be 16-bit, or else sad VDP
 {
     // From sverx, a more efficient method
     SMS_VRAMmemsetW(XYtoADDR(0, 0), tilePos, (SCREEN_ROWS * SCREEN_COLUMNS * 2));
+}
+
+void clear_extra_tilemap(uint16_t tilePos) // Must be 16-bit, or else sad VDP
+{
+    // From sverx, a more efficient method
+    SMS_VRAMmemsetW(XYtoADDR(0, SCREEN_ROWS), tilePos, (4 * SCREEN_COLUMNS * 2));
 }

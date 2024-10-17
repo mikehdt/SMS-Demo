@@ -1,8 +1,8 @@
-#include "../config_scenes.h"
 #include "scenes.h"
+#include "../config_scenes.h"
 #include <stdlib.h>
 
-uint8_t cur_scene = DEFAULT, cur_stage;
+uint8_t cur_scene = DEFAULT, cur_stage = 1;
 uint16_t cur_frame;
 
 void update_scene(void)
@@ -24,7 +24,7 @@ void jump_to_scene(uint8_t next_scene)
         if (next_scene >= MAX_SCENES)
             next_scene = 0;
 
-        cur_frame = 0; // Should always reset this; Use cur_stage if splitting
+        cur_frame = 0; // Always reset this; Use cur_stage for cross-scene split
         cur_scene = next_scene;
         scenes[cur_scene].init();
     }

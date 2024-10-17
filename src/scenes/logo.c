@@ -1,8 +1,8 @@
+#include "logo.h"
 #include "../assets2banks.h"
 #include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
-#include "logo.h"
 
 uint8_t curXCycle, paletteIn[10];
 
@@ -86,13 +86,10 @@ void logo_update(void)
     }
 
     // 2. Pause
-    if (cur_stage == 2)
+    if (cur_stage == 2 && ++cur_frame > 24)
     {
-        if (++cur_frame > 24)
-        {
-            cur_stage = 3;
-            cur_frame = 0;
-        }
+        cur_stage = 3;
+        cur_frame = 0;
     }
 
     // 3. Fade Out

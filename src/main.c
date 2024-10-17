@@ -20,7 +20,7 @@ void main(void)
         {
             update_scene();
 
-            // This is fine if it's performant; less responsive if under CPU stress
+            // This is fine if it's performant; it's less responsive under CPU stress
             // if (SMS_getKeysReleased() & PORT_A_KEY_1)
             //     next_scene();
         } while (~(SMS_getKeysPressed() & RESET_KEY));

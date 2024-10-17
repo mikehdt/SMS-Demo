@@ -1,3 +1,4 @@
+#include "city.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/palettes.h"
@@ -6,7 +7,6 @@
 #include "../helpers/scroll_interrupt.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
-#include "city.h"
 #include <stdint.h>
 
 // Scroller defs
@@ -70,7 +70,7 @@ void calc_sphere_sin(void)
 void animate_spheres(void)
 {
     // This code is a bit of a mess, but I'm just playing around with it :)
-    if (cur_stage == 3)
+    if (cur_stage == 4)
     {
         if (sphere_count < NUM_SPHERES && cur_frame == 2)
         {
@@ -84,10 +84,10 @@ void animate_spheres(void)
         }
 
         if (sphere_count == NUM_SPHERES)
-            cur_stage = 3;
+            cur_stage = 5;
     }
 
-    if (cur_stage >= 3)
+    if (cur_stage >= 4)
     {
         uint8_t i, sang, cang;
 
@@ -135,8 +135,10 @@ void update_scroll_pos(void)
 
 void city_init(void)
 {
+    SMS_displayOff();
     SMS_waitForVBlank();
     SMS_mapROMBank(cityscape_palette_bin_bank);
+    SMS_loadSTMcompressedTileMap(0, 0, cityscape_tilemap_stmcompr);
 
     if (cur_stage == 1)
     {
@@ -155,25 +157,25 @@ void city_init(void)
         next_city_scroll_value = 0xFFFF;
 
         load_palette(palette_black, PALETTE_BACKGROUND);
+
+        SMS_loadPSGaidencompressedTiles(cityscape_tiles_psgcompr, 0);
     }
     else
     {
         SMS_initSprites();
         SMS_loadPSGaidencompressedTiles(spheres_tiles_psgcompr, CITY_TILE_COUNT);
         load_palette(spheres_palette_bin, PALETTE_SPRITE);
-        load_palette(cityscape_palette_bin, PALETTE_BACKGROUND);
     }
-
-    SMS_loadPSGaidencompressedTiles(cityscape_tiles_psgcompr, 0);
-    SMS_loadSTMcompressedTileMap(0, 0, cityscape_tilemap_stmcompr);
 
     set_scroll(15, &cityScrollHandler);
     update_scroll_pos();
+
+    SMS_waitForVBlank();
+    SMS_displayOn();
 }
 
 void city_scroll(void)
 {
-
     SMS_copySpritestoSAT();
     SMS_setLineCounter(15); // Reset
 
@@ -182,29 +184,47 @@ void city_scroll(void)
 
 void city_update(void)
 {
-    switch (cur_stage)
+    if (cur_stage == 1)
     {
-        case 1:
-            if (cur_frame == 30)
+        if (cur_frame == 40 && fade_count < 3)
+        {
+            fade_from_black(cityscape_palette_bin, fade_count);
+
+            fade_count++;
+            cur_frame = 0;
+        }
+        else if (cur_frame > 120)
+        {
+            cur_stage = 2;
+            next_scene();
+        }
+    }
+    else if (cur_stage == 2)
+    {
+        if (cur_frame >= 40)
+        {
+            fade_from_black(cityscape_palette_bin, fade_count);
+            fade_count++;
+            cur_frame = 0;
+
+            if (fade_count > 6)
             {
-                fade_from_black(cityscape_palette_bin, fade_count);
-                fade_count++;
-                cur_frame = 0;
-
-                if (fade_count > 9)
-                    cur_stage = 2;
+                cur_stage = 3;
+                next_scene();
             }
-            break;
+        }
+    }
+    else if (cur_stage == 3)
+    {
+        if (cur_frame == 40)
+        {
+            fade_from_black(cityscape_palette_bin, fade_count);
+            fade_count++;
+            cur_frame = 0;
 
-        case 2:
-            if (cur_frame == 90)
-                next_scene();
-            break;
-
-        case 3:
-            if (cur_frame == 100)
-                next_scene();
-            break;
+            if (fade_count > 9)
+                cur_stage = 4;
+        }
     }
 
     SMS_waitForVBlank();
@@ -216,27 +236,13 @@ void city_update(void)
 
 void city_end(void)
 {
-    if (cur_stage == 3)
-    {
-        for (int i = sphere_count; i >= 0; i--)
-        {
-            SMS_waitForVBlank();
-            SMS_hideSprite(i);
-
-            city_scroll();
-        }
-    }
-    // else if (cur_stage == 4)
+    // if (cur_stage == 3)
     // {
-    //     for (int i = 0; i < 10; i++)
+    //     for (int i = sphere_count; i >= 0; i--)
     //     {
-    //         fade_to_black(cityscape_palette_bin, i);
+    //         SMS_waitForVBlank();
+    //         SMS_hideSprite(i);
 
-    //         SMS_waitForVBlank();
-    //         city_scroll();
-    //         SMS_waitForVBlank();
-    //         city_scroll();
-    //         SMS_waitForVBlank();
     //         city_scroll();
     //     }
     // }

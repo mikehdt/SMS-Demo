@@ -5,6 +5,7 @@ cd compile
 
 :: Build main
 echo === SDCC compiling ===
+:: TO EXPLORE: --max-allocs-per-node 50000 instead of --opt-code-speed
 :: `--std-sdcc23` enables SDCC's extensions to C23, eg native 0b binary literals
 for %%f in (..\src\*.c) do sdcc --std-sdcc23 -c -mz80 --opt-code-speed ^
 --peep-file .\smslib\peep-rules.txt "%%f" -DPAL_MACHINE %DEBUG%
