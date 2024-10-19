@@ -27,6 +27,7 @@ extern const unsigned char palette_white[16];
 void fade_to_black(unsigned char palette[16], unsigned char step);
 void fade_sprite_to_black(unsigned char palette[16], unsigned char step);
 void fade_from_black(unsigned char palette[16], unsigned char step);
+void fade_sprite_from_black(unsigned char palette[16], unsigned char step);
 void fade_to_white(unsigned char palette[16], unsigned char step);
 void fade_from_white(unsigned char palette[16], unsigned char step);
 void load_palette(unsigned char *palette, uint8_t palette_type);

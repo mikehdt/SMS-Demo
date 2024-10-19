@@ -162,7 +162,7 @@ void sineline_update(void)
         for (i = 0; i < eye_count; i++)
         {
             // SMS_updateSpritePosition(i, 8 + (i * 32), 72);
-            SMS_updateSpriteImage(i, 257 + cur_frame % 4);
+            SMS_updateSpriteImage(i, 256 + cur_frame % 4);
         }
 
         SMS_copySpritestoSAT();

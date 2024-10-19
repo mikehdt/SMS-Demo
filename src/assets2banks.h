@@ -31,6 +31,9 @@ extern const unsigned char	small_sine_palette_bin[8];
 extern const unsigned char	small_sine_tilemap_stmcompr[46];
 #define				small_sine_tilemap_stmcompr_size 46
 #define				small_sine_tilemap_stmcompr_bank 3
+extern const unsigned char	font_beta_tilemap_stmcompr[6];
+#define				font_beta_tilemap_stmcompr_size 6
+#define				font_beta_tilemap_stmcompr_bank 3
 extern const unsigned char	blank_tilemap_stmcompr[4];
 #define				blank_tilemap_stmcompr_size 4
 #define				blank_tilemap_stmcompr_bank 3
@@ -61,45 +64,57 @@ extern const unsigned char	eye_big_tiles_psgcompr[5225];
 extern const unsigned char	eye_big_tilemap_stmcompr[337];
 #define				eye_big_tilemap_stmcompr_size 337
 #define				eye_big_tilemap_stmcompr_bank 4
+extern const unsigned char	font_beta_palette_bin[13];
+#define				font_beta_palette_bin_size 13
+#define				font_beta_palette_bin_bank 4
+extern const unsigned char	font_beta_tiles_psgcompr[1433];
+#define				font_beta_tiles_psgcompr_size 1433
+#define				font_beta_tiles_psgcompr_bank 4
+extern const unsigned char	lady_mini_palette_bin[16];
+#define				lady_mini_palette_bin_size 16
+#define				lady_mini_palette_bin_bank 4
+extern const unsigned char	lady_mini_tiles_psgcompr[2224];
+#define				lady_mini_tiles_psgcompr_size 2224
+#define				lady_mini_tiles_psgcompr_bank 4
+extern const unsigned char	lady_mini_tilemap_stmcompr[132];
+#define				lady_mini_tilemap_stmcompr_size 132
+#define				lady_mini_tilemap_stmcompr_bank 4
+extern const unsigned char	lady_mini_spr_tiles_psgcompr[266];
+#define				lady_mini_spr_tiles_psgcompr_size 266
+#define				lady_mini_spr_tiles_psgcompr_bank 4
 extern const unsigned char	plasma_grade_palette_bin[16];
 #define				plasma_grade_palette_bin_size 16
-#define				plasma_grade_palette_bin_bank 4
+#define				plasma_grade_palette_bin_bank 5
 extern const unsigned char	plasma_grade_tiles_psgcompr[3363];
 #define				plasma_grade_tiles_psgcompr_size 3363
-#define				plasma_grade_tiles_psgcompr_bank 4
-extern const unsigned char	credits_palette_bin[7];
-#define				credits_palette_bin_size 7
-#define				credits_palette_bin_bank 4
-extern const unsigned char	credit_bananaboy_tiles_psgcompr[238];
-#define				credit_bananaboy_tiles_psgcompr_size 238
-#define				credit_bananaboy_tiles_psgcompr_bank 4
-extern const unsigned char	credit_ctrix_tiles_psgcompr[115];
-#define				credit_ctrix_tiles_psgcompr_size 115
-#define				credit_ctrix_tiles_psgcompr_bank 4
-extern const unsigned char	credit_darkowl_tiles_psgcompr[183];
-#define				credit_darkowl_tiles_psgcompr_size 183
-#define				credit_darkowl_tiles_psgcompr_bank 4
-extern const unsigned char	credit_sh0ck_tiles_psgcompr[145];
-#define				credit_sh0ck_tiles_psgcompr_size 145
-#define				credit_sh0ck_tiles_psgcompr_bank 4
-extern const unsigned char	credit_title_code_tiles_psgcompr[238];
-#define				credit_title_code_tiles_psgcompr_size 238
-#define				credit_title_code_tiles_psgcompr_bank 4
-extern const unsigned char	credit_title_graphics_tiles_psgcompr[397];
-#define				credit_title_graphics_tiles_psgcompr_size 397
-#define				credit_title_graphics_tiles_psgcompr_bank 4
-extern const unsigned char	credit_title_music_tiles_psgcompr[277];
-#define				credit_title_music_tiles_psgcompr_size 277
-#define				credit_title_music_tiles_psgcompr_bank 4
+#define				plasma_grade_tiles_psgcompr_bank 5
 extern const unsigned char	fire_grade_palette_bin[16];
 #define				fire_grade_palette_bin_size 16
 #define				fire_grade_palette_bin_bank 5
 extern const unsigned char	fire_grade_tiles_psgcompr[2182];
 #define				fire_grade_tiles_psgcompr_size 2182
 #define				fire_grade_tiles_psgcompr_bank 5
-extern const unsigned char	font_alpha_palette_bin[6];
-#define				font_alpha_palette_bin_size 6
-#define				font_alpha_palette_bin_bank 5
-extern const unsigned char	font_alpha_tiles_psgcompr[809];
-#define				font_alpha_tiles_psgcompr_size 809
-#define				font_alpha_tiles_psgcompr_bank 5
+extern const unsigned char	credits_palette_bin[7];
+#define				credits_palette_bin_size 7
+#define				credits_palette_bin_bank 5
+extern const unsigned char	credit_bananaboy_tiles_psgcompr[238];
+#define				credit_bananaboy_tiles_psgcompr_size 238
+#define				credit_bananaboy_tiles_psgcompr_bank 5
+extern const unsigned char	credit_ctrix_tiles_psgcompr[115];
+#define				credit_ctrix_tiles_psgcompr_size 115
+#define				credit_ctrix_tiles_psgcompr_bank 5
+extern const unsigned char	credit_darkowl_tiles_psgcompr[183];
+#define				credit_darkowl_tiles_psgcompr_size 183
+#define				credit_darkowl_tiles_psgcompr_bank 5
+extern const unsigned char	credit_sh0ck_tiles_psgcompr[145];
+#define				credit_sh0ck_tiles_psgcompr_size 145
+#define				credit_sh0ck_tiles_psgcompr_bank 5
+extern const unsigned char	credit_title_code_tiles_psgcompr[238];
+#define				credit_title_code_tiles_psgcompr_size 238
+#define				credit_title_code_tiles_psgcompr_bank 5
+extern const unsigned char	credit_title_graphics_tiles_psgcompr[397];
+#define				credit_title_graphics_tiles_psgcompr_size 397
+#define				credit_title_graphics_tiles_psgcompr_bank 5
+extern const unsigned char	credit_title_music_tiles_psgcompr[277];
+#define				credit_title_music_tiles_psgcompr_size 277
+#define				credit_title_music_tiles_psgcompr_bank 5

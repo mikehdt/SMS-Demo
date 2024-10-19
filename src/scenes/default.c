@@ -18,6 +18,8 @@ void psgHandler(void)
 
 void default_init(void)
 {
+    cur_stage = 1;
+
     // Hook to play the PSG frame even if the CPU is held up doing other stuff
     SMS_setFrameInterruptHandler(&psgHandler);
     PSGPlayNoRepeat(darkowl3_50_psg_PART0, darkowl3_50_psg_PART0_bank);

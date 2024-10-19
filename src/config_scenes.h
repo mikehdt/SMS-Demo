@@ -4,8 +4,6 @@
 enum SCENES
 {
     DEFAULT = 0, // Scene counter; must be first
-    TYPE,
-
     LOGO,
     CREDITS_A, // Credits I: Coding
     CITY_A,    // Fade I
@@ -19,7 +17,7 @@ enum SCENES
     PLASMA,
     SKULL,
     FIRE,
-    // TYPE,
+    TYPE,
     MAX_SCENES // Scene counter; must be last
 };
 

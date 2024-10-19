@@ -66,6 +66,11 @@ void fade_to_black(unsigned char palette[16], unsigned char step)
 }
 
 // Urgh
+void fade_sprite_from_black(unsigned char palette[16], unsigned char step)
+{
+    SMS_loadSpritePaletteafterColorSubtraction(palette, color_reduction_in[step]);
+}
+
 void fade_sprite_to_black(unsigned char palette[16], unsigned char step)
 {
     SMS_loadSpritePaletteafterColorSubtraction(palette, color_reduction_out[step]);

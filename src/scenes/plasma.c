@@ -280,7 +280,7 @@ void plasma_update(void)
     SMS_waitForVBlank();
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, SCREEN_SIZE);
 
-    if (cur_frame++ > 160)
+    if (cur_frame++ > 145)
     {
         fade_to_black(plasma_grade_palette_bin, fade_step);
 

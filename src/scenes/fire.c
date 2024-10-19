@@ -146,7 +146,7 @@ void fire_update(void)
     // Slower sectional copy; more efficient with smaller fire sizes
     // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &screen_buffer, ROW_WIDTH, ROW_TOTAL);
 
-    if (cur_frame++ > 110)
+    if (cur_frame++ > 80)
     {
         fade_to_black(fire_grade_palette_bin, fire_step);
 

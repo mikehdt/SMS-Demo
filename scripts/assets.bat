@@ -28,6 +28,12 @@ for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -removedupe
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\da_mini.png -noremovedupes -palsms -savetiles "da_mini.tiles.psgcompr" -tileoffset 1
 :: Lady's Third Eye (offset 256)
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\lady_eye.png -mirror -removedupes -palsms -savetiles "lady_eye.tiles.psgcompr" -tileoffset 256
+:: Mini Lady (sprite palette)
+..\utils\bmp2tile\BMP2Tile.exe .\custom\lady_mini.png -mirror -removedupes -palsms -spritepalette -savetiles "lady_mini.tiles.psgcompr" -savetilemap "lady_mini.tilemap.stmcompr" -savepalette "lady_mini.palette.bin"
+:: Mini Lady Midriff (sprite palette)
+..\utils\bmp2tile\BMP2Tile.exe .\custom\lady_mini_spr.png -nomirror -noremovedupes -palsms -spritepalette -savetiles "lady_mini_spr.tiles.psgcompr"
+:: Font
+..\utils\bmp2tile\BMP2Tile.exe .\custom\font_beta.png -noremovedupes -nomirror -palsms -savetiles "font_beta.tiles.psgcompr" -savetilemap "font_beta.tilemap.stmcompr" -savepalette "font_beta.palette.bin"
 :: Credits (palette only; tiles generated above)
 ..\utils\bmp2tile\BMP2Tile.exe .\backgrounds_nomap_nopal\credit_bananaboy.png -palsms -savepalette "credits.palette.bin"
 
