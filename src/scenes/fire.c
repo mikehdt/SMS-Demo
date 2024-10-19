@@ -1,3 +1,4 @@
+#include "fire.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/palettes.h"
@@ -7,11 +8,12 @@
 #include "../helpers/ps_rand.h"
 #include "../helpers/screen_buffer.h"
 #include "../libs/SMSlib.h"
-#include "fire.h"
 #include <stdlib.h>
 
 #define FIRE_SIZE (SCREEN_COLUMNS * SCREEN_ROWS)
 #define SEED_SIZE (2 * SCREEN_COLUMNS)
+
+uint8_t fire_step = 0;
 
 void seed_fire_tiles(void)
 {
@@ -62,11 +64,6 @@ void seed_fire_tiles(void)
 
 void calc_fire_tiles_asm(void) __naked
 {
-    // I haven't gotten the inline assembly to work nicely in VScode yet, so the
-    // extra double-slashes in the asm comments are just to fake readability
-
-    // TODO: Investigate possible register thwacking, maybe need to play nicer.
-
     // clang-format off
     __asm
         ld  bc, #_screen_buffer
@@ -149,8 +146,16 @@ void fire_update(void)
     // Slower sectional copy; more efficient with smaller fire sizes
     // SMS_loadTileMapArea((32 - ROW_WIDTH) >> 1, 0, &screen_buffer, ROW_WIDTH, ROW_TOTAL);
 
-    if (cur_frame++ > 100)
-        next_scene();
+    if (cur_frame++ > 110)
+    {
+        fade_to_black(fire_grade_palette_bin, fire_step);
+
+        if (fire_step++ > 9)
+        {
+            fire_step = 0;
+            next_scene();
+        }
+    }
 }
 
 void fire_end(void)

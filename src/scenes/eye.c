@@ -58,6 +58,7 @@ void eye_update(void)
     {
         // Crappy slow-down IV
         SMS_waitForVBlank();
+        SMS_waitForVBlank();
     }
 
     if (cur_frame > 12)

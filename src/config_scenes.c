@@ -8,6 +8,8 @@
 #include "scenes/logo.h"
 #include "scenes/plasma.h"
 #include "scenes/sineline.h"
+#include "scenes/skull.h"
+#include "scenes/type.h"
 
 Scenes scenes[MAX_SCENES];
 
@@ -50,23 +52,31 @@ void scenes_init(void)
     scenes[EYE].update = eye_update;
     scenes[EYE].end = eye_end;
 
-    // scenes[FIRE].init = fire_init;
-    // scenes[FIRE].update = fire_update;
-    // scenes[FIRE].end = fire_end;
+    scenes[FIRE].init = fire_init;
+    scenes[FIRE].update = fire_update;
+    scenes[FIRE].end = fire_end;
 
-    // scenes[LADY].init = lady_init;
-    // scenes[LADY].update = lady_update;
-    // scenes[LADY].end = lady_end;
+    scenes[LADY].init = lady_init;
+    scenes[LADY].update = lady_update;
+    scenes[LADY].end = lady_end;
 
     scenes[LOGO].init = logo_init;
     scenes[LOGO].update = logo_update;
     scenes[LOGO].end = empty_fn;
 
-    // scenes[PLASMA].init = plasma_init;
-    // scenes[PLASMA].update = plasma_update;
-    // scenes[PLASMA].end = plasma_end;
+    scenes[PLASMA].init = plasma_init;
+    scenes[PLASMA].update = plasma_update;
+    scenes[PLASMA].end = plasma_end;
 
     scenes[SINELINE].init = sineline_init;
     scenes[SINELINE].update = sineline_update;
     scenes[SINELINE].end = sineline_end;
+
+    scenes[SKULL].init = skull_init;
+    scenes[SKULL].update = skull_update;
+    scenes[SKULL].end = skull_end;
+
+    scenes[TYPE].init = type_init;
+    scenes[TYPE].update = type_update;
+    scenes[TYPE].end = type_end;
 }

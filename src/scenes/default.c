@@ -20,9 +20,10 @@ void default_init(void)
 {
     // Hook to play the PSG frame even if the CPU is held up doing other stuff
     SMS_setFrameInterruptHandler(&psgHandler);
-    PSGPlayNoRepeat(test_ct2_psg, test_ct2_psg_bank);
+    PSGPlayNoRepeat(darkowl3_50_psg_PART0, darkowl3_50_psg_PART0_bank);
 
-    load_palette(palette_black, PALETTE_BACKGROUND);
+    load_palette(palette_black, PALETTE_BOTH);
+    load_blank_tile(0);
     clear_tilemap(0);
     clear_extra_tilemap(0);
 

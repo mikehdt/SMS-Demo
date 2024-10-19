@@ -1,3 +1,4 @@
+#include "plasma.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
 #include "../engine/palettes.h"
@@ -8,7 +9,6 @@
 #include "../helpers/screen_buffer.h"
 #include "../helpers/sintab.h"
 #include "../libs/SMSlib.h"
-#include "plasma.h"
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -24,7 +24,8 @@
 // These are all 0-255 numbers that get combined in weird and wonderful ways
 // to reference a point in the sine table. Each of these values forms the
 // configuration for how the final plasma effect looks and animates.
-uint8_t sin_starts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
+uint8_t fade_step = 0,
+        sin_starts_y[PLASMA_PTS] = {0x5e, 0xe8, 0xeb, 0x32, 0x69, 0x4f, 0x0a, 0x41},
         sin_adds_x[PLASMA_PTS] = {0xfa, 0x05, 0x03, 0xfa, 0x07, 0x04, 0xfe, 0xfe},
         sin_adds_y[PLASMA_PTS] = {0xfe, 0x01, 0xfe, 0x02, 0x03, 0xff, 0x02, 0x02};
 
@@ -250,28 +251,45 @@ void animate_buffer(void)
 
 void plasma_init(void)
 {
+    cur_stage = 1;
+
     // init_buffer();
     init_buffer_asm();
 
-    SMS_displayOff();
     SMS_waitForVBlank();
     SMS_mapROMBank(plasma_grade_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(plasma_grade_tiles_psgcompr, 0);
-    SMS_loadBGPalette(plasma_grade_palette_bin);
-    SMS_loadSpritePalette(palette_black);
-    SMS_displayOn();
+    load_palette(plasma_grade_palette_bin, PALETTE_BACKGROUND);
 }
 
 void plasma_update(void)
 {
+    if (cur_stage == 1 && cur_frame % 2 == 0)
+    {
+        fade_from_white(plasma_grade_palette_bin, fade_step);
+
+        if (fade_step++ > 9)
+        {
+            fade_step = 0;
+            cur_stage = 2;
+        }
+    }
+
     animate_buffer();
-    // animate_buffer_asm();
 
     SMS_waitForVBlank();
     VRAMmemcpyExpandByte(SMS_PNTAddress, &screen_buffer, SCREEN_SIZE);
 
-    if (cur_frame++ > 100)
-        next_scene();
+    if (cur_frame++ > 160)
+    {
+        fade_to_black(plasma_grade_palette_bin, fade_step);
+
+        if (fade_step++ > 9)
+        {
+            fade_step = 0;
+            next_scene();
+        }
+    }
 }
 
 void plasma_end(void)

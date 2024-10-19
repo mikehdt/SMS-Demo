@@ -1,8 +1,9 @@
+#include "type.h"
 #include "../assets2banks.h"
 #include "../engine/global_constants.h"
+#include "../engine/scenes.h"
 #include "../engine/tilemap.h"
 #include "../libs/SMSlib.h"
-#include "type.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +13,7 @@ uint16_t type_scroll_tick;
 uint16_t scroll_index;
 unsigned char scroll_tile_index;
 
-char scroll_message[] = "HELLO WORLD, HERES SOME NUMBERS: 01234567890.";
+char scroll_message[] = "GREETS TO THE DEMOSCENE AND SMSPOWER :: WELCOME DA BABIES PASCAL AND RAFAEL :: DISASTERAREA 2024                                ";
 
 #define CHARS_BASE_ADDRESS 1
 #define SPACE_CHAR_TILE 41
@@ -64,8 +65,6 @@ void type_init(void)
     scroll_index = 0;
     scroll_tile_index = 0;
 
-    SMS_displayOff();
-
     SMS_waitForVBlank();
 
     SMS_setBGScrollX(0);
@@ -80,15 +79,13 @@ void type_init(void)
     SMS_loadPSGaidencompressedTiles(blank_tiles_psgcompr, SPACE_CHAR_TILE);
 
     clear_tilemap(SPACE_CHAR_TILE);
-
-    SMS_displayOn();
 }
 
 void type_update(void)
 {
     SMS_waitForVBlank();
 
-    if (type_scroll_tick++ != 1)
+    if (type_scroll_tick++ != 1 || scroll_index >= sizeof(scroll_message)) // Second part is to indefinitely hold the end
         return;
 
     type_scroll_tick = 0;
@@ -98,8 +95,9 @@ void type_update(void)
         print_string_char(scroll_tile_index, 9, scroll_message[scroll_index]);
 
         // Avoid terminating 0, not sure why it's 2 offset though...
-        if (++scroll_index >= sizeof(scroll_message))
-            scroll_index = 0;
+        // if (++scroll_index >= sizeof(scroll_message))
+        // next_scene();
+        scroll_index++;
 
         // Avoid writing past the end of the screen
         if (++scroll_tile_index >= SCREEN_COLUMNS)

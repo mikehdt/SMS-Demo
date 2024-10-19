@@ -115,7 +115,7 @@ void animate_spheres(void)
         ang_x++;
         ang_y++;
 
-        if (cur_stage == 5 && cur_frame > 60)
+        if (cur_stage == 5 && cur_frame > 90)
         {
             cur_stage = 6;
         }

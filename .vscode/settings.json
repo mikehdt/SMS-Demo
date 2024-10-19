@@ -61,6 +61,7 @@
         "fire.h": "c",
         "credits.h": "c",
         "lady_dist.h": "c",
-        "lady.h": "c"
+        "lady.h": "c",
+        "skull.h": "c"
     }
 }

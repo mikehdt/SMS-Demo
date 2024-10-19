@@ -24,14 +24,14 @@ echo === SDCC linking ===
 :: On bank numbering: https://www.smspower.org/forums/19430-DevkitSMSBankingCodeQuestions#124958
 :: add -Wl-b_BANK1=0x14000 or -Wl-b_BANK3=0x38000 etc. as needed
 sdcc -o demo.ihx -mz80 --no-std-crt0 --data-loc 0xC000 ^
--Wl-b_BANK2=0x28000 -Wl-b_BANK3=0x38000 -Wl-b_BANK4=0x48000 ^
+-Wl-b_BANK2=0x28000 -Wl-b_BANK3=0x38000 -Wl-b_BANK4=0x48000 -Wl-b_BANK5=0x58000 ^
 smslib/crt0_sms.rel ^
 main.rel config_scenes.rel ^
 console_init.rel palettes.rel scenes.rel sprites.rel tilemap.rel ^
 memcpy_expand_byte.rel ps_rand.rel screen_buffer.rel scroll_interrupt.rel sintab.rel ^
-default.rel city.rel credits.rel eye.rel fire.rel lady.rel logo.rel plasma.rel sineline.rel ^
+default.rel city.rel credits.rel eye.rel fire.rel lady.rel logo.rel plasma.rel sineline.rel skull.rel type.rel ^
 SMSlib.lib psglib/PSGlib_MB.rel ^
-bank2.rel bank3.rel bank4.rel %DEBUG%
+bank2.rel bank3.rel bank4.rel bank5.rel %DEBUG%
 
 :: Execute
 :: If `makesms` is used, banks must use 0xn4000 or 0xn8000 where n is the bank number
