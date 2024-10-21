@@ -28,6 +28,10 @@ for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -noremovedu
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\da_mini.png -noremovedupes -palsms -savetiles "da_mini.tiles.psgcompr" -tileoffset 1
 :: Lady's Third Eye (offset 256)
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\lady_eye.png -mirror -removedupes -palsms -savetiles "lady_eye.tiles.psgcompr" -tileoffset 256
+:: Lady's Unhinged Eyes (offset 264)
+..\utils\bmp2tile\BMP2Tile.exe .\custom\lady_eyes.png -mirror -removedupes -palsms -savetiles "lady_eyes.tiles.psgcompr" -tileoffset 264
+:: Lady's Unhinged Mouth (offset 284)
+..\utils\bmp2tile\BMP2Tile.exe .\custom\lady_lips.png -mirror -removedupes -palsms -savetiles "lady_lips.tiles.psgcompr" -tileoffset 284
 :: Mini Lady (sprite palette)
 ..\utils\bmp2tile\BMP2Tile.exe .\custom\lady_mini.png -mirror -removedupes -palsms -spritepalette -savetiles "lady_mini.tiles.psgcompr" -savetilemap "lady_mini.tilemap.stmcompr" -savepalette "lady_mini.palette.bin"
 :: Mini Lady Midriff (sprite palette)
