@@ -15,8 +15,8 @@ endif
 CC = sdcc
 IHX2SMS = ihx2sms
 
-ROM = ./dist/sms-demo.sms
-IHXFILE = ./dist/sms-demo.ihx
+ROM = ./dist/da-invasion.sms
+IHXFILE = ./dist/da-invasion.ihx
 
 # Note: May need to consider -DPAL_MACHINE there if wanting to make an NTSC ver.
 CFLAGS = --std-sdcc11 -c -mz80 --peep-file ./compile/smslib/peep-rules.txt --opt-code-speed -DPAL_MACHINE

@@ -40,11 +40,61 @@ uint16_t sineline_ptr,
 
 uint8_t col_limit = 0, sprite_count = 0, sprite_offset = 8, eye_count = 0, fade_sine;
 
+struct bg_eye
+{
+    int x, y, tile;
+};
+
+struct bg_eye bg_eyes[14];
+
 void sineline_init(void)
 {
     cur_stage = 1;
     fade_sine = 0;
     sineline_ptr = 0;
+
+    bg_eyes[0].x = 4;
+    bg_eyes[0].y = 12;
+    bg_eyes[0].tile = 261;
+    bg_eyes[1].x = 11;
+    bg_eyes[1].y = 1;
+    bg_eyes[1].tile = 262;
+    bg_eyes[2].x = 7;
+    bg_eyes[2].y = 5;
+    bg_eyes[2].tile = 265;
+    bg_eyes[3].x = 22;
+    bg_eyes[3].y = 16;
+    bg_eyes[3].tile = 263;
+    bg_eyes[4].x = 19;
+    bg_eyes[4].y = 3;
+    bg_eyes[4].tile = 260;
+    bg_eyes[5].x = 9;
+    bg_eyes[5].y = 14;
+    bg_eyes[5].tile = 262;
+    bg_eyes[6].x = 13;
+    bg_eyes[6].y = 19;
+    bg_eyes[6].tile = 267;
+    bg_eyes[7].x = 24;
+    bg_eyes[7].y = 22;
+    bg_eyes[7].tile = 261;
+    bg_eyes[8].x = 6;
+    bg_eyes[8].y = 23;
+    bg_eyes[8].tile = 264;
+    bg_eyes[9].x = 31;
+    bg_eyes[9].y = 18;
+    bg_eyes[9].tile = 262;
+    bg_eyes[10].x = 1;
+    bg_eyes[10].y = 2;
+    bg_eyes[10].tile = 263;
+    bg_eyes[11].x = 22;
+    bg_eyes[11].y = 0;
+    bg_eyes[11].tile = 261;
+    bg_eyes[12].x = 18;
+    bg_eyes[12].y = 15;
+    bg_eyes[12].tile = 265;
+    bg_eyes[13].x = 29;
+    bg_eyes[13].y = 4;
+    bg_eyes[13].tile = 264;
 
     SMS_waitForVBlank();
     // Note to self: use first half sprites toggling probably needs to be smarter
@@ -83,48 +133,48 @@ void sineline_update(void)
         {
             case 0:
             {
-                SMS_setTileatXY(4, 12, 261 | TILE_USE_SPRITE_PALETTE);
-                SMS_setTileatXY(11, 1, 262 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[0].x, bg_eyes[0].y, bg_eyes[0].tile | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[1].x, bg_eyes[1].y, bg_eyes[1].tile | TILE_USE_SPRITE_PALETTE);
                 break;
             }
             case 1:
             {
-                SMS_setTileatXY(7, 5, 262 | TILE_USE_SPRITE_PALETTE);
-                SMS_setTileatXY(22, 16, 263 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[2].x, bg_eyes[2].y, bg_eyes[2].tile | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[3].x, bg_eyes[3].y, bg_eyes[3].tile | TILE_USE_SPRITE_PALETTE);
                 break;
             }
             case 2:
             {
-                SMS_setTileatXY(19, 3, 260 | TILE_USE_SPRITE_PALETTE);
-                SMS_setTileatXY(9, 14, 262 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[4].x, bg_eyes[4].y, bg_eyes[4].tile | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[5].x, bg_eyes[5].y, bg_eyes[5].tile | TILE_USE_SPRITE_PALETTE);
                 break;
             }
             case 3:
             {
-                SMS_setTileatXY(13, 19, 261 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[6].x, bg_eyes[6].y, bg_eyes[6].tile | TILE_USE_SPRITE_PALETTE);
                 break;
             }
             case 4:
             {
-                SMS_setTileatXY(24, 22, 261 | TILE_USE_SPRITE_PALETTE);
-                SMS_setTileatXY(6, 23, 260 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[7].x, bg_eyes[7].y, bg_eyes[7].tile | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[8].x, bg_eyes[8].y, bg_eyes[8].tile | TILE_USE_SPRITE_PALETTE);
                 break;
             }
             case 5:
             {
-                SMS_setTileatXY(31, 18, 262 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[9].x, bg_eyes[9].y, bg_eyes[9].tile | TILE_USE_SPRITE_PALETTE);
                 break;
             }
             case 6:
             {
-                SMS_setTileatXY(1, 2, 263 | TILE_USE_SPRITE_PALETTE);
-                SMS_setTileatXY(22, 0, 261 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[10].x, bg_eyes[10].y, bg_eyes[10].tile | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[11].x, bg_eyes[11].y, bg_eyes[11].tile | TILE_USE_SPRITE_PALETTE);
                 break;
             }
             case 7:
             {
-                SMS_setTileatXY(18, 15, 262 | TILE_USE_SPRITE_PALETTE);
-                SMS_setTileatXY(29, 4, 260 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[12].x, bg_eyes[12].y, bg_eyes[12].tile | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(bg_eyes[13].x, bg_eyes[13].y, bg_eyes[13].tile | TILE_USE_SPRITE_PALETTE);
                 break;
             }
         }
@@ -175,7 +225,17 @@ void sineline_update(void)
         SMS_copySpritestoSAT();
     }
 
-    // cur_frame++;
+    if (cur_stage == 2 && cur_frame % 2 == 0)
+    {
+        for (i = 0; i < 14; i++)
+        {
+            if (++bg_eyes[i].tile > 271)
+                bg_eyes[i].tile = 260;
+
+            SMS_setTileatXY(bg_eyes[i].x, bg_eyes[i].y, bg_eyes[i].tile | TILE_USE_SPRITE_PALETTE);
+        }
+    }
+
     if (cur_frame++ > 130)
     {
         fade_to_black(small_sine_palette_bin, fade_sine);

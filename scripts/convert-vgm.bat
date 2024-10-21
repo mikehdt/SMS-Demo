@@ -4,4 +4,4 @@
 for %%f in (.\assets\music\*.vgm) do ^
 java -jar .\utils\psgtool\PSGTool.jar %%f | echo Compiling %%f
 
-echo ==> Conversion done!
+echo --- Conversion done!

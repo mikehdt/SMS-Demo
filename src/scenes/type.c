@@ -137,6 +137,7 @@ void type_init(void)
 
     SMS_loadSpritePalette(palette_black);
     SMS_loadPSGaidencompressedTiles(lady_mini_tiles_psgcompr, 0);
+    SMS_loadPSGaidencompressedTiles(lady_mini_eyes_tiles_psgcompr, 192);
     SMS_loadPSGaidencompressedTiles(lady_mini_spr_tiles_psgcompr, 256); // urgh sprites
     SMS_loadSTMcompressedTileMap(12, 0, lady_mini_tilemap_stmcompr);
 
@@ -196,6 +197,36 @@ void type_update(void)
         update_type_scroll_pos();
         cur_stage = 2;
     }
+    else
+    {
+        // Implicit cur_stage == 2
+        uint8_t cur_frame_modulo = cur_frame % 59;
+
+        if (cur_frame_modulo == 1)
+        {
+            // Blink third eye
+            SMS_setTileatXY(15, 1, 192 | TILE_USE_SPRITE_PALETTE);
+        }
+        else if (cur_frame_modulo == 5)
+        {
+            // Blink normal eyes
+            SMS_setTileatXY(14, 2, 193 | TILE_USE_SPRITE_PALETTE);
+            SMS_setTileatXY(15, 2, 194 | TILE_USE_SPRITE_PALETTE);
+            SMS_setTileatXY(16, 2, 195 | TILE_USE_SPRITE_PALETTE);
+        }
+        else if (cur_frame_modulo == 6)
+        {
+            // Open third eye
+            SMS_setTileatXY(15, 1, 5 | TILE_USE_SPRITE_PALETTE);
+        }
+        else if (cur_frame_modulo == 9)
+        {
+            // Open normal eyes
+            SMS_setTileatXY(14, 2, 8 | TILE_USE_SPRITE_PALETTE);
+            SMS_setTileatXY(15, 2, 9 | TILE_USE_SPRITE_PALETTE);
+            SMS_setTileatXY(16, 2, 10 | TILE_USE_SPRITE_PALETTE);
+        }
+    }
 
     type_scroll();
 
@@ -245,8 +276,7 @@ void type_update(void)
             scroll_tile_index = 0;
     }
 
-    // SMS_setBGScrollX(type_scroll_x);
-    // type_scroll_x[1]--;
+    cur_frame++;
 }
 
 void type_end(void)

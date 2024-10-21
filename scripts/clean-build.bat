@@ -2,7 +2,7 @@
 
 :: Compile Assets
 cd compile
-echo ==> Tidying up build artifacts
+echo --- Tidying up build artifacts
 @REM REL files are used for linking, but may need cleaning if stale ones exist
 del *.rel > nul
 @REM Note: If asm are present, Emulicious extension's debugger gets confused
@@ -21,10 +21,10 @@ cd ..
 
 :: Dist Output
 cd dist
-echo ==> Tidying up distribution folder
+echo --- Tidying up distribution folder
 del *.cdb > nul
 del *.sms > nul
 
 cd ..
 
-echo ==> Tidying done!
+echo --- Tidying done!
