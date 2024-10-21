@@ -38,20 +38,15 @@ uint16_t sineline_ptr,
         0, 18, 36, 54,                   // 25
 };
 
-uint8_t col_limit = 0, sprite_count = 0, sprite_offset = 8, eye_count = 0, fade_sine = 0;
+uint8_t col_limit = 0, sprite_count = 0, sprite_offset = 8, eye_count = 0, fade_sine;
 
 void sineline_init(void)
 {
     cur_stage = 1;
+    fade_sine = 0;
     sineline_ptr = 0;
 
     SMS_waitForVBlank();
-    SMS_mapROMBank(small_sine_tiles_psgcompr_bank);
-    SMS_loadPSGaidencompressedTiles(small_sine_tiles_psgcompr, 0);
-    SMS_loadBGPalette(small_sine_palette_bin);
-
-    clear_tilemap(0);
-
     // Note to self: use first half sprites toggling probably needs to be smarter
     SMS_initSprites();
     SMS_setSpriteMode(SPRITEMODE_ZOOMED);
@@ -59,6 +54,12 @@ void sineline_init(void)
     SMS_mapROMBank(spheres_tiles_psgcompr_bank);
     SMS_loadPSGaidencompressedTiles(spheres_tiles_psgcompr, 256);
     SMS_loadSpritePalette(spheres_palette_bin);
+
+    SMS_mapROMBank(small_sine_tiles_psgcompr_bank);
+    SMS_loadPSGaidencompressedTiles(small_sine_tiles_psgcompr, 0);
+    SMS_loadBGPalette(small_sine_palette_bin);
+
+    clear_tilemap(0);
 
     SMS_waitForVBlank();
 }
@@ -106,7 +107,7 @@ void sineline_update(void)
             case 4:
             {
                 SMS_setTileatXY(24, 22, 261 | TILE_USE_SPRITE_PALETTE);
-                SMS_setTileatXY(6, 23, 261 | TILE_USE_SPRITE_PALETTE);
+                SMS_setTileatXY(6, 23, 260 | TILE_USE_SPRITE_PALETTE);
                 break;
             }
             case 5:
@@ -159,15 +160,22 @@ void sineline_update(void)
 
     if (cur_frame % 5 == 0)
     {
+        uint8_t sprite_tile;
+
         for (i = 0; i < eye_count; i++)
         {
-            // SMS_updateSpritePosition(i, 8 + (i * 32), 72);
-            SMS_updateSpriteImage(i, 256 + cur_frame % 4);
+            sprite_tile = cur_frame % 4 + i;
+
+            if (sprite_tile > 4)
+                sprite_tile = sprite_tile % 4;
+
+            SMS_updateSpriteImage(i, 256 + sprite_tile);
         }
 
         SMS_copySpritestoSAT();
     }
 
+    // cur_frame++;
     if (cur_frame++ > 130)
     {
         fade_to_black(small_sine_palette_bin, fade_sine);

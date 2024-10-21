@@ -73,6 +73,10 @@ void animate_spheres(void)
     // This code is a bit of a mess, but I'm just playing around with it :)
     if (cur_stage == 4)
     {
+        // Inelegant hack I
+        if (cur_frame == 0)
+            load_palette(cityscape_palette_bin, PALETTE_BACKGROUND);
+
         if (sphere_count < NUM_SPHERES && cur_frame == 2)
         {
             spheres[sphere_count].x = X_OFFSET;
@@ -123,9 +127,10 @@ void animate_spheres(void)
 
     if (cur_stage == 6)
     {
-        uint8_t i;
+        // Inelegant hack II
+        load_palette(palette_white, PALETTE_BACKGROUND);
 
-        for (i = 0; i < sphere_count; i++)
+        for (uint8_t i = 0; i < sphere_count; i++)
         {
             // Chase
             spheres[i].tx = ps_rand() * 2;
@@ -138,23 +143,22 @@ void animate_spheres(void)
 
     if (cur_stage == 7)
     {
-        uint8_t i;
+        // Inelegant hack III
+        if (cur_frame == 0)
+            load_palette(cityscape_palette_bin, PALETTE_BACKGROUND);
 
-        for (i = 0; i < sphere_count; i++)
+        for (uint8_t i = 0; i < sphere_count; i++)
         {
             spheres[i].x += (spheres[i].tx - spheres[i].x) >> 7;
             spheres[i].y += (spheres[i].ty - spheres[i].y) >> 7;
             spheres[i].tile = sphere_lut[spheres[i].y - Y_OFFSET + Y_RANGE_HALF];
 
             SMS_updateSpritePosition(i, spheres[i].x, spheres[i].y);
-            SMS_updateSpriteImage(i, spheres[i].tile);
+            SMS_updateSpriteImage(i, 260); // Full eye open
         }
 
         if (cur_frame == 45)
-        {
-            cur_stage = 1;
             next_scene();
-        }
     }
 }
 
@@ -268,7 +272,10 @@ void city_update(void)
             cur_frame = 0;
 
             if (fade_count > 9)
+            {
+                load_palette(palette_white, PALETTE_BACKGROUND);
                 cur_stage = 4;
+            }
         }
     }
 

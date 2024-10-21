@@ -21,7 +21,7 @@ for %%f in (.\backgrounds_nomap\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -
 for %%f in (.\backgrounds_nomap_nopal\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -mirror -removedupes -palsms -savetiles "%%~nf.tiles.psgcompr"
 
 :: Sprites (SMS can't flip sprites, so don't dedupe mirrored)
-for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -removedupes -nomirror -palsms -savetiles "%%~nf.tiles.psgcompr" -savepalette "%%~nf.palette.bin"
+for %%f in (.\sprites\*.png) do ..\utils\bmp2tile\BMP2Tile.exe "%%f" -noremovedupes -nomirror -palsms -savetiles "%%~nf.tiles.psgcompr" -savepalette "%%~nf.palette.bin"
 
 :: --- CUSTOM FUSSY ASSETS ---
 :: DA Logo (offset 1)

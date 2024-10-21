@@ -206,7 +206,7 @@ void type_update(void)
 
     if ((type_scroll_x[3] - 2) % 32 == 0)
     {
-        SMS_debugPrintf("typescrollx: %d %d\n", scroll_tile_index, scroll_message[scroll_index]);
+        // SMS_debugPrintf("typescrollx: %d %d\n", scroll_tile_index, scroll_message[scroll_index]);
 
         // DO NOT ASK ME ABOUT WHY THIS IS I HAVE NO CLUE
         if (scroll_tile_index == 31)
