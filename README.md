@@ -6,6 +6,8 @@ Code by darkowl with help from bananaboy and sh0ck
 Art by darkowl
 Music by cTrix
 
+_For Pascal and Rafael_
+
 ## Dependencies
 
 It uses [devkitSMS](https://github.com/sverx/devkitSMS) as a basis for doing all its fancy stuff.
