@@ -2,9 +2,9 @@
 
 by disasterarea
 
-Code by darkowl with help from bananaboy and sh0ck
-Art by darkowl
-Music by cTrix
+- Code by darkowl with help from bananaboy and sh0ck
+- Graphics by darkowl
+- Music by cTrix
 
 _For Pascal and Rafael_
 
